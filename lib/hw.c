@@ -53,15 +53,15 @@ Returns:
     // Check to see if this device path already has Protocol on it.
     //  if so we are loading recursivly and should exit with an error
     //
-    Status = BS->LocateDevicePath (Protocol, &DevicePath, &Handle);
+    Status = uefi_call_wrapper(BS->LocateDevicePath, 3, Protocol, &DevicePath, &Handle);
     if (!EFI_ERROR(Status)) {
         DEBUG ((D_INIT, "Device Already Loaded for %a device\n", ErrorStr));
         return EFI_LOAD_ERROR;
     }
 
-    Status = BS->LocateDevicePath (&DeviceIoProtocol, &DevicePath, &Handle);
+    Status = uefi_call_wrapper(BS->LocateDevicePath, 3, &DeviceIoProtocol, &DevicePath, &Handle);
     if (!EFI_ERROR(Status)) {
-        Status = BS->HandleProtocol (Handle, &DeviceIoProtocol, (VOID*)GlobalIoFncs);
+        Status = uefi_call_wrapper(BS->HandleProtocol, 3, Handle, &DeviceIoProtocol, (VOID*)GlobalIoFncs);
     }
 
     ASSERT (!EFI_ERROR(Status));
@@ -78,7 +78,7 @@ ReadPort (
     UINT32       Data;
     EFI_STATUS  Status;
 
-    Status = GlobalIoFncs->Io.Read (GlobalIoFncs, Width, (UINT64)Port, 1, &Data);
+    Status = uefi_call_wrapper(GlobalIoFncs->Io.Read, 5, GlobalIoFncs, Width, (UINT64)Port, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
     return Data;
 }
@@ -93,7 +93,7 @@ WritePort (
 {
     EFI_STATUS  Status;
 
-    Status = GlobalIoFncs->Io.Write (GlobalIoFncs, Width, (UINT64)Port, 1, &Data);
+    Status = uefi_call_wrapper(GlobalIoFncs->Io.Write, 5, GlobalIoFncs, Width, (UINT64)Port, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
     return (UINT32)Data;
 }
@@ -108,7 +108,7 @@ ReadPciConfig (
     UINT32       Data;
     EFI_STATUS  Status;
 
-    Status = GlobalIoFncs->Pci.Read (GlobalIoFncs, Width, (UINT64)Address, 1, &Data);
+    Status = uefi_call_wrapper(GlobalIoFncs->Pci.Read, 5, GlobalIoFncs, Width, (UINT64)Address, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
     return Data;
 }
@@ -123,7 +123,7 @@ WritePciConfig (
 {
     EFI_STATUS  Status;
 
-    Status = GlobalIoFncs->Pci.Write (GlobalIoFncs, Width, (UINT64)Address, 1, &Data);
+    Status = uefi_call_wrapper(GlobalIoFncs->Pci.Write, 5, GlobalIoFncs, Width, (UINT64)Address, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
     return (UINT32)Data;
 }

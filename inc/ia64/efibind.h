@@ -207,3 +207,6 @@ void __mf (void);
 #define INTERFACE_DECL(x) typedef struct x
 #endif
 #endif
+
+/* No efi call wrapper for IA32 architecture */
+#define uefi_call_wrapper(func, va_num, ...)	func(__VA_ARGS__)

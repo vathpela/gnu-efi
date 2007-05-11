@@ -8,6 +8,6 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	Print(L"HelloLib application started\n");
 	Print(L"\n\n\nHit any key to exit this image\n");
 	WaitForSingleEvent(ST->ConIn->WaitForKey, 0);
-	ST->ConOut->OutputString(ST->ConOut, L"\n\n");
+	uefi_call_wrapper(ST->ConOut->OutputString, 2, ST->ConOut, L"\n\n");
 	return EFI_SUCCESS;
 }

@@ -1,5 +1,5 @@
 #
-#  Copyright (C) 1999-2001 Hewlett-Packard Co.
+#  Copyright (C) 1999-2007 Hewlett-Packard Co.
 #	Contributed by David Mosberger <davidm@hpl.hp.com>
 #	Contributed by Stephane Eranian <eranian@hpl.hp.com>
 #

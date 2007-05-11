@@ -166,6 +166,18 @@ PSETATTR (
 //
 
 INTN
+_SPrint (
+    IN VOID     *Context,
+    IN CHAR16   *Buffer
+    );
+
+INTN
+_PoolPrint (
+    IN VOID     *Context,
+    IN CHAR16   *Buffer
+    );
+
+INTN
 DbgPrint (
     IN INTN      mask,
     IN CHAR8     *fmt,
@@ -262,7 +274,12 @@ Returns:
     return 0;
 }
 
-
+STATIC IsLocalPrint(void *func)
+{
+	if (func == _DbgOut || func == _SPrint || func == _PoolPrint)
+		return 1;
+	return 0;
+}
 
 STATIC
 INTN
@@ -280,7 +297,10 @@ _DbgOut (
 //    }
 
     if (DbgOut) {
-        DbgOut->OutputString (DbgOut, Buffer);
+	if (IsLocalPrint(DbgOut->OutputString))
+		DbgOut->OutputString(DbgOut, Buffer);
+        else
+		uefi_call_wrapper(DbgOut->OutputString, 2, DbgOut, Buffer);
     }
 
     return 0;
@@ -712,7 +732,7 @@ _IPrint (
     va_copy(ps.args, args);
 
     if (Column != (UINTN) -1) {
-        Out->SetCursorPosition(Out, Column, Row);
+        uefi_call_wrapper(Out->SetCursorPosition, 3, Out, Column, Row);
     }
 
     back = _Print (&ps);
@@ -761,7 +781,10 @@ PFLUSH (
     )
 {
     *ps->Pos = 0;
-    ps->Output(ps->Context, ps->Buffer);
+    if (IsLocalPrint(ps->Output))
+	ps->Output(ps->Context, ps->Buffer);		
+    else
+    	uefi_call_wrapper(ps->Output, 2, ps->Context, ps->Buffer);
     ps->Pos = ps->Buffer;
 }
 
@@ -776,7 +799,7 @@ PSETATTR (
 
    ps->RestoreAttr = ps->Attr;
    if (ps->SetAttr) {
-        ps->SetAttr (ps->Context, Attr);
+	uefi_call_wrapper(ps->SetAttr, 2, ps->Context, Attr);
    }
 
    ps->Attr = Attr;
@@ -1042,7 +1065,7 @@ Returns:
                 Item.Item.pw = Item.Scratch;
                 ValueToHex (
                     Item.Item.pw, 
-                    Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINTN)
+                    Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
 
                 break;
@@ -1058,7 +1081,7 @@ Returns:
                 ValueToString (
                     Item.Item.pw, 
                     Item.Comma, 
-                    Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINTN)
+                    Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
                 break
                     ;
@@ -1258,7 +1281,7 @@ DumpHex (
     CHAR16          ReturnStr[1];
 
 
-    ST->ConOut->QueryMode (ST->ConOut, ST->ConOut->Mode->Mode, &TempColumn, &ScreenSize);
+    uefi_call_wrapper(ST->ConOut->QueryMode, 4, ST->ConOut, ST->ConOut->Mode->Mode, &TempColumn, &ScreenSize);
     ScreenCount = 0;
     ScreenSize -= 2;
 

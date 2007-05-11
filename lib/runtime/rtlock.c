@@ -45,7 +45,7 @@ Returns:
 {
     if (BS) {
         if (BS->RaiseTPL != NULL) {
-            Lock->OwnerTpl = BS->RaiseTPL(Lock->Tpl);
+            Lock->OwnerTpl = uefi_call_wrapper(BS->RaiseTPL, 1, Lock->Tpl);
         } 
     }
     else {
@@ -87,7 +87,7 @@ Returns:
     Lock->Lock -= 1;
     if (BS) {
         if (BS->RestoreTPL != NULL) {
-            BS->RestoreTPL (Tpl);
+            uefi_call_wrapper(BS->RestoreTPL, 1, Tpl);
         } 
     }
     else {

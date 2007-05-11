@@ -1,5 +1,5 @@
 #
-# Copyright (c) 1999-2004 Hewlett-Packard Development Company, L.P.
+# Copyright (c) 1999-2007 Hewlett-Packard Development Company, L.P.
 #	Contributed by David Mosberger <davidm@hpl.hp.com>
 #	Contributed by Stephane Eranian <eranian@hpl.hp.com>
 #
@@ -70,6 +70,19 @@ else
   AR		= $(prefix)ar
   RANLIB	= $(prefix)ranlib
   OBJCOPY	= $(prefix)objcopy
+else
+ ifeq ($(ARCH),x86_64)
+  prefix       = /usr/bin/
+  CC           = $(prefix)gcc
+  AS           = $(prefix)as
+  LD           = $(prefix)ld
+  AR           = $(prefix)ar
+  RANLIB       = $(prefix)ranlib
+# OBJCOPY of binutils with x86_64 support
+  OBJCOPY      = /usr/local/bin/objcopy
+  CFLAGS       += -DEFI_FUNCTION_WRAPPER
+ endif
+
  endif
 endif
 

@@ -7,14 +7,15 @@
 			23 September 1999
 
 
-		Copyright (c) 1999-2003 Hewlett-Packard Co.
+		Copyright (c) 1999-2007 Hewlett-Packard Co.
+		Copyright (c) 2006-2010 Intel Co.
 
-Last update: 08/20/2003
+Last update: 04/09/2007
 
 * Introduction
 
 This document has two parts: the first part describes how to develop
-EFI applications for IA-64 and x86 using the GNU toolchain and the EFI
+EFI applications for IA-64,x86 and x86_64 using the GNU toolchain and the EFI
 development environment contained in this directory.  The second part
 describes some of the more subtle aspects of how this development
 environment works.
@@ -26,7 +27,7 @@ environment works.
 
 ** Prerequisites:
 
- To develop x86 EFI applications, the following tools are needed:
+ To develop x86 and x86_64 EFI applications, the following tools are needed:
 
 	- gcc-3.0 or newer (gcc 2.7.2 is NOT sufficient!)
 	  As of gnu-efi-3.0b, the Redhat 8.0 toolchain is known to work,
@@ -39,7 +40,8 @@ environment works.
 		objcopy --help
 
 	  and verify that the line "supported targets" contains the
-	  string "efi-app-ia32".
+	  string "efi-app-ia32" and "efi-app-x86_64". The binutils release
+	  binutils-2.17.50.0.14 supports Intel64 EFI.
 
 	- For debugging purposes, it's useful to have a version of
 	  "objdump" that supports EFI applications as well.  This
@@ -97,9 +99,9 @@ the appropriate compiler, assembler, linker, ar, and ranlib binaries,
 respectively.
 
 If you're working in a cross-development environment, be sure to set
-macro ARCH to the desired target architecture ("ia32" for x86, "ia64"
-for IA-64).  For convenience, this can also be done from the make
-command line (e.g., "make ARCH=ia64").
+macro ARCH to the desired target architecture ("ia32" for x86, "x86_64" for
+x86_64 and "ia64" for IA-64).  For convenience, this can also be done from
+the make command line (e.g., "make ARCH=ia64").
 
 
 ** Building
@@ -142,6 +144,9 @@ described in Intel's EFI documentation, except for two differences:
    <efilib.h>.  This header file also declares the function W2UCpy()
    which allows to convert a wide string into a UNICODE string and
    store the result in a programmer-supplied buffer.
+
+ - Calls to EFI services should be made via uefi_call_wrapper(). This
+   ensures appropriate parameter passing for the architecture.
 
 
 * Part 2: Inner Workings
@@ -219,10 +224,10 @@ environment addresses each of these issues.
 In order to satisfy the COFF constraint of page-sized and page-aligned
 sections, the GNU EFI build environment uses the special linker script
 in gnuefi/elf_$(ARCH)_efi.lds where $(ARCH) is the target architecture
-("ia32" for x86, and "ia64" for IA-64).  This script is set up to
-create only eight COFF section, each page aligned and page sized.
-These eight sections are used to group together the much greater
-number of sections that are typically present in ELF object files.
+("ia32" for x86, "x86_64" for x86_64 and "ia64" for IA-64).
+This script is set up to create only eight COFF section, each page aligned
+and page sized.These eight sections are used to group together the much
+greater number of sections that are typically present in ELF object files.
 Specifically:
 
  .hash
@@ -306,7 +311,8 @@ environment is to:
  (c) convert the resulting image to an EFI binary
 
 The self-relocator is of course architecture dependent.  The x86
-version can be found in gnuefi/reloc_ia32.c, the IA-64 version can be
+version can be found in gnuefi/reloc_ia32.c, the x86_64 version
+can be found in gnuefi/reloc_x86_64.c and the IA-64 version can be
 found in gnuefi/reloc_ia64.S.
 
 The self-relocator operates as follows: the startup code invokes it

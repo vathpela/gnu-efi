@@ -34,20 +34,24 @@ LibCreateProtocolNotifyEvent (
     // Create the event
     //
 
-    Status = BS->CreateEvent (
-                    EVT_NOTIFY_SIGNAL,
-                    NotifyTpl,
-                    NotifyFunction,
-                    NotifyContext,
-                    &Event
-                    );
+    Status = uefi_call_wrapper(
+		    BS->CreateEvent,
+			5,
+		    EVT_NOTIFY_SIGNAL,
+		    NotifyTpl,
+		    NotifyFunction,
+		    NotifyContext,
+		    &Event
+		    );
     ASSERT (!EFI_ERROR(Status));
 
     //
     // Register for protocol notifactions on this event
     //
 
-    Status = BS->RegisterProtocolNotify (
+    Status = uefi_call_wrapper(
+		    BS->RegisterProtocolNotify,
+			3,
                     ProtocolGuid, 
                     Event, 
                     Registration
@@ -60,7 +64,7 @@ LibCreateProtocolNotifyEvent (
     // current installed drivers
     //
 
-    BS->SignalEvent (Event);
+    uefi_call_wrapper(BS->SignalEvent, 1, Event);
     return Event;
 }
 
@@ -81,14 +85,14 @@ WaitForSingleEvent (
         // Create a timer event
         //
 
-        Status = BS->CreateEvent (EVT_TIMER, 0, NULL, NULL, &TimerEvent);
+        Status = uefi_call_wrapper(BS->CreateEvent, 5, EVT_TIMER, 0, NULL, NULL, &TimerEvent);
         if (!EFI_ERROR(Status)) {
 
             //
             // Set the timer event
             //
 
-            BS->SetTimer (TimerEvent, TimerRelative, Timeout);
+            uefi_call_wrapper(BS->SetTimer, 3, TimerEvent, TimerRelative, Timeout);
             
             //
             // Wait for the original event or the timer
@@ -96,8 +100,8 @@ WaitForSingleEvent (
 
             WaitList[0] = Event;
             WaitList[1] = TimerEvent;
-            Status = BS->WaitForEvent (2, WaitList, &Index);
-            BS->CloseEvent (TimerEvent);
+            Status = uefi_call_wrapper(BS->WaitForEvent, 3, 2, WaitList, &Index);
+            uefi_call_wrapper(BS->CloseEvent, 1, TimerEvent);
 
             //
             // If the timer expired, change the return to timed out
@@ -114,7 +118,7 @@ WaitForSingleEvent (
         // No timeout... just wait on the event
         //
 
-        Status = BS->WaitForEvent (1, &Event, &Index);
+        Status = uefi_call_wrapper(BS->WaitForEvent, 3, 1, &Event, &Index);
         ASSERT (!EFI_ERROR(Status));
         ASSERT (Index == 0);
     }
@@ -139,7 +143,7 @@ WaitForEventWithTimeout (
         PrintAt (Column, Row, String, Timeout);
         Status = WaitForSingleEvent (Event, 10000000);
         if (Status == EFI_SUCCESS) {
-            if (!EFI_ERROR(ST->ConIn->ReadKeyStroke (ST->ConIn, Key))) {
+            if (!EFI_ERROR(uefi_call_wrapper(ST->ConIn->ReadKeyStroke, 2, ST->ConIn, Key))) {
                 return;
             }
         }

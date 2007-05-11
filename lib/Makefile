@@ -33,6 +33,10 @@ ifeq ($(ARCH),ia64)
 FILES += $(ARCH)/salpal $(ARCH)/palproc
 endif
 
+ifeq ($(ARCH),x86_64)
+FILES += $(ARCH)/callwrap
+endif
+
 OBJS  = $(FILES:%=%.o)
 
 libefi.a: libefi.a($(OBJS))

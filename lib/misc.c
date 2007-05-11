@@ -30,7 +30,7 @@ AllocatePool (
     EFI_STATUS              Status;
     VOID                    *p;
 
-    Status = BS->AllocatePool (PoolAllocationType, Size, &p);
+    Status = uefi_call_wrapper(BS->AllocatePool, 3, PoolAllocationType, Size, &p);
     if (EFI_ERROR(Status)) {
         DEBUG((D_ERROR, "AllocatePool: out of pool  %x\n", Status));
         p = NULL;
@@ -84,7 +84,7 @@ FreePool (
     IN VOID                 *Buffer
     )
 {
-    BS->FreePool (Buffer);
+    uefi_call_wrapper(BS->FreePool, 1, Buffer);
 }
 
 
@@ -224,7 +224,7 @@ LibMemoryMap (
     //
 
     while (GrowBuffer (&Status, (VOID **) &Buffer, BufferSize)) {
-        Status = BS->GetMemoryMap (&BufferSize, Buffer, MapKey, DescriptorSize, DescriptorVersion);
+        Status = uefi_call_wrapper(BS->GetMemoryMap, 5, &BufferSize, Buffer, MapKey, DescriptorSize, DescriptorVersion);
     }
 
     //
@@ -261,7 +261,9 @@ LibGetVariableAndSize (
     //
 
     while (GrowBuffer (&Status, &Buffer, BufferSize)) {
-        Status = RT->GetVariable (
+        Status = uefi_call_wrapper(
+		    RT->GetVariable,
+			5,
                     Name,
                     VendorGuid,
                     NULL,
@@ -305,7 +307,9 @@ LibDeleteVariable (
         //
         // Delete variable from Storage
         //
-        Status = RT->SetVariable (
+        Status = uefi_call_wrapper(
+		    RT->SetVariable,
+			5,
                     VarName, VarGuid,
                     EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS | EFI_VARIABLE_NON_VOLATILE,
                     0, NULL
@@ -348,7 +352,9 @@ LibInsertToTailOfBootOrder (
     //
     NewBootOptionArray[Index] = BootOption;
 
-    Status = RT->SetVariable (
+    Status = uefi_call_wrapper(
+		RT->SetVariable,
+		5,
                 VarBootOrder, &EfiGlobalVariable,
                 EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS | EFI_VARIABLE_NON_VOLATILE,
                 VarSize, (VOID*) NewBootOptionArray
@@ -488,7 +494,7 @@ LibGetUiString (
     UI_STRING_ENTRY *Array;
     EFI_STATUS      Status;
     
-    Status = BS->HandleProtocol (Handle, &UiProtocol, (VOID *)&Ui);
+    Status = uefi_call_wrapper(BS->HandleProtocol, 3, Handle, &UiProtocol, (VOID *)&Ui);
     if (EFI_ERROR(Status)) {
         return (ReturnDevicePathStrOnMismatch) ? DevicePathToStr(DevicePathFromHandle(Handle)) : NULL;
     }

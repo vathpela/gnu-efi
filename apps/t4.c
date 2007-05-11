@@ -6,8 +6,8 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 {
 	UINTN index;
 
-	systab->ConOut->OutputString(systab->ConOut, L"Hello application started\r\n");
-	systab->ConOut->OutputString(systab->ConOut, L"\r\n\r\n\r\nHit any key to exit\r\n");
-	systab->BootServices->WaitForEvent(1, &systab->ConIn->WaitForKey, &index);
+	uefi_call_wrapper(systab->ConOut->OutputString, 2, systab->ConOut, L"Hello application started\r\n");
+	uefi_call_wrapper(systab->ConOut->OutputString, 2, systab->ConOut, L"\r\n\r\n\r\nHit any key to exit\r\n");
+	uefi_call_wrapper(systab->BootServices->WaitForEvent, 3, 1, &systab->ConIn->WaitForKey, &index);
 	return EFI_SUCCESS;
 }

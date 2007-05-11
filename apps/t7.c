@@ -14,9 +14,9 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	Print(L"\n\n\nHit any key to exit this image\n");
 	WaitForSingleEvent(ST->ConIn->WaitForKey, 0);
 
-	ST->ConOut->OutputString(ST->ConOut, L"\n\n");
+	uefi_call_wrapper(ST->ConOut->OutputString, 2, ST->ConOut, L"\n\n");
 
-	efi_status = ST->ConIn->ReadKeyStroke(ST->ConIn, &efi_input_key);
+	efi_status = uefi_call_wrapper(ST->ConIn->ReadKeyStroke, 2, ST->ConIn, &efi_input_key);
 
 	Print(L"ScanCode: %xh  UnicodeChar: %xh\n",
 		efi_input_key.ScanCode, efi_input_key.UnicodeChar);

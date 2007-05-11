@@ -29,7 +29,7 @@ DevicePathFromHandle (
     EFI_STATUS          Status;
     EFI_DEVICE_PATH     *DevicePath;
 
-    Status = BS->HandleProtocol (Handle, &DevicePathProtocol, (VOID*)&DevicePath);
+    Status = uefi_call_wrapper(BS->HandleProtocol, 3, Handle, &DevicePathProtocol, (VOID*)&DevicePath);
     if (EFI_ERROR(Status)) {
         DevicePath = NULL;
     }
@@ -435,7 +435,7 @@ LibDevicePathToInterface (
     EFI_STATUS              Status;
     EFI_HANDLE              Device;
 
-    Status = BS->LocateDevicePath (Protocol, &FilePath, &Device);
+    Status = uefi_call_wrapper(BS->LocateDevicePath, 3, Protocol, &FilePath, &Device);
 
     if (!EFI_ERROR(Status)) {
 
@@ -448,7 +448,7 @@ LibDevicePathToInterface (
             // It was a direct match, lookup the protocol interface
             //
 
-            Status = BS->HandleProtocol (Device, Protocol, Interface);
+            Status =uefi_call_wrapper(BS->HandleProtocol, 3, Device, Protocol, Interface);
         }
     }
 

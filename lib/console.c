@@ -25,7 +25,7 @@ Output (
     )
 // Write a string to the console at the current cursor location
 {
-    ST->ConOut->OutputString (ST->ConOut, Str);
+    uefi_call_wrapper(ST->ConOut->OutputString, 2, ST->ConOut, Str);
 }
 
 
@@ -68,7 +68,7 @@ IInput (
     for (; ;) {
         WaitForSingleEvent (ConIn->WaitForKey, 0);
 
-        Status = ConIn->ReadKeyStroke(ConIn, &Key);
+        Status = uefi_call_wrapper(ConIn->ReadKeyStroke, 2, ConIn, &Key);
         if (EFI_ERROR(Status)) {
             DEBUG((D_ERROR, "Input: error return from ReadKey %x\n", Status));
             break;
@@ -81,7 +81,7 @@ IInput (
         
         if (Key.UnicodeChar == '\b') {
             if (Len) {
-                ConOut->OutputString(ConOut, L"\b \b");
+                uefi_call_wrapper(ConOut->OutputString, 2, ConOut, L"\b \b");
                 Len -= 1;
             }
             continue;
@@ -92,7 +92,7 @@ IInput (
                 InStr[Len] = Key.UnicodeChar;
 
                 InStr[Len+1] = 0;
-                ConOut->OutputString(ConOut, &InStr[Len]);
+                uefi_call_wrapper(ConOut->OutputString, 2, ConOut, &InStr[Len]);
 
                 Len += 1;
             }

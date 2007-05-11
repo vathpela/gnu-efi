@@ -103,8 +103,8 @@ typedef __WCHAR_TYPE__ WCHAR;
 #define VOID    void
 
 
-typedef int32_t    INTN;
-typedef uint32_t   UINTN;
+typedef int64_t    INTN;
+typedef uint64_t   UINTN;
 
 #ifdef EFI_NT_EMULATOR
     #define POST_CODE(_Data)
@@ -116,13 +116,13 @@ typedef uint32_t   UINTN;
     #endif  
 #endif
 
-#define EFIERR(a)           (0x80000000 | a)
-#define EFI_ERROR_MASK      0x80000000
-#define EFIERR_OEM(a)       (0xc0000000 | a)      
+#define EFIERR(a)           (0x8000000000000000 | a)
+#define EFI_ERROR_MASK      0x8000000000000000
+#define EFIERR_OEM(a)       (0xc000000000000000 | a)      
 
 
-#define BAD_POINTER         0xFBFBFBFB
-#define MAX_ADDRESS         0xFFFFFFFF
+#define BAD_POINTER         0xFBFBFBFBFBFBFBFB
+#define MAX_ADDRESS         0xFFFFFFFFFFFFFFFF
 
 #ifdef EFI_NT_EMULATOR
     #define BREAKPOINT()        __asm { int 3 }
@@ -257,8 +257,12 @@ typedef uint32_t   UINTN;
 #endif
 #endif
 
-/* No efi call wrapper for IA32 architecture */
-#define uefi_call_wrapper(func, va_num, ...)	func(__VA_ARGS__)
+/* for x86_64, EFI_FUNCTION_WRAPPER must be defined */
+#ifdef  EFI_FUNCTION_WRAPPER
+UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
+#else
+#error "EFI_FUNCTION_WRAPPER must be defined for x86_64 architecture"
+#endif
 
 #if _MSC_EXTENSIONS
 #pragma warning ( disable : 4731 )  // Suppress warnings about modification of EBP

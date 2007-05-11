@@ -20,7 +20,7 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	StrCpy(fmt, L"%.-35g %.-20s %s\n");
 	while (1) {
 		size = sizeof(name);
-		status = RT->GetNextVariableName(&size, name, &vendor);
+		status = uefi_call_wrapper(RT->GetNextVariableName, 3, &size, name, &vendor);
 		if (status != EFI_SUCCESS)
 			break;
 

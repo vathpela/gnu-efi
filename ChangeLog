@@ -1,4 +1,8 @@
 
+2007-05-11  Nigel Croxon <nigel.croxon@hp.com>
+	* release 3.0d to support x86_64 from Chandramouli Narayanan
+          from Intel and based on 3.0c-1
+
 2006-03-21  Stephane Eranian <eranian@hpl.hp.com>
 	* merged patch to support gcc-4.1 submitted by
 	  Raymund Will from Novell/SuSE

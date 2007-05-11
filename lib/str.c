@@ -75,7 +75,10 @@ StriCmp (
     )
 // compare strings
 {
-    return UnicodeInterface->StriColl(UnicodeInterface, s1, s2);
+    if (UnicodeInterface == &LibStubUnicodeInterface)
+    	return UnicodeInterface->StriColl(UnicodeInterface, s1, s2);
+    else
+	return uefi_call_wrapper(UnicodeInterface->StriColl, 3, UnicodeInterface, s1, s2);
 }
 
 VOID
@@ -84,7 +87,9 @@ StrLwr (
     )
 // lwoer case string
 {
-    UnicodeInterface->StrLwr(UnicodeInterface, Str);
+    if (UnicodeInterface == &LibStubUnicodeInterface)
+    	UnicodeInterface->StrLwr(UnicodeInterface, Str);
+    else uefi_call_wrapper(UnicodeInterface->StrLwr, 2, UnicodeInterface, Str);
 }
 
 VOID
@@ -93,7 +98,9 @@ StrUpr (
     )
 // upper case string
 {
-    UnicodeInterface->StrUpr(UnicodeInterface, Str);
+    if (UnicodeInterface == &LibStubUnicodeInterface)
+        UnicodeInterface->StrUpr(UnicodeInterface, Str);
+    else uefi_call_wrapper(UnicodeInterface->StrUpr, 2, UnicodeInterface, Str);
 }
 
 VOID
@@ -366,5 +373,7 @@ MetaiMatch (
     IN CHAR16   *Pattern
     )
 {
-    return UnicodeInterface->MetaiMatch(UnicodeInterface, String, Pattern);
+    if (UnicodeInterface == &LibStubUnicodeInterface)
+    	return UnicodeInterface->MetaiMatch(UnicodeInterface, String, Pattern);
+    else return uefi_call_wrapper(UnicodeInterface->MetaiMatch, 3, UnicodeInterface, String, Pattern);
 }

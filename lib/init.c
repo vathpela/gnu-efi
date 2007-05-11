@@ -68,7 +68,9 @@ Returns:
         //
 
         if (ImageHandle) {
-            Status = BS->HandleProtocol (
+            Status = uefi_call_wrapper(
+			    BS->HandleProtocol,
+				3,
                             ImageHandle, 
                             &LoadedImageProtocol,
                             (VOID*)&LoadedImage
@@ -129,7 +131,7 @@ InitializeUnicodeSupport (
     //
 
     for (Index=0; Index < NoHandles; Index++) {
-        Status = BS->HandleProtocol (Handles[Index], &UnicodeCollationProtocol, (VOID*)&Ui);
+        Status = uefi_call_wrapper(BS->HandleProtocol, 3, Handles[Index], &UnicodeCollationProtocol, (VOID*)&Ui);
         if (EFI_ERROR(Status)) {
             continue;
         }
@@ -174,7 +176,7 @@ EFIDebugVariable (
     UINTN           NewEFIDebug;
 
     DataSize = sizeof(EFIDebug);
-    Status = RT->GetVariable(L"EFIDebug", &EfiGlobalVariable, &Attributes, &DataSize, &NewEFIDebug);
+    Status = uefi_call_wrapper(RT->GetVariable, 5, L"EFIDebug", &EfiGlobalVariable, &Attributes, &DataSize, &NewEFIDebug);
     if (!EFI_ERROR(Status)) {
         EFIDebug = NewEFIDebug;
     } 

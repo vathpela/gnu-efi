@@ -96,7 +96,7 @@ Returns:
     //
 
     FileHandle = NULL;
-    Status = BS->LocateDevicePath (&FileSystemProtocol, FilePath, DeviceHandle);
+    Status = uefi_call_wrapper(BS->LocateDevicePath, 3, &FileSystemProtocol, FilePath, DeviceHandle);
     if (!EFI_ERROR(Status)) {
         FileHandle = LibOpenRoot (*DeviceHandle);
     }
@@ -136,7 +136,9 @@ Returns:
         LastHandle = FileHandle;
         FileHandle = NULL;
 
-        Status = LastHandle->Open (
+        Status = uefi_call_wrapper(
+			LastHandle->Open,
+			5, 
                         LastHandle,
                         &FileHandle,
                         FilePathNode->PathName,
@@ -148,7 +150,7 @@ Returns:
         // Close the last node
         //
         
-        LastHandle->Close (LastHandle);
+        uefi_call_wrapper(LastHandle->Close, 1, LastHandle);
 
         //
         // Get the next node
@@ -172,7 +174,7 @@ Returns:
     //
 
     if (FileHandle) {
-        FileHandle->Close (FileHandle);
+        uefi_call_wrapper(FileHandle->Close, 1, FileHandle);
         FileHandle = NULL;
         *FilePath = UserFilePath;
     }
@@ -196,7 +198,7 @@ Returns:
 
         TempFilePathPtr = TempFilePath;
 
-        Status = BS->LocateDevicePath (&LoadFileProtocol, &TempFilePath, DeviceHandle);
+        Status = uefi_call_wrapper(BS->LocateDevicePath, 3, &LoadFileProtocol, &TempFilePath, DeviceHandle);
 
         FreePool (TempFilePathPtr);
 
@@ -205,7 +207,9 @@ Returns:
         //
 
         SourceSize = 0;
-        Status = LoadFile->LoadFile (
+        Status = uefi_call_wrapper(
+		    LoadFile->LoadFile,
+			5,
                     LoadFile,
                     *FilePath,
                     BootPolicy,
@@ -226,7 +230,9 @@ Returns:
                 FHand->Source = SourceBuffer;
                 FHand->SourceSize = SourceSize;
 
-                Status = LoadFile->LoadFile (
+                Status = uefi_call_wrapper(
+			    LoadFile->LoadFile,
+				5,
                             LoadFile,
                             *FilePath,
                             BootPolicy,
@@ -307,10 +313,10 @@ ReadSimpleReadFile (
         // Read data from the file
         //
 
-        Status = FHand->FileHandle->SetPosition (FHand->FileHandle, Offset);
+        Status = uefi_call_wrapper(FHand->FileHandle->SetPosition, 2, FHand->FileHandle, Offset);
 
         if (!EFI_ERROR(Status)) {
-            Status = FHand->FileHandle->Read (FHand->FileHandle, ReadSize, Buffer);
+            Status = uefi_call_wrapper(FHand->FileHandle->Read, 3, FHand->FileHandle, ReadSize, Buffer);
         }
     }
 
@@ -333,7 +339,7 @@ CloseSimpleReadFile (
     //
 
     if (FHand->FileHandle) {
-        FHand->FileHandle->Close (FHand->FileHandle);
+        uefi_call_wrapper(FHand->FileHandle->Close, 1, FHand->FileHandle);
     }
 
     //

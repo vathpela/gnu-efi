@@ -41,7 +41,7 @@ LibLocateProtocol (
     }
 
     for (Index=0; Index < NumberHandles; Index++) {
-        Status = BS->HandleProtocol (Handles[Index], ProtocolGuid, Interface);
+        Status = uefi_call_wrapper(BS->HandleProtocol, 3, Handles[Index], ProtocolGuid, Interface);
         if (!EFI_ERROR(Status)) {
             break;
         }
@@ -81,7 +81,9 @@ LibLocateHandle (
 
     while (GrowBuffer (&Status, (VOID **) Buffer, BufferSize)) {
 
-        Status = BS->LocateHandle (
+        Status = uefi_call_wrapper(
+			BS->LocateHandle,
+			5,
                         SearchType,
                         Protocol,
                         SearchKey,
@@ -137,7 +139,9 @@ LibLocateHandleByDiskSignature (
         // Get list of device handles that support the BLOCK_IO Protocol.
         //
 
-        Status = BS->LocateHandle (
+        Status = uefi_call_wrapper(
+			BS->LocateHandle,
+			5,
                         ByProtocol,
                         &BlockIoProtocol,
                         NULL,
@@ -172,7 +176,10 @@ LibLocateHandleByDiskSignature (
 
     for(Index=0;Index<NoBlockIoHandles;Index++) {
 
-        Status = BS->HandleProtocol (BlockIoBuffer[Index], 
+        Status = uefi_call_wrapper(
+				     BS->HandleProtocol, 
+					3,
+				     BlockIoBuffer[Index], 
                                      &DevicePathProtocol, 
                                      (VOID*)&DevicePath
                                      );
@@ -302,14 +309,14 @@ LibOpenRoot (
     // File the file system interface to the device
     //
 
-    Status = BS->HandleProtocol (DeviceHandle, &FileSystemProtocol, (VOID*)&Volume);
+    Status = uefi_call_wrapper(BS->HandleProtocol, 3, DeviceHandle, &FileSystemProtocol, (VOID*)&Volume);
 
     //
     // Open the root directory of the volume 
     //
 
     if (!EFI_ERROR(Status)) {
-        Status = Volume->OpenVolume(Volume, &File);
+        Status = uefi_call_wrapper(Volume->OpenVolume, 2, Volume, &File);
     }
 
     //
@@ -340,7 +347,9 @@ LibFileInfo (
     //
 
     while (GrowBuffer (&Status, (VOID **) &Buffer, BufferSize)) {
-        Status = FHand->GetInfo (
+        Status = uefi_call_wrapper(
+		    FHand->GetInfo,
+			4,
                     FHand,
                     &GenericFileInfo,
                     &BufferSize,
@@ -373,7 +382,9 @@ LibFileSystemInfo (
     //
 
     while (GrowBuffer (&Status, (VOID **) &Buffer, BufferSize)) {
-        Status = FHand->GetInfo (
+        Status = uefi_call_wrapper(
+		    FHand->GetInfo,
+			4,
                     FHand,
                     &FileSystemInfo,
                     &BufferSize,
@@ -405,7 +416,9 @@ LibFileSystemVolumeLabelInfo (
     //
 
     while (GrowBuffer (&Status, (VOID **) &Buffer, BufferSize)) {
-        Status = FHand->GetInfo (
+        Status = uefi_call_wrapper(
+		    FHand->GetInfo,
+			4,
                     FHand,
                     &FileSystemVolumeLabelInfo,
                     &BufferSize,
@@ -436,7 +449,7 @@ LibInstallProtocolInterfaces (
     // Syncronize with notifcations
     // 
 
-    OldTpl = BS->RaiseTPL(TPL_NOTIFY);
+    OldTpl = uefi_call_wrapper(BS->RaiseTPL, 1, TPL_NOTIFY);
     OldHandle = *Handle;
 
     //
@@ -465,7 +478,7 @@ LibInstallProtocolInterfaces (
         //
 
         DEBUG((D_INFO, "LibInstallProtocolInterface: %d %x\n", Protocol, Interface));
-        Status = BS->InstallProtocolInterface (Handle, Protocol, EFI_NATIVE_INTERFACE, Interface);
+        Status = uefi_call_wrapper(BS->InstallProtocolInterface, 4, Handle, Protocol, EFI_NATIVE_INTERFACE, Interface);
         if (EFI_ERROR(Status)) {
             break;
         }
@@ -484,7 +497,7 @@ LibInstallProtocolInterfaces (
 
             Protocol = va_arg(args, EFI_GUID *);
             Interface = va_arg(args, VOID *);
-            BS->UninstallProtocolInterface (*Handle, Protocol, Interface);
+            uefi_call_wrapper(BS->UninstallProtocolInterface, 3, *Handle, Protocol, Interface);
 
             Index -= 1;
         }        
@@ -496,7 +509,7 @@ LibInstallProtocolInterfaces (
     // Done
     //
 
-    BS->RestoreTPL(OldTpl);
+    uefi_call_wrapper(BS->RestoreTPL, 1, OldTpl);
     return Status;
 }
 
@@ -531,7 +544,7 @@ LibUninstallProtocolInterfaces (
         // Uninstall it
         //
 
-        Status = BS->UninstallProtocolInterface (Handle, Protocol, Interface);
+        Status = uefi_call_wrapper(BS->UninstallProtocolInterface, 3, Handle, Protocol, Interface);
         if (EFI_ERROR(Status)) {
             DEBUG((D_ERROR, "LibUninstallProtocolInterfaces: failed %g, %r\n", Protocol, Handle));
         }
@@ -556,7 +569,7 @@ LibReinstallProtocolInterfaces (
     // Syncronize with notifcations
     // 
 
-    OldTpl = BS->RaiseTPL(TPL_NOTIFY);
+    OldTpl = uefi_call_wrapper(BS->RaiseTPL, 1, TPL_NOTIFY);
 
     //
     // Install the protocol interfaces
@@ -584,7 +597,7 @@ LibReinstallProtocolInterfaces (
         // Reinstall it
         //
 
-        Status = BS->ReinstallProtocolInterface (Handle, Protocol, OldInterface, NewInterface);
+        Status = uefi_call_wrapper(BS->ReinstallProtocolInterface, 4, Handle, Protocol, OldInterface, NewInterface);
         if (EFI_ERROR(Status)) {
             break;
         }
@@ -605,7 +618,7 @@ LibReinstallProtocolInterfaces (
             OldInterface = va_arg(args, VOID *);
             NewInterface = va_arg(args, VOID *);
 
-            BS->ReinstallProtocolInterface (Handle, Protocol, NewInterface, OldInterface);
+            uefi_call_wrapper(BS->ReinstallProtocolInterface, 4, Handle, Protocol, NewInterface, OldInterface);
 
             Index -= 1;
         }        
@@ -615,6 +628,6 @@ LibReinstallProtocolInterfaces (
     // Done
     //
 
-    BS->RestoreTPL(OldTpl);
+    uefi_call_wrapper(BS->RestoreTPL, 1, OldTpl);
     return Status;
 }
