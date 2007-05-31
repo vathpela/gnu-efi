@@ -1,0 +1,14 @@
+Source: gnu-efi
+Section: devel
+Priority: optional
+Maintainer: Bdale Garbee <bdale@gag.com>
+Build-Depends: debhelper (>> 5)
+Standards-Version: 3.6.2.2
+
+Package: gnu-efi
+Architecture: i386 ia64 amd64 
+Suggests: elilo
+Description: Library for developing EFI applications
+ GNU toolchain for building applications that can run in the environment
+ presented by Intel's EFI (Extensible Firmware Interface).  EFI is a firmware
+ specification for the "BIOS" on ia64(IPF), IA-32(x86) and x86_64 systems.

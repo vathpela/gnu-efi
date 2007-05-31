@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+
+buildarch := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+ifeq ($(buildarch),i386)
+	efiarch := ia32
+else
+	efiarch := $(buildarch)
+endif
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	$(MAKE)
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	-$(MAKE) clean
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs -A
+
+	# gnu-efi files
+	cp -r inc/* debian/gnu-efi/usr/include/efi/
+	cp gnuefi/*.a debian/gnu-efi/usr/lib/
+	cp gnuefi/elf_$(efiarch)_efi.lds debian/gnu-efi/usr/lib
+	cp gnuefi/crt0-efi-$(efiarch).o debian/gnu-efi/usr/lib
+	cp lib/*.a debian/gnu-efi/usr/lib/
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs -a
+	dh_installchangelogs -a ChangeLog
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure
