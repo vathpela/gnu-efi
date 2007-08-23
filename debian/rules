@@ -4,20 +4,33 @@ buildarch := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 ifeq ($(buildarch),i386)
 	efiarch := ia32
 else
+  ifeq ($(buildarch),amd64)
+	efiarch := x86_64
+  else
 	efiarch := $(buildarch)
+  endif
 endif
 
 build: build-stamp
 build-stamp:
 	dh_testdir
+
+ifeq ($(buildarch),amd64)
+	mkdir build-ia32
+	rsync -a --exclude debian/ -exclude build-ia32/ ./ build-ia32/
+	$(MAKE) ARCH=ia32 -C build-ia32
+endif
+
 	$(MAKE)
+
 	touch build-stamp
 
 clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp configure-stamp
-	-$(MAKE) clean
+	[ ! -f Makefile ] || $(MAKE) clean
+	rm -rf build-ia32
 	dh_clean
 
 install: build
@@ -32,6 +45,14 @@ install: build
 	cp gnuefi/elf_$(efiarch)_efi.lds debian/gnu-efi/usr/lib
 	cp gnuefi/crt0-efi-$(efiarch).o debian/gnu-efi/usr/lib
 	cp lib/*.a debian/gnu-efi/usr/lib/
+
+ifeq ($(buildarch),amd64)
+	mkdir debian/gnu-efi/usr/lib/efi-ia32
+	cp build-ia32/gnuefi/*.a debian/gnu-efi/usr/lib/efi-ia32
+	cp build-ia32/gnuefi/elf_ia32_efi.lds debian/gnu-efi/usr/lib/efi-ia32
+	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/usr/lib/efi-ia32
+	cp build-ia32/lib/*.a debian/gnu-efi/usr/lib/efi-ia32
+endif
 
 # Build architecture-independent files here.
 binary-indep: build install

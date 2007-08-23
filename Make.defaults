@@ -29,60 +29,34 @@ INSTALLROOT=/usr/local
 
 TOPDIR    := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
-ARCH	   = $(shell uname -m | sed s,i[3456789]86,ia32,)
+HOSTARCH   = $(shell uname -m)
+ARCH	   := $(shell uname -m | sed s,i[3456789]86,ia32,)
 INCDIR	   = -I. -I$(CDIR)/inc -I$(CDIR)/inc/$(ARCH) -I$(CDIR)/inc/protocol 
 CPPFLAGS   = -DCONFIG_$(ARCH)
 CFLAGS	   = -O2 -fpic -Wall -fshort-wchar -fno-strict-aliasing -fno-merge-constants
+ASFLAGS    =
 LDFLAGS	   = -nostdlib
 INSTALL	   = install
+prefix     = /usr/bin/
 
-GCC_VERSION=$(shell $(CROSS_COMPILE)$(CC) -v 2>&1 | fgrep 'gcc version' | cut -f3 -d' ' | cut -f1 -d'.')
+CC            = $(prefix)gcc
+AS            = $(prefix)as
+LD            = $(prefix)ld
+AR            = $(prefix)ar
+RANLIB        = $(prefix)ranlib
+OBJCOPY       = $(prefix)objcopy
 
 ifeq ($(ARCH),ia64)
-  prefix	=
-  CC		= $(prefix)gcc
-  AS		= $(prefix)as
-  LD		= $(prefix)ld
-  AR		= $(prefix)ar
-  RANLIB	= $(prefix)ranlib
-  OBJCOPY	= $(prefix)objcopy
-
-
-ifneq ($(GCC_VERSION),2)
-        CFLAGS += -frename-registers
+  CFLAGS += -mfixed-range=f32-f127
 endif
 
-CFLAGS += -mfixed-range=f32-f127
+ifeq ($(ARCH),x86_64)
+  CFLAGS += -DEFI_FUNCTION_WRAPPER
+endif
 
-else
- ifeq ($(ARCH),ia32)
-#
-# gcc-3.x is required
-#
-  prefix	= 
-  ifneq ($(GCC_VERSION),2)
-    CC = $(prefix)gcc
-  else
-    CC = $(prefix)gcc3 #must have gcc 3.x
+ifeq ($(ARCH), ia32)
+  ifeq ($(HOSTARCH), x86_64)
+    CFLAGS += -m32
+    ASFLAGS += -m32
   endif
-  AS		= $(prefix)as
-  LD		= $(prefix)ld
-  AR		= $(prefix)ar
-  RANLIB	= $(prefix)ranlib
-  OBJCOPY	= $(prefix)objcopy
-else
- ifeq ($(ARCH),x86_64)
-  prefix       = /usr/bin/
-  CC           = $(prefix)gcc
-  AS           = $(prefix)as
-  LD           = $(prefix)ld
-  AR           = $(prefix)ar
-  RANLIB       = $(prefix)ranlib
-# OBJCOPY of binutils with x86_64 support
-  OBJCOPY      = /usr/local/bin/objcopy
-  CFLAGS       += -DEFI_FUNCTION_WRAPPER
- endif
-
- endif
 endif
-

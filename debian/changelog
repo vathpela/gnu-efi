@@ -1,9 +1,13 @@
 gnu-efi (3.0d-1) unstable; urgency=low
 
+  * new (sponsored) maintainer
   * Add patches to support x86_64 from C.Narayanan (Intel)
     with support on EFI 1.10 and UEFI 2.0 firmware.
+  * new upstream version, Closes: #376000
+  * fixes x86_64 elilo support, Closes: #438954
+  * Added support for amd64, Closes: #383801
 
- -- Nigel Croxon <nigel.croxon@hp.com>  Thu, 31 May 2007 14:00:00 -0600
+ -- Nigel Croxon <nigel.croxon@hp.com>  Tue, 21 Aug 2007 14:12:09 -0600
 
 gnu-efi (3.0c-1) unstable; urgency=low
 
