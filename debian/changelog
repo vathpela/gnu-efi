@@ -1,3 +1,9 @@
+gnu-efi (3.0d-2) unstable; urgency=low
+
+  * Remove build system files from install, Closes: 439092
+
+ -- Nigel Croxon <nigel.croxonhp.com>  Sun, 26 Aug 2007 14:30:53 -0600
+
 gnu-efi (3.0d-1) unstable; urgency=low
 
   * new (sponsored) maintainer

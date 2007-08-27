@@ -40,18 +40,17 @@ install: build
 	dh_installdirs -A
 
 	# gnu-efi files
-	cp -r inc/* debian/gnu-efi/usr/include/efi/
+	cp -r inc/*.h debian/gnu-efi/usr/include/efi/
 	cp gnuefi/*.a debian/gnu-efi/usr/lib/
 	cp gnuefi/elf_$(efiarch)_efi.lds debian/gnu-efi/usr/lib
 	cp gnuefi/crt0-efi-$(efiarch).o debian/gnu-efi/usr/lib
 	cp lib/*.a debian/gnu-efi/usr/lib/
 
 ifeq ($(buildarch),amd64)
-	mkdir debian/gnu-efi/usr/lib/efi-ia32
-	cp build-ia32/gnuefi/*.a debian/gnu-efi/usr/lib/efi-ia32
-	cp build-ia32/gnuefi/elf_ia32_efi.lds debian/gnu-efi/usr/lib/efi-ia32
-	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/usr/lib/efi-ia32
-	cp build-ia32/lib/*.a debian/gnu-efi/usr/lib/efi-ia32
+	cp build-ia32/gnuefi/*.a debian/gnu-efi/usr/lib32
+	cp build-ia32/gnuefi/elf_ia32_efi.lds debian/gnu-efi/usr/lib32
+	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/usr/lib32
+	cp build-ia32/lib/*.a debian/gnu-efi/usr/lib32
 endif
 
 # Build architecture-independent files here.
