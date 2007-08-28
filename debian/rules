@@ -40,7 +40,14 @@ install: build
 	dh_installdirs -A
 
 	# gnu-efi files
-	cp -r inc/*.h debian/gnu-efi/usr/include/efi/
+	cp -r inc/* debian/gnu-efi/usr/include/efi/
+	rm debian/gnu-efi/usr/include/efi/Makefile
+	rm debian/gnu-efi/usr/include/efi/inc.mak
+	rm debian/gnu-efi/usr/include/efi/make.inf
+	rm debian/gnu-efi/usr/include/efi/makefile.hdr
+	rm debian/gnu-efi/usr/include/efi/protocol/make.inf
+	rm debian/gnu-efi/usr/include/efi/protocol/makefile.hdr
+	rm debian/gnu-efi/usr/include/efi/protocol/readme.txt
 	cp gnuefi/*.a debian/gnu-efi/usr/lib/
 	cp gnuefi/elf_$(efiarch)_efi.lds debian/gnu-efi/usr/lib
 	cp gnuefi/crt0-efi-$(efiarch).o debian/gnu-efi/usr/lib
