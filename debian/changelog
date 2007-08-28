@@ -2,18 +2,17 @@ gnu-efi (3.0d-2) unstable; urgency=low
 
   * Remove build system files from install, Closes: 439092
 
- -- Nigel Croxon <nigel.croxonhp.com>  Sun, 26 Aug 2007 14:30:53 -0600
+ -- Nigel Croxon <nigel.croxon@hp.com>  Mon, 27 Aug 2007 10:25:07 -0400
 
 gnu-efi (3.0d-1) unstable; urgency=low
 
-  * new (sponsored) maintainer
   * Add patches to support x86_64 from C.Narayanan (Intel)
     with support on EFI 1.10 and UEFI 2.0 firmware.
   * new upstream version, Closes: #376000
   * fixes x86_64 elilo support, Closes: #438954
   * Added support for amd64, Closes: #383801
 
- -- Nigel Croxon <nigel.croxon@hp.com>  Tue, 21 Aug 2007 14:12:09 -0600
+ -- Nigel Croxon <nigel.croxon@hp.com>  Wed, 21 Aug 2007 14:00:00 -0600
 
 gnu-efi (3.0c-1) unstable; urgency=low
 
