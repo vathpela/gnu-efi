@@ -1,6 +1,12 @@
 
-2007-05-11  Nigel Croxon <nigel.croxon@hp.com>
-	* release 3.0d to support x86_64 from Chandramouli Narayanan
+2008-01-23  Nigel Croxon <nigel.croxon@hp.com>
+        * release 3.0e to support x86_64
+          EFI calling convention, the stack should be aligned in 16 bytes
+          to make it possible to use SSE2 in EFI boot services.
+          This patch fixes this issue. Patch provided by Huang Ying from Intel.
+
+2007-05-11 Nigel Croxon <nigel.croxon@hp.com>
+        * release 3.0d to support x86_64 from Chandramouli Narayanan
           from Intel and based on 3.0c-1
 
 2006-03-21  Stephane Eranian <eranian@hpl.hp.com>

@@ -1,3 +1,9 @@
+gnu-efi (3.0e-1) unstable; urgency=low
+
+  * Fixes x86_64 clobbering registers
+
+ -- Nigel Croxon <nigel.croxon@hp.com>  Wed, 23 Jan 2008 09:25:01 -0700
+
 gnu-efi (3.0d-2) unstable; urgency=low
 
   * Remove build system files from install, Closes: 439092
