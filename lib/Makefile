@@ -34,7 +34,7 @@ FILES += $(ARCH)/salpal $(ARCH)/palproc
 endif
 
 ifeq ($(ARCH),x86_64)
-FILES += $(ARCH)/callwrap
+FILES += $(ARCH)/callwrap $(ARCH)/efi_stub
 endif
 
 OBJS  = $(FILES:%=%.o)
