@@ -1,6 +1,8 @@
 gnu-efi (3.0e-1) unstable; urgency=low
 
   * Fixes x86_64 clobbering registers
+  * Added binutils >= 2.17.50.0.14, Closes: 461640
+  * fixes installs parts of its build system, Closes: 439092
 
  -- Nigel Croxon <nigel.croxon@hp.com>  Wed, 23 Jan 2008 09:25:01 -0700
 
