@@ -1,4 +1,8 @@
 
+2008-02-22  Nigel Croxon <nigel.croxon@hp.com>
+	* Added '-mno-red-zone' to x68_64 compiles.
+	Patch provided by Mats Andersson.
+
 2008-01-23  Nigel Croxon <nigel.croxon@hp.com>
         * release 3.0e to support x86_64
           EFI calling convention, the stack should be aligned in 16 bytes
