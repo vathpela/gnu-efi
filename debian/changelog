@@ -1,6 +1,7 @@
 gnu-efi (3.0e-1) unstable; urgency=low
 
   * Fixes x86_64 clobbering registers
+  * Added '-mno-red-zone' to x86_64 compiles.
   * Added binutils >= 2.17.50.0.14, Closes: 461640
   * fixes installs parts of its build system, Closes: 439092
 
