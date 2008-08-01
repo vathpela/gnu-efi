@@ -1,14 +1,5 @@
 //++
 //      Copyright (c) 1996-99 Intel Corp.            
-//        All Rights Reserved   
-//
-//      INTEL CORPORATION PROPRIETARY INFORMATION
-//
-//      This software is supplied under the terms of a license
-//      agreement or nondisclosure agreement with Intel Corpo-
-//      ration and may not be copied or disclosed except in
-//      accordance with the terms of that agreement.
-//
 //
 //
 // Module Name:
