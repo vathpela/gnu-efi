@@ -1,4 +1,10 @@
-include ../Make.defaults
+SRCDIR = .
+
+VPATH = $(SRCDIR)
+
+include $(SRCDIR)/../Make.defaults
+
+TOPDIR = $(SRCDIR)/..
 
 CDIR=$(TOPDIR)/..
 
@@ -18,4 +24,4 @@ ifeq ($(ARCH),ia64)
 	$(INSTALL) -m 644 protocol/ia64/*.h $(INSTALLROOT)/include/efi/protocol/ia64
 endif
 
-include ../Make.rules
+include $(SRCDIR)/../Make.rules

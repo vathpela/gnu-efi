@@ -21,14 +21,19 @@
 #  02111-1307, USA.
 #
 
-include Make.defaults
+SRCDIR = .
+
+VPATH = $(SRCDIR)
+
+include $(SRCDIR)/Make.defaults
 
 SUBDIRS = lib gnuefi inc apps
 
 all:	check_gcc $(SUBDIRS)
 
 $(SUBDIRS):
-	$(MAKE) -C $@
+	mkdir -p $@
+	$(MAKE) -C $@ -f $(SRCDIR)/../$@/Makefile SRCDIR=$(SRCDIR)/../$@ ARCH=$(ARCH)
 
 clean:
 	rm -f *~
@@ -48,4 +53,4 @@ ifeq ($(GCC_VERSION),2)
 	@exit 1
 endif
 
-include Make.rules
+include $(SRCDIR)/Make.rules

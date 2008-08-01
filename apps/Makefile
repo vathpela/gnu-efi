@@ -21,24 +21,30 @@
 #  02111-1307, USA.
 #
 
-include ../Make.defaults
+SRCDIR = .
+
+VPATH = $(SRCDIR)
+
+include $(SRCDIR)/../Make.defaults
+
+TOPDIR = $(SRCDIR)/..
+
 CDIR=$(TOPDIR)/..
 LINUX_HEADERS	= /usr/src/sys/build
 CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
 CRTOBJS		= ../gnuefi/crt0-efi-$(ARCH).o
-LDSCRIPT	= ../gnuefi/elf_$(ARCH)_efi.lds
+LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi.lds
 LDFLAGS		+= -T $(LDSCRIPT) -shared -Bsymbolic -L../lib -L../gnuefi $(CRTOBJS)
-LOADLIBES	= -lefi -lgnuefi $(shell $(CC) -print-libgcc-file-name)
+LOADLIBES	= -lefi -lgnuefi $(shell $(CC) $(ARCH3264) -print-libgcc-file-name)
 FORMAT		= efi-app-$(ARCH)
 
 TARGETS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi printenv.efi t7.efi
 
 all:	$(TARGETS)
 
-
 clean:
 	rm -f $(TARGETS) *~ *.o *.so
 
 .PHONY: install
 
-include ../Make.rules
+include $(SRCDIR)/../Make.rules

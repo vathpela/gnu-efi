@@ -21,7 +21,14 @@
 #  02111-1307, USA.
 #
 
-include ../Make.defaults
+SRCDIR = .
+
+VPATH = $(SRCDIR)
+
+include $(SRCDIR)/../Make.defaults
+
+TOPDIR = $(SRCDIR)/..
+
 CDIR = $(TOPDIR)/..
 FILES = boxdraw smbios console crc data debug dpath  \
         error event guid hand hw init lock   \
@@ -39,6 +46,13 @@ endif
 
 OBJS  = $(FILES:%=%.o)
 
+SUBDIRS = ia32 x86_64 ia64 runtime
+
+all: libsubdirs libefi.a
+
+libsubdirs:
+	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
+
 libefi.a: libefi.a($(OBJS))
 
 clean:
@@ -48,4 +62,6 @@ install: libefi.a
 	mkdir -p $(INSTALLROOT)/lib
 	$(INSTALL) -m 644 libefi.a $(INSTALLROOT)/lib/
 
-include ../Make.rules
+include $(SRCDIR)/../Make.rules
+
+.PHONY: libsubdirs

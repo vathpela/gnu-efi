@@ -21,7 +21,14 @@
 #  02111-1307, USA.
 #
 
-include ../Make.defaults
+SRCDIR = .
+
+VPATH = $(SRCDIR)
+
+include $(SRCDIR)/../Make.defaults
+
+TOPDIR = $(SRCDIR)/..
+
 CDIR=$(TOPDIR)/..
 FILES	= reloc_$(ARCH)
 
@@ -41,4 +48,4 @@ install:
 	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)/lib
 	$(INSTALL) -m 644 elf_$(ARCH)_efi.lds $(INSTALLROOT)/lib
 
-include ../Make.rules
+include $(SRCDIR)/../Make.rules

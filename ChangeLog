@@ -1,6 +1,6 @@
 
 2008-02-22  Nigel Croxon <nigel.croxon@hp.com>
-	* Added '-mno-red-zone' to x86_64 compiles.
+	* Added '-mno-red-zone' to x68_64 compiles.
 	Patch provided by Mats Andersson.
 
 2008-01-23  Nigel Croxon <nigel.croxon@hp.com>

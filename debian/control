@@ -3,8 +3,8 @@ Section: devel
 Priority: optional
 Maintainer: Nigel Croxon <nigel.croxon@hp.com>
 Uploaders: Bdale Garbee <bdale@gag.com>
-Build-Depends: debhelper (>> 5), binutils (>= 2.17.50.0.14), libc6-dev-i386 [amd64], rsync [amd64]
-Standards-Version: 3.7.2.2
+Build-Depends: debhelper (>> 5), binutils (>= 2.17.50.0.14), gcc-multilib [i386 amd64]
+Standards-Version: 3.7.3
 
 Package: gnu-efi
 Architecture: i386 ia64 amd64 

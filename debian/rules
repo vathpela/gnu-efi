@@ -17,8 +17,12 @@ build-stamp:
 
 ifeq ($(buildarch),amd64)
 	mkdir build-ia32
-	rsync -a --exclude debian/ -exclude build-ia32/ ./ build-ia32/
-	$(MAKE) ARCH=ia32 -C build-ia32
+	$(MAKE) -C build-ia32 -f ../Makefile SRCDIR=.. ARCH=ia32
+endif
+
+ifeq ($(buildarch),i386)
+	mkdir build-x86_64
+	$(MAKE) -C build-x86_64 -f ../Makefile SRCDIR=.. ARCH=x86_64
 endif
 
 	$(MAKE)
@@ -30,7 +34,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 	[ ! -f Makefile ] || $(MAKE) clean
-	rm -rf build-ia32
+	rm -rf build-ia32 build-x86_64
 	dh_clean
 
 install: build
@@ -54,10 +58,19 @@ install: build
 	cp lib/*.a debian/gnu-efi/usr/lib/
 
 ifeq ($(buildarch),amd64)
-	cp build-ia32/gnuefi/*.a debian/gnu-efi/usr/lib32
-	cp build-ia32/gnuefi/elf_ia32_efi.lds debian/gnu-efi/usr/lib32
-	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/usr/lib32
-	cp build-ia32/lib/*.a debian/gnu-efi/usr/lib32
+	mkdir -p debian/gnu-efi/emul/ia32-linux/usr/lib
+	cp build-ia32/gnuefi/*.a debian/gnu-efi/emul/ia32-linux/usr/lib/
+	cp gnuefi/elf_ia32_efi.lds debian/gnu-efi/emul/ia32-linux/usr/lib/
+	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/emul/ia32-linux/usr/lib/
+	cp build-ia32/lib/*.a debian/gnu-efi/emul/ia32-linux/usr/lib/
+endif
+
+ifeq ($(buildarch),i386)
+	mkdir -p debian/gnu-efi/usr/lib64
+	cp build-x86_64/gnuefi/*.a debian/gnu-efi/usr/lib64/
+	cp gnuefi/elf_x86_64_efi.lds debian/gnu-efi/usr/lib64/
+	cp build-x86_64/gnuefi/crt0-efi-x86_64.o debian/gnu-efi/usr/lib64/
+	cp build-x86_64/lib/*.a debian/gnu-efi/usr/lib64/
 endif
 
 # Build architecture-independent files here.
