@@ -45,56 +45,54 @@
 #include <efi.h>
 #include <efilib.h>
 
-int
-_relocate (long ldbase, ElfW(Dyn) *dyn, EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
+EFI_STATUS _relocate (long ldbase, ElfW(Dyn) *dyn, EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 {
-	extern EFI_STATUS efi_main (EFI_HANDLE, EFI_SYSTEM_TABLE *);
 	long relsz = 0, relent = 0;
 	ElfW(Rel) *rel = 0;
+	unsigned long *addr;
 	int i;
 
 	for (i = 0; dyn[i].d_tag != DT_NULL; ++i) {
 		switch (dyn[i].d_tag) {
-		      case DT_REL:
-			rel = (ElfW(Rel)*) ((long) dyn[i].d_un.d_ptr + ldbase);
-			break;
+			case DT_REL:
+				rel = (ElfW(Rel)*)
+					((unsigned long)dyn[i].d_un.d_ptr
+					 + ldbase);
+				break;
 
-		      case DT_RELSZ:
-			relsz = dyn[i].d_un.d_val;
-			break;
+			case DT_RELSZ:
+				relsz = dyn[i].d_un.d_val;
+				break;
 
-		      case DT_RELENT:
-			relent = dyn[i].d_un.d_val;
-			break;
+			case DT_RELENT:
+				relent = dyn[i].d_un.d_val;
+				break;
 
-		      case DT_RELA:
-			break;
+			case DT_RELA:
+				break;
 
-		      default:
-			break;
+			default:
+				break;
 		}
 	}
 
-	while (relsz > 0) {
- 		if (!rel || relent == 0)
- 			return EFI_LOAD_ERROR;
+	if (!rel || relent == 0)
+		return EFI_LOAD_ERROR;
 
+	while (relsz > 0) {
 		/* apply the relocs */
 		switch (ELF32_R_TYPE (rel->r_info)) {
-		      case R_386_NONE:
-			break;
+			case R_386_NONE:
+				break;
+			
+			case R_386_RELATIVE:
+				addr = (unsigned long *)
+					(ldbase + rel->r_offset);
+				*addr += ldbase;
+				break;
 
-		      case R_386_RELATIVE:
-		      {
-			      long *addr;
-
-			      addr = (long *) (ldbase + rel->r_offset);
-			      *addr += ldbase;
-			      break;
-		      }
-
-		      default:
-			return EFI_LOAD_ERROR;
+			default:
+				break;
 		}
 		rel = (ElfW(Rel)*) ((char *) rel + relent);
 		relsz -= relent;

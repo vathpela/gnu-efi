@@ -26,7 +26,9 @@ Revision History
 // right data section if it is explicitly initialized..
 //
 
+#ifndef __GNUC__
 #pragma BEGIN_RUNTIME_DATA()
+#endif
 
 //
 // RT - pointer to the runtime table

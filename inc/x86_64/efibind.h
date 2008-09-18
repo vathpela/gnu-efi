@@ -25,11 +25,11 @@ Revision History
 // Basic int types of various widths
 //
 
-#if (__STDC_VERSION__ < 199901L )
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L )
 
     // No ANSI C 1999/2000 stdint.h integer width declarations 
 
-    #if _MSC_EXTENSIONS
+    #if defined(_MSC_EXTENSIONS)
 
         // Use Microsoft C compiler integer width declarations 
 
@@ -154,7 +154,7 @@ typedef uint64_t   UINTN;
 // To export & import functions in the EFI emulator environment
 //
 
-#if EFI_NT_EMULATOR
+#ifdef EFI_NT_EMULATOR
     #define EXPORTAPI           __declspec( dllexport )
 #else
     #define EXPORTAPI
@@ -170,7 +170,7 @@ typedef uint64_t   UINTN;
 //
 
 #ifndef EFIAPI                  // Forces EFI calling conventions reguardless of compiler options 
-    #if _MSC_EXTENSIONS
+    #ifdef _MSC_EXTENSIONS
         #define EFIAPI __cdecl  // Force C calling convention for Microsoft C compiler 
     #else
         #define EFIAPI          // Substitute expresion to force C calling convention 
@@ -264,7 +264,7 @@ UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
 #error "EFI_FUNCTION_WRAPPER must be defined for x86_64 architecture"
 #endif
 
-#if _MSC_EXTENSIONS
+#ifdef _MSC_EXTENSIONS
 #pragma warning ( disable : 4731 )  // Suppress warnings about modification of EBP
 #endif
 

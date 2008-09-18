@@ -24,12 +24,11 @@ Revision History
 // Basic int types of various widths
 //
 
-#if (__STDC_VERSION__ < 199901L )
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L )
 
     // No ANSI C 1999/2000 stdint.h integer width declarations 
 
-    #if _MSC_EXTENSIONS
-
+    #ifdef _MSC_EXTENSIONS
         // Use Microsoft C compiler integer width declarations 
 
         typedef unsigned __int64    uint64_t;
@@ -40,32 +39,28 @@ Revision History
         typedef __int16             int16_t;
         typedef unsigned __int8     uint8_t;
         typedef __int8              int8_t;
-    #else             
-        #ifdef UNIX_LP64
+    #elif defined(UNIX_LP64)
+        // Use LP64 programming model from C_FLAGS for integer width declarations 
 
-            // Use LP64 programming model from C_FLAGS for integer width declarations 
+        typedef unsigned long       uint64_t;
+        typedef long                int64_t;
+        typedef unsigned int        uint32_t;
+        typedef int                 int32_t;
+        typedef unsigned short      uint16_t;
+        typedef short               int16_t;
+        typedef unsigned char       uint8_t;
+        typedef char                int8_t;
+    #else
+        // Assume P64 programming model from C_FLAGS for integer width declarations 
 
-            typedef unsigned long       uint64_t;
-            typedef long                int64_t;
-            typedef unsigned int        uint32_t;
-            typedef int                 int32_t;
-            typedef unsigned short      uint16_t;
-            typedef short               int16_t;
-            typedef unsigned char       uint8_t;
-            typedef char                int8_t;
-        #else
-
-            // Assume P64 programming model from C_FLAGS for integer width declarations 
-
-            typedef unsigned long long  uint64_t;
-            typedef long long           int64_t;
-            typedef unsigned int        uint32_t;
-            typedef int                 int32_t;
-            typedef unsigned short      uint16_t;
-            typedef short               int16_t;
-            typedef unsigned char       uint8_t;
-            typedef char                int8_t;
-        #endif
+        typedef unsigned long long  uint64_t;
+        typedef long long           int64_t;
+        typedef unsigned int        uint32_t;
+        typedef int                 int32_t;
+        typedef unsigned short      uint16_t;
+        typedef short               int16_t;
+        typedef unsigned char       uint8_t;
+        typedef char                int8_t;
     #endif
 #endif
 
@@ -155,7 +150,7 @@ typedef uint64_t   UINTN;
 //
 
 #ifndef EFIAPI                  // Forces EFI calling conventions reguardless of compiler options 
-    #if _MSC_EXTENSIONS
+    #ifdef _MSC_EXTENSIONS
         #define EFIAPI __cdecl  // Force C calling convention for Microsoft C compiler 
     #else
         #define EFIAPI          // Substitute expresion to force C calling convention 

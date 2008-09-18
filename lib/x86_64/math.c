@@ -23,10 +23,12 @@ Revision History
 //
 
 #ifdef RUNTIME_CODE
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(LShiftU64)
 #pragma RUNTIME_CODE(RShiftU64)
 #pragma RUNTIME_CODE(MultU64x32)
 #pragma RUNTIME_CODE(DivU64x32)
+#endif
 #endif
 
 //

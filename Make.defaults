@@ -26,6 +26,7 @@
 # lib and include under the root
 #
 INSTALLROOT=/usr/local
+LIBDIR=lib
 
 TOPDIR    := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
@@ -50,10 +51,6 @@ ifeq ($(ARCH),ia64)
   CFLAGS += -mfixed-range=f32-f127
 endif
 
-ifeq ($(ARCH),x86_64)
-  CFLAGS += -DEFI_FUNCTION_WRAPPER -mno-red-zone 
-endif
-
 ifeq ($(ARCH), ia32)
   ifeq ($(HOSTARCH), x86_64)
     ARCH3264 = -m32
@@ -61,6 +58,8 @@ ifeq ($(ARCH), ia32)
 endif
 
 ifeq ($(ARCH), x86_64)
+  CFLAGS += -DEFI_FUNCTION_WRAPPER -mno-red-zone 
+  LIBDIR = lib
   ifeq ($(HOSTARCH), ia32)
     ARCH3264 = -m64
   endif

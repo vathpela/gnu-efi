@@ -415,7 +415,8 @@ EFI_STATUS
 
 typedef enum {
     EfiResetCold,
-    EfiResetWarm
+    EfiResetWarm,
+    EfiResetShutdown
 } EFI_RESET_TYPE;
 
 typedef

@@ -17,7 +17,9 @@ Revision History
 
 #include "lib.h"
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtAcquireLock)
+#endif
 INTN
 RUNTIMEFUNCTION
 RtStrCmp (
@@ -38,7 +40,9 @@ RtStrCmp (
     return *s1 - *s2;
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtStrCpy)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtStrCpy (
@@ -53,7 +57,9 @@ RtStrCpy (
     *Dest = 0;
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtStrCat)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtStrCat (
@@ -64,7 +70,9 @@ RtStrCat (
     RtStrCpy(Dest+StrLen(Dest), Src);
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtStrLen)
+#endif
 UINTN
 RUNTIMEFUNCTION
 RtStrLen (
@@ -78,7 +86,9 @@ RtStrLen (
     return len;
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtStrSize)
+#endif
 UINTN
 RUNTIMEFUNCTION
 RtStrSize (
@@ -92,7 +102,9 @@ RtStrSize (
     return (len + 1) * sizeof(CHAR16);
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtBCDtoDecimal)
+#endif
 UINT8
 RUNTIMEFUNCTION
 RtBCDtoDecimal(
@@ -108,7 +120,9 @@ RtBCDtoDecimal(
 }
 
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtDecimaltoBCD)
+#endif
 UINT8
 RUNTIMEFUNCTION
 RtDecimaltoBCD (

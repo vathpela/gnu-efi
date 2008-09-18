@@ -1,4 +1,13 @@
 
+2008-09-18  Nigel Croxon <nigel.croxon@hp.com>
+        * Use LIBDIR in makefiles
+        * Add setjmp/longjmp
+        * Fixes incorrect section attribute in crt0-efi-ia32.S
+        * Adds value EfiResetShutdown to enum EFI_RESET_TYPE
+        * Fixes a RAW warning in reloc_ia64.S
+        * Adds the USB HCI device path structure in the headers
+          patches were supplied by Peter Jones @ RedHat
+
 2008-02-22  Nigel Croxon <nigel.croxon@hp.com>
 	* Added '-mno-red-zone' to x68_64 compiles.
 	Patch provided by Mats Andersson.

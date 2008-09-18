@@ -127,6 +127,15 @@ typedef struct _ACPI_HID_DEVICE_PATH {
         UINT32                          UID;
 } ACPI_HID_DEVICE_PATH;
 
+#define EXPANDED_ACPI_DP		0x02
+typedef struct _EXPANDED_ACPI_HID_DEVICE_PATH {
+	EFI_DEVICE_PATH			Header;
+	UINT32				HID;
+	UINT32				UID;
+	UINT32				CID;
+	UINT8				HidStr[1];
+} EXPANDED_ACPI_HID_DEVICE_PATH;
+
 //
 // EISA ID Macro
 // EISA ID Definition 32-bits

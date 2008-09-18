@@ -30,7 +30,7 @@ include $(SRCDIR)/../Make.defaults
 TOPDIR = $(SRCDIR)/..
 
 CDIR=$(TOPDIR)/..
-FILES	= reloc_$(ARCH)
+FILES	= reloc_$(ARCH) setjmp_$(ARCH)
 
 OBJS	= $(FILES:%=%.o)
 
@@ -44,8 +44,8 @@ clean:
 	rm -f $(TARGETS) *~ *.o $(OBJS)
 
 install:
-	mkdir -p $(INSTALLROOT)/lib
-	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)/lib
-	$(INSTALL) -m 644 elf_$(ARCH)_efi.lds $(INSTALLROOT)/lib
+	mkdir -p $(INSTALLROOT)/$(LIBDIR)
+	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)/$(LIBDIR)
+	$(INSTALL) -m 644 elf_$(ARCH)_efi.lds $(INSTALLROOT)/$(LIBDIR)
 
 include $(SRCDIR)/../Make.rules

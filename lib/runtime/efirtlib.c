@@ -20,7 +20,9 @@ Revision History
 #include "efilib.h"
 #include "efirtlib.h"
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtZeroMem)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtZeroMem (
@@ -36,7 +38,9 @@ RtZeroMem (
     }
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtSetMem)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtSetMem (
@@ -53,7 +57,9 @@ RtSetMem (
     }
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCopyMem)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtCopyMem (
@@ -71,7 +77,9 @@ RtCopyMem (
     }
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareMem)
+#endif
 INTN
 RUNTIMEFUNCTION
 RtCompareMem (
@@ -96,7 +104,9 @@ RtCompareMem (
     return 0;
 }
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtCompareGuid)
+#endif
 INTN
 RUNTIMEFUNCTION
 RtCompareGuid (

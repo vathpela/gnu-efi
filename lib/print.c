@@ -23,6 +23,7 @@ Revision History
 //
 
 #ifdef RUNTIME_CODE
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(DbgPrint)
 
 // For debugging..
@@ -39,6 +40,7 @@ Revision History
 #pragma RUNTIME_CODE(TimeToString)
 */
 
+#endif /* !defined(__GNUC__) */
 #endif
 
 //

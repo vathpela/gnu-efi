@@ -125,6 +125,7 @@ search_dynamic:
 (Prelasz) mov relasz = d_val
 (Prelaent) mov relaent = d_val
 (Psymtab) add val = d_val, ldbase
+	;;
 (Psyment) setf.sig syment = d_val
 	;;
 (Psymtab) setf.sig symtab = val

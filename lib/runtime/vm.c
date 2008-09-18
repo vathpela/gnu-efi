@@ -24,7 +24,9 @@ Revision History
 
 #include "lib.h"
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtLibEnableVirtualMappings)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtLibEnableVirtualMappings (
@@ -64,7 +66,9 @@ RtLibEnableVirtualMappings (
 }
 
 
+#ifndef __GNUC__
 #pragma RUNTIME_CODE(RtConvertList)
+#endif
 VOID
 RUNTIMEFUNCTION
 RtConvertList (

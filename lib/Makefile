@@ -59,8 +59,8 @@ clean:
 	rm -f libefi.a *~ $(OBJS) */*.o
 
 install: libefi.a
-	mkdir -p $(INSTALLROOT)/lib
-	$(INSTALL) -m 644 libefi.a $(INSTALLROOT)/lib/
+	mkdir -p $(INSTALLROOT)/$(LIBDIR)
+	$(INSTALL) -m 644 libefi.a $(INSTALLROOT)/$(LIBDIR)
 
 include $(SRCDIR)/../Make.rules
 
