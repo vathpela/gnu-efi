@@ -76,6 +76,9 @@ EFI_STATUS _relocate (long ldbase, ElfW(Dyn) *dyn, EFI_HANDLE image, EFI_SYSTEM_
 		}
 	}
 
+        if (!rel && relent == 0)
+                return EFI_SUCCESS;
+
 	if (!rel || relent == 0)
 		return EFI_LOAD_ERROR;
 
