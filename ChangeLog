@@ -1,4 +1,7 @@
 
+2008-11-06  Nigel Croxon <nigel.croxon@hp.com>
+        * Fix to not having any relocations at all. 
+
 2008-09-18  Nigel Croxon <nigel.croxon@hp.com>
         * Use LIBDIR in makefiles
         * Add setjmp/longjmp
@@ -10,7 +13,7 @@
 
 2008-02-22  Nigel Croxon <nigel.croxon@hp.com>
 	* Added '-mno-red-zone' to x68_64 compiles.
-	Patch provided by Mats Andersson.
+	  Patch provided by Mats Andersson.
 
 2008-01-23  Nigel Croxon <nigel.croxon@hp.com>
         * release 3.0e to support x86_64
