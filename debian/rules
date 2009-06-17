@@ -58,11 +58,11 @@ install: build
 	cp lib/*.a debian/gnu-efi/usr/lib/
 
 ifeq ($(buildarch),amd64)
-	mkdir -p debian/gnu-efi/emul/ia32-linux/usr/lib
-	cp build-ia32/gnuefi/*.a debian/gnu-efi/emul/ia32-linux/usr/lib/
-	cp gnuefi/elf_ia32_efi.lds debian/gnu-efi/emul/ia32-linux/usr/lib/
-	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/emul/ia32-linux/usr/lib/
-	cp build-ia32/lib/*.a debian/gnu-efi/emul/ia32-linux/usr/lib/
+	mkdir -p debian/gnu-efi/usr/lib32
+	cp build-ia32/gnuefi/*.a debian/gnu-efi/usr/lib32/
+	cp gnuefi/elf_ia32_efi.lds debian/gnu-efi/usr/lib32/
+	cp build-ia32/gnuefi/crt0-efi-ia32.o debian/gnu-efi/usr/lib32/
+	cp build-ia32/lib/*.a debian/gnu-efi/usr/lib32/
 endif
 
 ifeq ($(buildarch),i386)
