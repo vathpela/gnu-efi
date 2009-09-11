@@ -13,9 +13,15 @@ SECTIONS
    *(.text.*)
    *(.gnu.linkonce.t.*)
   }
-  .reloc :
+  . = ALIGN(4096);
+  .sdata :
   {
-   *(.reloc)
+   *(.got.plt)
+   *(.got)
+   *(.srodata)
+   *(.sdata)
+   *(.sbss)
+   *(.scommon)
   }
   . = ALIGN(4096);
   .data :
@@ -50,6 +56,11 @@ SECTIONS
     *(.data.rel*)
   }
   . = ALIGN(4096);
+  .reloc :		/* This is the PECOFF .reloc section! */
+  {
+    *(.reloc)
+  }
+  . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }
   . = ALIGN(4096);
   .dynstr   : { *(.dynstr) }
@@ -58,5 +69,7 @@ SECTIONS
   {
     *(.rel.reloc)
     *(.eh_frame)
+    *(.note.GNU-stack)
   }
+  .comment 0 : { *(.comment) }
 }

@@ -1,3 +1,6 @@
+2009-09-11  Julien BLACHE <jb@jblache.org>
+	* Fix elf_ia32_efi.lds linker script to be compatible with the new
+          linker behaviour. Patch from the RedHat bugzilla 492183.
 
 2009-06-18  Nigel Croxon <nigel.croxon@hp.com>
         * Release 3.0h
