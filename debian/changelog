@@ -1,3 +1,18 @@
+gnu-efi (3.0i-1) unstable; urgency=low
+
+  * New upstream release.
+
+  * debian/control:
+    + Make kfreebsd-amd64 a supported architecture.
+    + Build-depend on gcc-multilib on kfreebsd-amd64 too.
+  * debian/rules:
+    + Add support for both kfreebsd-{i386,amd64}.
+    + Install FreeBSD x86_64 linker script on kfreebsd-amd64.
+    + Do not install ia64-specific headers on i386/amd64, do not install
+      i386/amd64-specific headers on ia64.
+
+ -- Julien BLACHE <jblache@debian.org>  Sat, 12 Sep 2009 11:33:36 +0200
+
 gnu-efi (3.0h-1) unstable; urgency=low
 
   * Clean up and recover from a broken NMU.

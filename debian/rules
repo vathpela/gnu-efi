@@ -1,26 +1,24 @@
 #!/usr/bin/make -f
 
 buildarch := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
-ifeq ($(buildarch),i386)
+ifneq (,$(findstring i386,$(buildarch)))
 	efiarch := ia32
-else
-  ifeq ($(buildarch),amd64)
+else ifneq (,$(findstring amd64,$(buildarch)))
 	efiarch := x86_64
-  else
+else
 	efiarch := $(buildarch)
-  endif
 endif
 
 build: build-stamp
 build-stamp:
 	dh_testdir
 
-ifeq ($(buildarch),amd64)
+ifneq (,$(findstring amd64,$(buildarch)))
 	mkdir build-ia32
 	$(MAKE) -C build-ia32 -f ../Makefile SRCDIR=.. ARCH=ia32
 endif
 
-ifeq ($(buildarch),i386)
+ifneq (,$(findstring i386,$(buildarch)))
 	mkdir build-x86_64
 	$(MAKE) -C build-x86_64 -f ../Makefile SRCDIR=.. ARCH=x86_64
 endif
@@ -52,12 +50,22 @@ install: build
 	rm debian/gnu-efi/usr/include/efi/protocol/make.inf
 	rm debian/gnu-efi/usr/include/efi/protocol/makefile.hdr
 	rm debian/gnu-efi/usr/include/efi/protocol/readme.txt
+ifeq ($(buildarch),ia64)
+	rm -rf debian/gnu-efi/usr/include/efi/ia32
+	rm -rf debian/gnu-efi/usr/include/efi/x84_64
+else
+	rm -rf debian/gnu-efi/usr/include/efi/ia64
+endif
 	cp gnuefi/*.a debian/gnu-efi/usr/lib/
+ifeq ($(buildarch),kfreebsd-amd64)
+	cp gnuefi/elf_$(efiarch)_fbsd_efi.lds debian/gnu-efi/usr/lib
+else
 	cp gnuefi/elf_$(efiarch)_efi.lds debian/gnu-efi/usr/lib
+endif
 	cp gnuefi/crt0-efi-$(efiarch).o debian/gnu-efi/usr/lib
 	cp lib/*.a debian/gnu-efi/usr/lib/
 
-ifeq ($(buildarch),amd64)
+ifneq (,$(findstring amd64,$(buildarch)))
 	mkdir -p debian/gnu-efi/usr/lib32
 	cp build-ia32/gnuefi/*.a debian/gnu-efi/usr/lib32/
 	cp gnuefi/elf_ia32_efi.lds debian/gnu-efi/usr/lib32/
@@ -65,10 +73,14 @@ ifeq ($(buildarch),amd64)
 	cp build-ia32/lib/*.a debian/gnu-efi/usr/lib32/
 endif
 
-ifeq ($(buildarch),i386)
+ifneq (,$(findstring i386,$(buildarch)))
 	mkdir -p debian/gnu-efi/usr/lib64
 	cp build-x86_64/gnuefi/*.a debian/gnu-efi/usr/lib64/
+ifeq ($(buildarch),kfreebsd-i386)
+	cp gnuefi/elf_x86_64_fbsd_efi.lds debian/gnu-efi/usr/lib64/
+else
 	cp gnuefi/elf_x86_64_efi.lds debian/gnu-efi/usr/lib64/
+endif
 	cp build-x86_64/gnuefi/crt0-efi-x86_64.o debian/gnu-efi/usr/lib64/
 	cp build-x86_64/lib/*.a debian/gnu-efi/usr/lib64/
 endif
