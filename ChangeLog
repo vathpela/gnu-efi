@@ -1,5 +1,6 @@
 2009-09-12  Julien BLACHE <jb@jblache.org>
 	* Add support for FreeBSD.
+	* Release 3.0i
 
 2009-09-11  Julien BLACHE <jb@jblache.org>
 	* Fix elf_ia32_efi.lds linker script to be compatible with the new
