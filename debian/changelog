@@ -1,11 +1,37 @@
+gnu-efi (3.0h-1) unstable; urgency=low
+
+  * Clean up and recover from a broken NMU.
+
+  * debian/control:
+    + Bump Standards-Version to 3.8.3 (no changes).
+    + Added myself as uploader.
+
+  * gnuefi/elf_ia32_efi.lds:
+    + Fix linker script for elf-i386 (closes: #545202).
+
+ -- Julien BLACHE <jblache@debian.org>  Fri, 11 Sep 2009 18:26:22 +0200
+
+gnu-efi (3.0h-0.1) unstable; urgency=low
+
+  * NMU
+  * New upstream version.
+  * Bump to Standards-Version 3.8.2.
+  * Add watch file.
+  * Conflict with libc6-i386 (<= 2.9-18).  closes: #533003.
+
+ -- Clint Adams <schizo@debian.org>  Sun, 02 Aug 2009 12:06:40 -0400
+
 gnu-efi (3.0e-3) unstable; urgency=low
+
+  * Non-maintainer upload with maintainer's consent.
 
   * debian/rules:
     + Move files from /emul/ia32-linux to /usr/lib32 (closes: #533003).
+
   * debian/control:
     + Bump Standards-Version to 3.8.1 (no changes).
 
- -- Julien BLACHE <jblache@debian.org>  Tue, 16 Jun 2009 19:12:38 +0200
+ -- Julien BLACHE <jblache@debian.org>  Wed, 17 Jun 2009 16:41:26 +0200
 
 gnu-efi (3.0e-2) unstable; urgency=low
 
