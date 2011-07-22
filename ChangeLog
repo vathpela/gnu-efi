@@ -6,7 +6,7 @@
 	  - Add headers for PciIo.
 	  - Add the UEFI 2.x bits for EFI_BOOT_SERVICES
 	  - Add an ignore for .note.GNU-stack section in X86-64 linker maps.
-        * Release 3.0k
+        * Release 3.0l
 
 2011-04-07  Nigel Croxon <nigel.croxon@hp.com>
         * Change license from GPL to BSD.
