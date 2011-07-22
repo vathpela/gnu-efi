@@ -35,6 +35,7 @@ Revision History
 #include "efibind.h"
 #include "efidef.h"
 #include "efidevp.h"
+#include "efipciio.h"
 #include "efiprot.h"
 #include "eficon.h"
 #include "efiser.h"

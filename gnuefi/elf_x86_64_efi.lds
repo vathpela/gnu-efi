@@ -55,5 +55,8 @@ SECTIONS
   .ignored.reloc :
   {
     *(.rela.reloc)
+    *(.eh_frame)
+    *(.note.GNU-stack)
   }
+  .comment 0 : { *(.comment) }
 }

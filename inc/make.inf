@@ -13,6 +13,7 @@
     efifs.h
     efilib.h
     efipart.h
+    efipciio.h
     efiprot.h
     efipxebc.h
     efistdarg.h
