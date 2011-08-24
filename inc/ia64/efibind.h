@@ -182,7 +182,22 @@ void __mf (void);
 // one big module.
 //
 
-#define EFI_DRIVER_ENTRY_POINT(InitFunction)
+#define EFI_DRIVER_ENTRY_POINT(InitFunction)    \
+    UINTN                                       \
+    InitializeDriver (                          \
+        VOID    *ImageHandle,                   \
+        VOID    *SystemTable                    \
+        )                                       \
+    {                                           \
+        return InitFunction(ImageHandle,        \
+                SystemTable);                   \
+    }                                           \
+                                                \
+    EFI_STATUS efi_main(                        \
+        EFI_HANDLE image,                       \
+        EFI_SYSTEM_TABLE *systab                \
+        ) __attribute__((weak,                  \
+                alias ("InitializeDriver")));
 
 #define LOAD_INTERNAL_DRIVER(_if, type, name, entry)    \
         (_if)->LoadInternal(type, name, entry)
@@ -205,3 +220,4 @@ void __mf (void);
 
 /* No efi call wrapper for IA32 architecture */
 #define uefi_call_wrapper(func, va_num, ...)	func(__VA_ARGS__)
+#define EFI_FUNCTION

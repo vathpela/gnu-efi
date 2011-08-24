@@ -234,7 +234,22 @@ typedef uint64_t   UINTN;
 // one big module.
 //
 
-    #define EFI_DRIVER_ENTRY_POINT(InitFunction)
+    #define EFI_DRIVER_ENTRY_POINT(InitFunction)    \
+        UINTN                                       \
+        InitializeDriver (                          \
+            VOID    *ImageHandle,                   \
+            VOID    *SystemTable                    \
+            )                                       \
+        {                                           \
+            return InitFunction(ImageHandle,        \
+                    SystemTable);                   \
+        }                                           \
+                                                    \
+        EFI_STATUS efi_main(                        \
+            EFI_HANDLE image,                       \
+            EFI_SYSTEM_TABLE *systab                \
+            ) __attribute__((weak,                  \
+                    alias ("InitializeDriver")));
 
     #define LOAD_INTERNAL_DRIVER(_if, type, name, entry)    \
             (_if)->LoadInternal(type, name, entry)
@@ -258,11 +273,8 @@ typedef uint64_t   UINTN;
 #endif
 
 /* for x86_64, EFI_FUNCTION_WRAPPER must be defined */
-#ifdef  EFI_FUNCTION_WRAPPER
 UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
-#else
-#error "EFI_FUNCTION_WRAPPER must be defined for x86_64 architecture"
-#endif
+#define EFI_FUNCTION __attribute__((ms_abi))
 
 #ifdef _MSC_EXTENSIONS
 #pragma warning ( disable : 4731 )  // Suppress warnings about modification of EBP

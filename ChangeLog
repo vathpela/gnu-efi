@@ -1,3 +1,10 @@
+2011-08-23 Nigel Croxon <nigel.croxon@hp.com>
+        * Changes from Peter Jones <pjones@redhat.com>
+          - Add guarantee 16-byte stack alignment on x86_64.
+          - Add routine to make callbacks work.
+          - Add apps/tcc.efi to test calling convention.
+        * Release 3.0m
+
 2011-07-22 Nigel Croxon <nigel.croxon@hp.com>
 	* Changed Makefiles from GPL to BSD.
 	* Changes from Peter Jones <pjones@redhat.com>
