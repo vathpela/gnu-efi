@@ -54,12 +54,12 @@ LDFLAGS	   = -nostdlib
 INSTALL	   = install
 prefix     = /usr/bin/
 
-CC            = $(prefix)gcc
-AS            = $(prefix)as
-LD            = $(prefix)ld
-AR            = $(prefix)ar
-RANLIB        = $(prefix)ranlib
-OBJCOPY       = $(prefix)objcopy
+CC            := $(prefix)gcc
+AS            := $(prefix)as
+LD            := $(prefix)ld
+AR            := $(prefix)ar
+RANLIB        := $(prefix)ranlib
+OBJCOPY       := $(prefix)objcopy
 
 ifeq ($(ARCH),ia64)
   CFLAGS += -mfixed-range=f32-f127

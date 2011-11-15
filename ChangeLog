@@ -1,3 +1,9 @@
+2011-11-15 Nigel Croxon <nigel.croxon@hp.com>
+        * Changes from Darren Hart <dvhart@linux.intel.com>
+          - Conditionally assign toolchain binaries to allow overriding them.
+          - Force a dependency on lib for gnuefi.
+        * Release 3.0n
+
 2011-08-23 Nigel Croxon <nigel.croxon@hp.com>
         * Changes from Peter Jones <pjones@redhat.com>
           - Add guarantee 16-byte stack alignment on x86_64.

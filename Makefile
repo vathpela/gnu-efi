@@ -41,6 +41,7 @@ VPATH = $(SRCDIR)
 include $(SRCDIR)/Make.defaults
 
 SUBDIRS = lib gnuefi inc apps
+gnuefi: lib
 
 all:	check_gcc $(SUBDIRS)
 
