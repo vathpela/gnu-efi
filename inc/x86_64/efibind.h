@@ -16,7 +16,8 @@ Abstract:
 Revision History
 
 --*/
-
+#ifndef X86_64_EFI_BIND
+#define X86_64_EFI_BIND
 #ifndef __GNUC__
 #pragma pack()
 #endif
@@ -278,5 +279,7 @@ UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
 
 #ifdef _MSC_EXTENSIONS
 #pragma warning ( disable : 4731 )  // Suppress warnings about modification of EBP
+#endif
+
 #endif
 
