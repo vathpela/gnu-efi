@@ -1,3 +1,11 @@
+2012-04-30 Nigel Croxon <nigel.croxon@hp.com>
+	* Change from Matt Fleming <matt.fleming@intel.com>
+	  -  The .reloc section is now 4096-byte boundary for x86_64.
+	     Without this patch the .reloc section will not adhere to
+	     the alignment value in the FileAlignment field (512 bytes by
+	     default) of the PE/COFF header. This results in a signed
+	     executable failing to boot in a secure boot environment.
+
 2011-12-12 Nigel Croxon <nigel.croxon@hp.com>
         * Changes from Fenghua Yu <fenghua.yu@intel.com>
           - This fixes redefined types compilation failure for tcc.c on x86_64 machines.
