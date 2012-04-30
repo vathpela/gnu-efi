@@ -17,6 +17,7 @@ SECTIONS
   {
    *(.text)
   }
+  . = ALIGN(4096);
   .reloc :
   {
    *(.reloc)
