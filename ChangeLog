@@ -1,3 +1,12 @@
+2012-09-21 Nigel Croxon <nigel.croxon@hp.com>
+	* Change from Peter Jones <pjones@redhat.com>
+	  - EFI Block I/O protocol versions 2 and 3 provide more information
+	    regarding physical disk layout, including alingment offset at the
+	    beginning of the disk ("LowestAlignedLba"), logical block size
+	    ("LogicalBlocksPerPhysicalBlock"), and optimal block transfer size
+	    ("OptimalTransferLengthGranularity").
+	* Release 3.0r
+
 2012-04-30 Nigel Croxon <nigel.croxon@hp.com>
 	* Change from Matt Fleming <matt.fleming@intel.com>
 	  -  The .reloc section is now 4096-byte boundary for x86_64.
@@ -5,6 +14,7 @@
 	     the alignment value in the FileAlignment field (512 bytes by
 	     default) of the PE/COFF header. This results in a signed
 	     executable failing to boot in a secure boot environment.
+	* Release 3.0q
 
 2011-12-12 Nigel Croxon <nigel.croxon@hp.com>
         * Changes from Fenghua Yu <fenghua.yu@intel.com>

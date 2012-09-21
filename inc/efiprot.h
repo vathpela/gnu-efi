@@ -40,6 +40,8 @@ Revision History
 #define BLOCK_IO_PROTOCOL \
     { 0x964e5b21, 0x6459, 0x11d2, {0x8e, 0x39, 0x0, 0xa0, 0xc9, 0x69, 0x72, 0x3b} }
 #define EFI_BLOCK_IO_INTERFACE_REVISION   0x00010000
+#define EFI_BLOCK_IO_INTERFACE_REVISION2  0x00020001
+#define EFI_BLOCK_IO_INTERFACE_REVISION3  ((2<<16) | 31)
 
 INTERFACE_DECL(_EFI_BLOCK_IO);
 
@@ -93,6 +95,12 @@ typedef struct {
     UINT32              IoAlign;
 
     EFI_LBA             LastBlock;
+
+    /* revision 2 */
+    EFI_LBA             LowestAlignedLba;
+    UINT32              LogicalBlocksPerPhysicalBlock;
+    /* revision 3 */
+    UINT32              OptimalTransferLengthGranularity;
 } EFI_BLOCK_IO_MEDIA;
 
 typedef struct _EFI_BLOCK_IO {
