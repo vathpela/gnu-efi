@@ -40,6 +40,7 @@
 #include "efi.h"
 #include "efistdarg.h"
 
+#if !defined(HAVE_USE_MS_ABI)
 UINT64 efi_call0(void *func);
 UINT64 efi_call1(void *func, UINT64 arg1);
 UINT64 efi_call2(void *func, UINT64 arg1, UINT64 arg2);
@@ -123,3 +124,4 @@ EFI_STATUS uefi_call_wrapper(void *fp, unsigned long va_num, ...)
 		return EFI_LOAD_ERROR;
 	}
 }
+#endif

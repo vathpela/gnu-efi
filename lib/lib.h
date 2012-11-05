@@ -44,21 +44,21 @@ InitializeGuid (
     VOID
     );
 
-INTN
+INTN EFIAPI
 LibStubStriCmp (
     IN EFI_UNICODE_COLLATION_INTERFACE  *This,
     IN CHAR16                           *S1,
     IN CHAR16                           *S2
     );
 
-BOOLEAN
+BOOLEAN EFIAPI
 LibStubMetaiMatch (
     IN EFI_UNICODE_COLLATION_INTERFACE  *This,
     IN CHAR16                           *String,
     IN CHAR16                           *Pattern
     );
 
-VOID
+VOID EFIAPI
 LibStubStrLwrUpr (
     IN EFI_UNICODE_COLLATION_INTERFACE  *This,
     IN CHAR16                           *Str

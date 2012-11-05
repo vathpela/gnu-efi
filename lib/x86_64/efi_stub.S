@@ -6,6 +6,7 @@
  *	Huang Ying <ying.huang@intel.com>
  */
 
+#if !defined(HAVE_USE_MS_ABI)
 /*
  * EFI calling conventions are documented at:
  *   http://msdn.microsoft.com/en-us/library/ms235286%28v=vs.80%29.aspx
@@ -272,3 +273,5 @@ ENTRY(efi_call10)
 	addq $80, %rsp
 	unpad_stack
 	ret
+
+#endif
