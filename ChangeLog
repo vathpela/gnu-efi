@@ -1,3 +1,11 @@
+2012-11-02 Nigel Croxon <nigel.croxon@hp.com>
+	* Change from Peter Jones <pjones@redhat.com>
+	  - Previously we were incorrectly passing 3 functions with the 
+	    System V ABI to UEFI functions as EFI ABI functions. Mark them
+	    as EFIAPI so the compiler will (in our new GNU_EFI_USE_MS_ABI world)
+	    use the correct ABI.
+	* Release 3.0s
+ 
 2012-09-21 Nigel Croxon <nigel.croxon@hp.com>
 	* Change from Peter Jones <pjones@redhat.com>
 	  - EFI Block I/O protocol versions 2 and 3 provide more information
