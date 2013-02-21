@@ -1,3 +1,60 @@
+2013-02-21 Nigel Croxon <nigel.croxon@hp.com>
+	* Change from Peter Jones <pjones@redhat.com>
+	  - Previously we were incorrectly passing 3 functions with
+            the System V ABI to UEFI functions as EFI ABI functions.
+            Mark them as EFIAPI so the compiler will (in our new
+            GNU_EFI_USE_MS_ABI world) use the correct ABI.
+          - These need to be EFIAPI functions because in some cases
+            they call ST->ConOut->OutputString(), which is an EFIAPI
+            function. (Which means that previously in cases that 
+            needed "cdecl", these didn't work right.)
+          - If the compiler version is new enough, and GNU_EFI_USE_MS_ABI
+            is defined, use the function attribute ms_abi on everything
+            defined with "EFIAPI".  Such calls will no longer go through
+            efi_call*, and as such will be properly type-checked.
+          - Honor PREFIX and LIBDIR correctly when passed in during the build.
+          - Add machine type defines for i386, arm/thumb, ia64, ebc, x86_64.
+          - __STDC_VERSION__ never actually gets defined unless there's a
+            --std=... line.  So we were accidentally defining lots of c99
+            types ourself. Since it's 2012, use --std=c11 where appropriate,
+            and if it's defined and we're using gcc, actually include gcc's
+            stdint definitions.
+          - New test application added: route80h. This is a test program
+            for PciIo.  It routes ioport 80h on ICH10 to PCI. This is also
+            useful on a very limited set of hardware to enable use of
+            a port 80h debug card.
+          - New test applcation added: modelist. This lists video modes
+            the GOP driver is showing us.
+	* Change from Finnbarr Murphy
+          - https://sourceforge.net/p/gnu-efi/feature-requests/2/
+            Please add the following status codes to <efierr.h>
+            EFI_INCOMPATIBLE_VERSION 25
+            EFI_SECURITY_VIOLATION 26 
+            EFI_CRC_ERROR 27 
+            EFI_END_OF_MEDIA 28 
+            EFI_END_OF_FILE 31 
+            EFI_INVALID_LANGUAGE 32 
+            EFI_COMPROMISED_DATA 33
+	* Change from SourceForge.net Bug report
+          - https://sourceforge.net/p/gnu-efi/bugs/5/
+            BufferSize is a UINT64 *. The file shipped with GNU EFI is from
+            1998 whereas the latest one is from 2004. I suspect Intel changed
+            the API in order handle 64-bit systems.
+        * Change from Felipe Contreras <felipe.contreras@gmail.com>
+          - The current code seems to screw the stack at certain points.
+            Multiple people have complained that gummiboot hangs right away,
+            which is in part the fault of gummiboot, but happens only
+            because the stack gets screwed. x86_64 EFI already aligns the
+            stack, so there's no need for so much code to find a proper
+            alignment, we always need to shift by 8 anyway.
+        * Change from A. Steinmetz
+          - https://sourceforge.net/p/gnu-efi/patches/1/
+            The patch prepares for elilo to support uefi pxe over ipv6
+            See uefi spec 2.3.1 errata c page 963 as reference.
+            Verfied on an ASUS Sabertooth X79 BIOS Rev. 2104 system which
+            is able to do an IPv6 UEFI PXE boot.
+	* Release 3.0t
+
 2012-09-21 Nigel Croxon <nigel.croxon@hp.com>
 	* Change from Peter Jones <pjones@redhat.com>
 	  - EFI Block I/O protocol versions 2 and 3 provide more information

@@ -65,15 +65,16 @@ typedef struct {
     UINT8                           DhcpOptions[56];
 } EFI_PXE_BASE_CODE_DHCPV4_PACKET;
 
-// TBD in EFI v1.1
-//typedef struct {
-//    UINT8                           reserved;
-//} EFI_PXE_BASE_CODE_DHCPV6_PACKET;
+typedef struct {
+    UINT32                          MessageType:8;
+    UINT32                          TransactionId:24;
+    UINT8                           DhcpOptions[1024];
+} EFI_PXE_BASE_CODE_DHCPV6_PACKET;
 
 typedef union {
     UINT8                               Raw[1472];
     EFI_PXE_BASE_CODE_DHCPV4_PACKET     Dhcpv4;
-//    EFI_PXE_BASE_CODE_DHCPV6_PACKET     Dhcpv6;
+    EFI_PXE_BASE_CODE_DHCPV6_PACKET     Dhcpv6;
 } EFI_PXE_BASE_CODE_PACKET;
 
 typedef struct {
@@ -297,7 +298,7 @@ EFI_STATUS
     IN EFI_PXE_BASE_CODE_TFTP_OPCODE    Operation,
     IN OUT VOID                         *BufferPtr  OPTIONAL,
     IN BOOLEAN                          Overwrite,
-    IN OUT UINTN                        *BufferSize,
+    IN OUT UINT64                       *BufferSize,
     IN UINTN                            *BlockSize  OPTIONAL,
     IN EFI_IP_ADDRESS                   *ServerIp,
     IN UINT8                            *Filename,

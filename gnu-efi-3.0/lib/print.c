@@ -95,8 +95,8 @@ typedef struct _pstate {
     UINTN       AttrHighlight;
     UINTN       AttrError;
 
-    INTN        (*Output)(VOID *context, CHAR16 *str);
-    INTN        (*SetAttr)(VOID *context, UINTN attr);
+    INTN EFIAPI       (*Output)(VOID *context, CHAR16 *str);
+    INTN EFIAPI       (*SetAttr)(VOID *context, UINTN attr);
     VOID        *Context;    
 
     // Current item being formatted
@@ -125,7 +125,7 @@ _IPrint (
     );
 
 STATIC
-INTN
+INTN EFIAPI
 _DbgOut (
     IN VOID     *Context,
     IN CHAR16   *Buffer
@@ -167,13 +167,13 @@ PSETATTR (
 //
 //
 
-INTN
+INTN EFIAPI
 _SPrint (
     IN VOID     *Context,
     IN CHAR16   *Buffer
     );
 
-INTN
+INTN EFIAPI
 _PoolPrint (
     IN VOID     *Context,
     IN CHAR16   *Buffer
@@ -235,7 +235,7 @@ Returns:
     if (DbgOut) {
         ps.Attr = DbgOut->Mode->Attribute;
         ps.Context = DbgOut;
-        ps.SetAttr = (INTN (*)(VOID *, UINTN))  DbgOut->SetAttribute;
+        ps.SetAttr = (INTN EFIAPI (*)(VOID *, UINTN))  DbgOut->SetAttribute;
     }
 
     SavedAttribute = ps.Attr;
@@ -276,7 +276,9 @@ Returns:
     return 0;
 }
 
-STATIC IsLocalPrint(void *func)
+STATIC
+INTN
+IsLocalPrint(void *func)
 {
 	if (func == _DbgOut || func == _SPrint || func == _PoolPrint)
 		return 1;
@@ -284,7 +286,7 @@ STATIC IsLocalPrint(void *func)
 }
 
 STATIC
-INTN
+INTN EFIAPI
 _DbgOut (
     IN VOID     *Context,
     IN CHAR16   *Buffer
@@ -308,7 +310,7 @@ _DbgOut (
     return 0;
 }
 
-INTN
+INTN EFIAPI
 _SPrint (
     IN VOID     *Context,
     IN CHAR16   *Buffer
@@ -350,7 +352,7 @@ _SPrint (
 }
 
 
-INTN
+INTN EFIAPI
 _PoolPrint (
     IN VOID     *Context,
     IN CHAR16   *Buffer
@@ -401,7 +403,7 @@ _PoolCatPrint (
     IN CHAR16           *fmt,
     IN va_list          args,
     IN OUT POOL_PRINT   *spc,
-    IN INTN             (*Output)(VOID *context, CHAR16 *str)
+    IN INTN EFIAPI      (*Output)(VOID *context, CHAR16 *str)
     )
 // Dispath function for SPrint, PoolPrint, and CatPrint
 {
@@ -715,8 +717,8 @@ _IPrint (
 
     ZeroMem (&ps, sizeof(ps));
     ps.Context = Out;
-    ps.Output  = (INTN (*)(VOID *, CHAR16 *)) Out->OutputString;
-    ps.SetAttr = (INTN (*)(VOID *, UINTN))  Out->SetAttribute;
+    ps.Output  = (INTN EFIAPI (*)(VOID *, CHAR16 *)) Out->OutputString;
+    ps.SetAttr = (INTN EFIAPI (*)(VOID *, UINTN))  Out->SetAttribute;
     ps.Attr = Out->Mode->Attribute;
    
     back = (ps.Attr >> 4) & 0xF;

@@ -22,6 +22,14 @@ Revision History
 #pragma pack()
 #endif
 
+#if defined(GNU_EFI_USE_MS_ABI)
+    #if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))
+        #define HAVE_USE_MS_ABI 1
+    #else
+        #error Compiler is too old for GNU_EFI_USE_MS_ABI
+    #endif
+#endif
+
 //
 // Basic int types of various widths
 //
@@ -76,6 +84,8 @@ Revision History
        typedef unsigned char       uint8_t;
        typedef char                int8_t;
     #endif
+#elif defined(__GNUC__)
+    #include <stdint-gcc.h>
 #endif
 
 //
@@ -173,6 +183,9 @@ typedef uint64_t   UINTN;
 #ifndef EFIAPI                  // Forces EFI calling conventions reguardless of compiler options 
     #ifdef _MSC_EXTENSIONS
         #define EFIAPI __cdecl  // Force C calling convention for Microsoft C compiler 
+    #elif defined(HAVE_USE_MS_ABI)
+        // Force amd64/ms calling conventions.
+        #define EFIAPI __attribute__((ms_abi))
     #else
         #define EFIAPI          // Substitute expresion to force C calling convention 
     #endif
@@ -274,7 +287,11 @@ typedef uint64_t   UINTN;
 #endif
 
 /* for x86_64, EFI_FUNCTION_WRAPPER must be defined */
+#if defined(HAVE_USE_MS_ABI)
+#define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
+#else
 UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
+#endif
 #define EFI_FUNCTION __attribute__((ms_abi))
 
 #ifdef _MSC_EXTENSIONS

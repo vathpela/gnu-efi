@@ -50,7 +50,7 @@ StrnCmp (
 }
 
 
-INTN
+INTN EFIAPI
 LibStubStriCmp (
     IN EFI_UNICODE_COLLATION_INTERFACE  *This,
     IN CHAR16                           *s1,
@@ -60,7 +60,7 @@ LibStubStriCmp (
     return StrCmp (s1, s2);
 }
 
-VOID
+VOID EFIAPI
 LibStubStrLwrUpr (
     IN EFI_UNICODE_COLLATION_INTERFACE  *This,
     IN CHAR16                           *Str
@@ -356,7 +356,7 @@ MetaMatch (
 }
 
 
-BOOLEAN
+BOOLEAN EFIAPI
 LibStubMetaiMatch (
     IN EFI_UNICODE_COLLATION_INTERFACE  *This,
     IN CHAR16                           *String,
