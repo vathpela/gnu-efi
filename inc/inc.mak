@@ -17,4 +17,7 @@ INC_DEPS = $(INC_DEPS)          \
                 efipxe.h        \
                 efivar.h        \
                 pe.h            \
+                efiip.h         \
+                efiudp.h        \
+                efitcp.h        \
                 stdarg.h
