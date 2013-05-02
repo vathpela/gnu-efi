@@ -1,3 +1,8 @@
+2013-05-02 Nigel Croxon <nigel.croxon@hp.com>
+	* Chnage from Matt Fleming <matt.fleming@intel.com>
+	  - Preparation for adding the networking protocol definitions.
+	    Add the service binding protocol.
+
 2013-02-21 Nigel Croxon <nigel.croxon@hp.com>
 	* Change from Peter Jones <pjones@redhat.com>
 	  - Previously we were incorrectly passing 3 functions with
