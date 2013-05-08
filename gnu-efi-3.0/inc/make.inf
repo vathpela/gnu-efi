@@ -18,6 +18,9 @@
     efipxebc.h
     efistdarg.h
     efinet.h
+    efiip.h
+    efiudp.h
+    efitcp.h
 
 [ia32sources]
     efibind.h

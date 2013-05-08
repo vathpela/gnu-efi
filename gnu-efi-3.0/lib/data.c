@@ -155,3 +155,13 @@ EFI_GUID MpsTableGuid             = MPS_TABLE_GUID;
 EFI_GUID AcpiTableGuid            = ACPI_TABLE_GUID;
 EFI_GUID SMBIOSTableGuid          = SMBIOS_TABLE_GUID;
 EFI_GUID SalSystemTableGuid       = SAL_SYSTEM_TABLE_GUID;
+
+//
+// Network protocol GUIDs
+//
+EFI_GUID Ip4ServiceBindingProtocol = EFI_IP4_SERVICE_BINDING_PROTOCOL;
+EFI_GUID Ip4Protocol = EFI_IP4_PROTOCOL;
+EFI_GUID Udp4ServiceBindingProtocol = EFI_UDP4_SERVICE_BINDING_PROTOCOL;
+EFI_GUID Udp4Protocol = EFI_UDP4_PROTOCOL;
+EFI_GUID Tcp4ServiceBindingProtocol = EFI_TCP4_SERVICE_BINDING_PROTOCOL;
+EFI_GUID Tcp4Protocol = EFI_TCP4_PROTOCOL;
