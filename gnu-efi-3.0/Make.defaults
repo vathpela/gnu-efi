@@ -46,6 +46,10 @@ TOPDIR    := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
 HOSTARCH   = $(shell uname -m | sed s,i[3456789]86,ia32,)
 ARCH	   := $(shell uname -m | sed s,i[3456789]86,ia32,)
+# FreeBSD (and possibly others) reports amd64 instead of x86_64
+ifeq ($(ARCH), amd64)
+ARCH	   = x86_64
+endif
 OS	   = $(shell uname -s)
 INCDIR	   = -I$(SRCDIR) -I$(TOPDIR)/inc -I$(TOPDIR)/inc/$(ARCH) -I$(TOPDIR)/inc/protocol 
 GCCVERSION := $(shell gcc -dumpversion | cut -f1 -d.)
@@ -56,9 +60,9 @@ CPPFLAGS   = -DCONFIG_$(ARCH)
 ifeq ($(GCCNEWENOUGH),1)
 CPPFLAGS   += -DGNU_EFI_USE_MS_ABI -maccumulate-outgoing-args --std=c11
 endif
-CFLAGS	   = $(ARCH3264) -O2 -fpic -Wall -fshort-wchar -fno-strict-aliasing -fno-merge-constants
+CFLAGS	   = $(ARCH3264) -O2 -fpic -Wall -fshort-wchar -fno-strict-aliasing -fno-merge-constants -ffreestanding -fno-stack-protector -fno-stack-check
 ASFLAGS    = $(ARCH3264)
-LDFLAGS	   = -nostdlib
+LDFLAGS	   = -nostdlib --no-undefined
 INSTALL	   = install
 prefix     = /usr/bin/
 

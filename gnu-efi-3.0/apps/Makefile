@@ -48,10 +48,8 @@ CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
 CRTOBJS		= ../gnuefi/crt0-efi-$(ARCH).o
 
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi.lds
-ifeq ($(ARCH),x86_64)
- ifneq (,$(findstring FreeBSD,$(OS)))
+ifneq (,$(findstring FreeBSD,$(OS)))
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
- endif
 endif
 
 LDFLAGS		+= -T $(LDSCRIPT) -shared -Bsymbolic -L../lib -L../gnuefi $(CRTOBJS)
