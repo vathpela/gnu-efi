@@ -22,6 +22,9 @@ INC_DEPS = $(INC_DEPS) \
     $(SDK_INSTALL_DIR)\include\efi\efipxebc.h \
     $(SDK_INSTALL_DIR)\include\efi\efistdarg.h \
     $(SDK_INSTALL_DIR)\include\efi\efinet.h \
+    $(SDK_INSTALL_DIR)\include\efi\efiip.h \
+    $(SDK_INSTALL_DIR)\include\efi\efiudp.h \
+    $(SDK_INSTALL_DIR)\include\efi\efitcp.h \
 
 
 !IF "$(PROCESSOR)" == "Ia32"
