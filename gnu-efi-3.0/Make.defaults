@@ -94,13 +94,14 @@ ifeq ($(ARCH),ia64)
 endif
 
 ifeq ($(ARCH),ia32)
+  CFLAGS += -mno-mmx -mno-sse
   ifeq ($(HOSTARCH),x86_64)
     ARCH3264 = -m32
   endif
 endif
 
 ifeq ($(ARCH),x86_64)
-  CFLAGS += -mno-red-zone
+  CFLAGS += -mno-red-zone -nmo-mmx -mno-sse
   ifeq ($(HOSTARCH),ia32)
     ARCH3264 = -m64
   endif
