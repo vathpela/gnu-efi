@@ -1,3 +1,186 @@
+2013-06-12 Nigel Croxon <nigel.croxon@hp.com>
+    Disable MMX and SSE
+    
+    GCC 4.8.0 adds some optimizations that will use movups/movaps (and use
+    %xmm* registers) when they're faster, and of course that won't work at
+    all since UEFI firmwares aren't guaranteed to initialize the mmx/sse
+    instructions.
+    
+    This will be even more annoying, since most UEFI firmwares don't
+    initialize the #DE or #UD trap handlers, and your backtrace will be a
+    random path through uninitialized memory, occasionally including
+    whatever address the IDT has for #UD, but also addresses like "0x4" and
+    "0x507" that you don't normally expect to see in your call path.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+
+    Author: Nigel Croxon <nigel.croxon@hp.com>
+    Date:   Wed Jun 12 10:29:40 2013 -0400
+
+    bug in make 3.82 expand to odd values
+    
+    Some Makefiles tickle a bug in make 3.82 that cause libefi.a
+    and libgnuefi.a dependencies to expand to the odd values:
+    
+    libefi.a: boxdraw.o) smbios.o) ...
+    libgnuefi.a(reloc_x86_64.o:
+    
+    The patch replaces libgnuefi.a($(OBJS)) & libefi.a($(OBJS))
+    with an equivalent expansion that should work with any make
+    that supports $(patsubst).
+
+    Author: Nigel Croxon <nigel.croxon@hp.com>
+    Date:   Wed Jun 12 09:53:01 2013 -0400
+
+    support .text.* sections on x86_64
+    
+    Group them in .text. Also add vague linkage sections in .text.
+    
+    Signed-off-by: David Decotigny <decot@googlers.com>
+
+    Author: Nigel Croxon <nigel.croxon@hp.com>
+    Date:   Wed Jun 12 09:51:36 2013 -0400
+
+    cleanup and fix Make.defaults
+    
+    Reorder variables in Make.defaults so that they are grouped by
+    functions. Also fixed ifeq (x,y) to have required syntax and make it
+    work for ARCH amd64->x86_64 renaming on BSD. Also provides top-level
+    Makefile with a "mkvars" target that displays effective variables.
+    
+    Signed-off-by: David Decotigny <decot@googlers.com>
+
+    Author: Nigel Croxon <nigel.croxon@hp.com>
+    Date:   Wed Jun 12 09:47:16 2013 -0400
+
+    automatically determine number of uefi_call_wrapper() args on x86_64
+    
+    Instead of asking developers to explicitly pass the number of
+    parameters to the functions that get called, we determine them
+    automatically at preprocessing time. This should result in more
+    robust code.
+    
+    Argument va_num is now ignored in x86_64 code, both with and
+    without HAVE_USE_MS_ABI.
+    
+    Credits to the macro magic given in the comments.
+    
+    Signed-off-by: David Decotigny <decot@googlers.com>
+
+    Author: Nigel Croxon <nigel.croxon@hp.com>
+    Date:   Wed Jun 12 09:38:10 2013 -0400
+
+    fix parameter-passing corruption on x86_64 for >= 5 args
+    
+    On x86_64 without HAVE_USE_MS_ABI support, uefi_call_wrapper() is a
+    variadic function. Parameters >=5 are copied to the stack and, when
+    passed small immediate values (and possibly other parameters), gcc
+    would emit a movl instruction before calling uefi_call_wrapper(). As a
+    result, only the lower 32b of these stack values are significant, the
+    upper 32b potentially contain garbage. Considering that
+    uefi_call_wrapper() assumes these arguments are clean 64b values
+    before calling the efi_callX() trampolines, the latter may be passed
+    garbage. This makes calling functions like
+    EFI_PCI_IO_PROTOCOL.Mem.Read()/Write() or BS->OpenProtocol() quite
+    unreliable.
+    
+    This patch fixes this by turning uefi_call_wrapper() into a macro that
+    allows to expose the efi_callX() trampoline signatures to the callers,
+    so that gcc can know upfront that it has to pass all arguments to
+    efi_callX() as clean 64b values (eg. movq for immediates). The
+    _cast64_efi_callX macros are just here to avoid a gcc warning, they do
+    nothing otherwise.
+    
+    Signed-off-by: David Decotigny <decot@googlers.com>
+
+    Author: noxorc <nigel.croxon@hp.com>
+    Date:   Wed May 15 15:26:16 2013 -0400
+
+    - Removes the ElfW() macro usage from reloc_ia32.c and reloc_x86_64.c. These
+    macros only exist in link.h on Linux. On FreeBSD, the equivalent macro is
+    __ElfN(). But the macro usage is redundant. You're only going to compile the
+    ia32 file for IA32 binaries and the x86_64 file for X64 binaries. If you had
+    just one file built for both cases, then using the macro might make more
+    sense.
+    
+    - Removes the "#define foo_t efi_foo_t" macros from reloc_ia32.c and
+    reloc_x86_64.c.
+    
+    - Modifies inc/x86_64/efibind.h and inc/ia32/efibind.h to use the new
+    definitions for uint64_t, int64_t and int8_t. The 64-bit types are now defined
+    as:
+    
+            typedef int __attribute__((__mode__(__DI__)))           int64_t;
+            typedef unsigned int __attribute__((__mode__(__DI__)))  uint64_t;
+    
+    This removes the conflict between the host types dragged in by elf.h and the
+    type definitions in efibind.h that made the #define foo_t efi_foo_t" hack
+    necessary. Also, int8_t is now defined as signed char instead of just char
+    (assuming char == signed char is apparently not good enough).
+    
+    - Also modifies these files to use stdint.h instead of stdint-gcc.h. It's
+    unclear if this is completely correct, but stdint-gcc.h is not present with
+    all GCC installs, and if you use -std=c99 or later you will force this case to
+    be hit. This also can break clang, which doesn't have a stdint-gcc.h at all.
+    
+    - Removes the #include of <link.h> from reloc_ia32.c and reloc_x86_64.c (since
+    with the previous changes it's not needed anymore).
+    
+    - Places the #include of <elf.h> after #include <efi>/#include <efilib.h> so
+    that we know the types will always be defined properly, in case you build on a
+    system where <elf.h> doesn't automatically pull in the right header files to
+    define all the needed types. (This actually happens on VxWorks. It's harmless
+    elsewhere. If you don't care about VxWorks, you can leave this out.)
+    
+    - Modifies setjmp_ia32.S and setjmp_x86_64.S so to change "function" to
+    @function. The clang compiler doesn't like the former. Clang and GCC both like
+    the latter.
+    
+    - Modifles Make.defaults so that if ARCH is detected as "amd64," it's changed
+    to "x86_64." It happens that uname -m on 64-bit FreeBSD reports the former
+    rather than the latter, which breaks the build. This may also be the case on
+    some other OSes. There's a way to force uname(1) to return x86_64 as the
+    machine type, but this way is a little friendlier.
+    
+    - Creates gnuefi/elf_ia32_fbsd_efi.lds which specifies the object file type as
+    elf-ia32-freebsd. This is required for building on FreeBSD/i386, not just
+    FreeBSD/amd64.
+    
+    - Modifies apps/Makefile to always use
+    $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds when building on either 32-bit or
+    64-bit FreeBSD instead of just for the x86_64 case.
+    
+    - Changed LDFLAGS in Make.defaults to include --no-undefined. This will cause
+    linking to fail if there are any unsatisfied symbols when creating foo.so
+    during any of the app builds, as opposed to just silently succeeding and
+    producing an unusable binary.
+    
+    - Changed CFLAGS to include -ffreestanding -fno-stack-protector -fno-stack-
+    check. This prevents clang from inserting a call to memset() when compiling
+    the RtZeroMem() and RtSetMem() routines in lib/runtime/efirtlib.c and guards
+    against the native compiler in some Linux distros from adding in stack
+    checking code which relies on libc help that isn't present in the EFI runtime
+    environment.
+    
+    This does the following:
+    
+    - Cleans up the ia32 and x86-64 relocation code a bit (tries to break the
+    dependency between the host ELF headers and the EFI runtime environment)
+    - Avoids the dependency on stdint-gcc.h which may not always be available
+    - Allows GNU EFI to build out of the box on both FreeBSD/i386 and
+    FreeBSD/amd64
+    - Allows GNU EFI to build out of the box with either GCC or clang on
+    FreeBSD/i386 and FreeBSD/amd64 9.0 and later.
+    - Makes things a little easier to port to VxWorks
+    - Avoids creating un-runable binaries with unresolved symbol definitions
+    (which can be very confusing to debug)
+
+    Author: noxorc <nigel.croxon@hp.com>
+    Date:   Wed May 8 16:29:45 2013 -0400
+
+    Add the definitions for TCP, UDP and IP, for both IPv4 and IPv6.
+
+
 2013-05-02 Nigel Croxon <nigel.croxon@hp.com>
 	* Chnage from Matt Fleming <matt.fleming@intel.com>
 	  - Preparation for adding the networking protocol definitions.
