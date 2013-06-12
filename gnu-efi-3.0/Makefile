@@ -45,6 +45,32 @@ gnuefi: lib
 
 all:	check_gcc $(SUBDIRS)
 
+mkvars:
+	@echo AR=$(AR)
+	@echo ARCH=$(ARCH)
+	@echo ARCH3264=$(ARCH3264)
+	@echo AS=$(AS)
+	@echo ASFLAGS=$(ASFLAGS)
+	@echo CC=$(CC)
+	@echo CFLAGS=$(CFLAGS)
+	@echo CPPFLAGS=$(CPPFLAGS)
+	@echo GCCMINOR=$(GCCMINOR)
+	@echo GCCNEWENOUGH=$(GCCNEWENOUGH)
+	@echo GCCVERSION=$(GCCVERSION)
+	@echo HOSTARCH=$(HOSTARCH)
+	@echo INCDIR=$(INCDIR)
+	@echo INSTALL=$(INSTALL)
+	@echo INSTALLROOT=$(INSTALLROOT)
+	@echo LD=$(LD)
+	@echo LDFLAGS=$(LDFLAGS)
+	@echo LIBDIR=$(LIBDIR)
+	@echo OBJCOPY=$(OBJCOPY)
+	@echo OS=$(OS)
+	@echo prefix=$(prefix)
+	@echo PREFIX=$(PREFIX)
+	@echo RANLIB=$(RANLIB)
+	@echo TOPDIR=$(TOPDIR)
+
 $(SUBDIRS):
 	mkdir -p $@
 	$(MAKE) -C $@ -f $(SRCDIR)/../$@/Makefile SRCDIR=$(SRCDIR)/../$@ ARCH=$(ARCH)
