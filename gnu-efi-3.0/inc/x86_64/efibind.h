@@ -290,7 +290,64 @@ typedef uint64_t   UINTN;
 #if defined(HAVE_USE_MS_ABI)
 #define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
 #else
-UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
+/* Prototypes of EFI cdecl -> stdcall trampolines */
+UINT64 efi_call0(void *func);
+UINT64 efi_call1(void *func, UINT64 arg1);
+UINT64 efi_call2(void *func, UINT64 arg1, UINT64 arg2);
+UINT64 efi_call3(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3);
+UINT64 efi_call4(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                 UINT64 arg4);
+UINT64 efi_call5(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                 UINT64 arg4, UINT64 arg5);
+UINT64 efi_call6(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                 UINT64 arg4, UINT64 arg5, UINT64 arg6);
+UINT64 efi_call7(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                 UINT64 arg4, UINT64 arg5, UINT64 arg6, UINT64 arg7);
+UINT64 efi_call8(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                 UINT64 arg4, UINT64 arg5, UINT64 arg6, UINT64 arg7,
+                 UINT64 arg8);
+UINT64 efi_call9(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                 UINT64 arg4, UINT64 arg5, UINT64 arg6, UINT64 arg7,
+                 UINT64 arg8, UINT64 arg9);
+UINT64 efi_call10(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
+                  UINT64 arg4, UINT64 arg5, UINT64 arg6, UINT64 arg7,
+                  UINT64 arg8, UINT64 arg9, UINT64 arg10);
+
+/* Front-ends to efi_callX to avoid compiler warnings */
+#define _cast64_efi_call0(f) \
+  efi_call0(f)
+#define _cast64_efi_call1(f,a1) \
+  efi_call1(f, (UINT64)(a1))
+#define _cast64_efi_call2(f,a1,a2) \
+  efi_call2(f, (UINT64)(a1), (UINT64)(a2))
+#define _cast64_efi_call3(f,a1,a2,a3) \
+  efi_call3(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3))
+#define _cast64_efi_call4(f,a1,a2,a3,a4) \
+  efi_call4(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4))
+#define _cast64_efi_call5(f,a1,a2,a3,a4,a5) \
+  efi_call5(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4), \
+            (UINT64)(a5))
+#define _cast64_efi_call6(f,a1,a2,a3,a4,a5,a6) \
+  efi_call6(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4), \
+            (UINT64)(a5), (UINT64)(a6))
+#define _cast64_efi_call7(f,a1,a2,a3,a4,a5,a6,a7) \
+  efi_call7(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4), \
+            (UINT64)(a5), (UINT64)(a6), (UINT64)(a7))
+#define _cast64_efi_call8(f,a1,a2,a3,a4,a5,a6,a7,a8) \
+  efi_call8(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4), \
+            (UINT64)(a5), (UINT64)(a6), (UINT64)(a7), (UINT64)(a8))
+#define _cast64_efi_call9(f,a1,a2,a3,a4,a5,a6,a7,a8,a9) \
+  efi_call9(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4), \
+            (UINT64)(a5), (UINT64)(a6), (UINT64)(a7), (UINT64)(a8), \
+            (UINT64)(a9))
+#define _cast64_efi_call10(f,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10) \
+  efi_call10(f, (UINT64)(a1), (UINT64)(a2), (UINT64)(a3), (UINT64)(a4), \
+             (UINT64)(a5), (UINT64)(a6), (UINT64)(a7), (UINT64)(a8), \
+             (UINT64)(a9), (UINT64)(a10))
+
+#define uefi_call_wrapper(func,va_num,...)                        \
+  _cast64_efi_call ## va_num (func , ##__VA_ARGS__)
+
 #endif
 #define EFI_FUNCTION __attribute__((ms_abi))
 
@@ -299,4 +356,3 @@ UINTN uefi_call_wrapper(void *func, unsigned long va_num, ...);
 #endif
 
 #endif
-
