@@ -290,6 +290,27 @@ typedef uint64_t   UINTN;
 #if defined(HAVE_USE_MS_ABI)
 #define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
 #else
+/*
+  Credits for macro-magic:
+    https://groups.google.com/forum/?fromgroups#!topic/comp.std.c/d-6Mj5Lko_s
+    http://efesx.com/2010/08/31/overloading-macros/
+*/
+#define __VA_NARG__(...)                        \
+  __VA_NARG_(_0, ## __VA_ARGS__, __RSEQ_N())
+#define __VA_NARG_(...)                         \
+  __VA_ARG_N(__VA_ARGS__)
+#define __VA_ARG_N(                             \
+  _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,N,...) N
+#define __RSEQ_N()                              \
+  10, 9,  8,  7,  6,  5,  4,  3,  2,  1,  0
+
+#define __VA_ARG_NSUFFIX__(prefix,...)                  \
+  __VA_ARG_NSUFFIX_N(prefix, __VA_NARG__(__VA_ARGS__))
+#define __VA_ARG_NSUFFIX_N(prefix,nargs)        \
+  __VA_ARG_NSUFFIX_N_(prefix, nargs)
+#define __VA_ARG_NSUFFIX_N_(prefix,nargs)       \
+  prefix ## nargs
+
 /* Prototypes of EFI cdecl -> stdcall trampolines */
 UINT64 efi_call0(void *func);
 UINT64 efi_call1(void *func, UINT64 arg1);
@@ -345,8 +366,9 @@ UINT64 efi_call10(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
              (UINT64)(a5), (UINT64)(a6), (UINT64)(a7), (UINT64)(a8), \
              (UINT64)(a9), (UINT64)(a10))
 
+/* main wrapper (va_num ignored) */
 #define uefi_call_wrapper(func,va_num,...)                        \
-  _cast64_efi_call ## va_num (func , ##__VA_ARGS__)
+  __VA_ARG_NSUFFIX__(_cast64_efi_call, __VA_ARGS__) (func, __VA_ARGS__)
 
 #endif
 #define EFI_FUNCTION __attribute__((ms_abi))
