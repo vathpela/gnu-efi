@@ -60,9 +60,18 @@ LOADLIBES	+= -T $(LDSCRIPT)
 
 FORMAT		= efi-app-$(ARCH)
 
-TARGETS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi printenv.efi t7.efi tcc.efi modelist.efi route80h.efi
+TARGET_APPS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi \
+	      printenv.efi t7.efi tcc.efi modelist.efi \
+	      route80h.efi drv0_use.efi
+TARGET_BSDRIVERS = drv0.efi
+TARGET_RTDRIVERS =
+
+TARGETS = $(TARGET_APPS) $(TARGET_BSDRIVERS) $(TARGET_RTDRIVERS)
 
 all:	$(TARGETS)
+
+$(TARGET_BSDRIVERS): FORMAT=efi-bsdrv-$(ARCH)
+$(TARGET_RTDRIVERS): FORMAT=efi-rtdrv-$(ARCH)
 
 clean:
 	rm -f $(TARGETS) *~ *.o *.so
