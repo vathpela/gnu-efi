@@ -368,7 +368,7 @@ UINT64 efi_call10(void *func, UINT64 arg1, UINT64 arg2, UINT64 arg3,
 
 /* main wrapper (va_num ignored) */
 #define uefi_call_wrapper(func,va_num,...)                        \
-  __VA_ARG_NSUFFIX__(_cast64_efi_call, __VA_ARGS__) (func, __VA_ARGS__)
+  __VA_ARG_NSUFFIX__(_cast64_efi_call, __VA_ARGS__) (func , ##__VA_ARGS__)
 
 #endif
 #define EFI_FUNCTION __attribute__((ms_abi))
