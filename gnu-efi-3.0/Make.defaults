@@ -114,4 +114,4 @@ CFLAGS  += $(ARCH3264) -O2 -fpic -Wall -fshort-wchar -fno-strict-aliasing \
            -fno-merge-constants -ffreestanding -fno-stack-protector       \
            -fno-stack-check
 ASFLAGS += $(ARCH3264)
-LDFLAGS	+= -nostdlib --no-undefined
+LDFLAGS	+= -nostdlib --warn-common --no-undefined --fatal-warnings

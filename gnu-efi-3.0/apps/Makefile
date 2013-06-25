@@ -52,8 +52,12 @@ ifneq (,$(findstring FreeBSD,$(OS)))
 LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
 endif
 
-LDFLAGS		+= -T $(LDSCRIPT) -shared -Bsymbolic -L../lib -L../gnuefi $(CRTOBJS)
-LOADLIBES	= -lefi -lgnuefi $(shell $(CC) $(ARCH3264) -print-libgcc-file-name)
+LDFLAGS		+= -shared -Bsymbolic -L../lib -L../gnuefi $(CRTOBJS)
+
+LOADLIBES	+= -lefi -lgnuefi
+LOADLIBES	+= $(shell $(CC) $(ARCH3264) -print-libgcc-file-name)
+LOADLIBES	+= -T $(LDSCRIPT)
+
 FORMAT		= efi-app-$(ARCH)
 
 TARGETS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi printenv.efi t7.efi tcc.efi modelist.efi route80h.efi
