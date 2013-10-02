@@ -186,34 +186,34 @@ SetMem (
 VOID
 CopyMem (
     IN VOID     *Dest,
-    IN VOID     *Src,
+    IN CONST VOID     *Src,
     IN UINTN    len
     );
 
 INTN
 CompareMem (
-    IN VOID     *Dest,
-    IN VOID     *Src,
+    IN CONST VOID     *Dest,
+    IN CONST VOID     *Src,
     IN UINTN    len
     );
 
 INTN
 StrCmp (
-    IN CHAR16   *s1,
-    IN CHAR16   *s2
+    IN CONST CHAR16   *s1,
+    IN CONST CHAR16   *s2
     );
 
 INTN
 StrnCmp (
-    IN CHAR16   *s1,
-    IN CHAR16   *s2,
+    IN CONST CHAR16   *s1,
+    IN CONST CHAR16   *s2,
     IN UINTN    len
     );
 
 INTN
 StriCmp (
-    IN CHAR16   *s1,
-    IN CHAR16   *s2
+    IN CONST CHAR16   *s1,
+    IN CONST CHAR16   *s2
     );
 
 VOID
@@ -229,51 +229,51 @@ StrUpr (
 VOID
 StrCpy (
     IN CHAR16   *Dest,
-    IN CHAR16    *Src
+    IN CONST CHAR16    *Src
     );
 
 VOID
 StrCat (
     IN CHAR16   *Dest,
-    IN CHAR16   *Src
+    IN CONST CHAR16   *Src
     );
 
 UINTN
 StrLen (
-    IN CHAR16   *s1
+    IN CONST CHAR16   *s1
     );
 
 UINTN
 StrSize (
-    IN CHAR16   *s1
+    IN CONST CHAR16   *s1
     );
 
 CHAR16 *
 StrDuplicate (
-    IN CHAR16   *Src
+    IN CONST CHAR16   *Src
     );
 
 UINTN
 strlena (
-    IN CHAR8    *s1
+    IN CONST CHAR8    *s1
     );
     
 UINTN
 strcmpa (
-    IN CHAR8    *s1,
-    IN CHAR8    *s2
+    IN CONST CHAR8    *s1,
+    IN CONST CHAR8    *s2
     );
 
 UINTN
 strncmpa (
-    IN CHAR8    *s1,
-    IN CHAR8    *s2,
+    IN CONST CHAR8    *s1,
+    IN CONST CHAR8    *s2,
     IN UINTN    len
     );
 
 UINTN
 xtoi (
-    CHAR16      *str
+    CONST CHAR16      *str
     );
 
 UINTN

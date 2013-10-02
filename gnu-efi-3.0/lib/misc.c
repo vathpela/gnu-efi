@@ -111,7 +111,7 @@ SetMem (
 VOID
 CopyMem (
     IN VOID     *Dest,
-    IN VOID     *Src,
+    IN CONST VOID     *Src,
     IN UINTN    len
     )
 {
@@ -120,8 +120,8 @@ CopyMem (
 
 INTN
 CompareMem (
-    IN VOID     *Dest,
-    IN VOID     *Src,
+    IN CONST VOID     *Dest,
+    IN CONST VOID     *Src,
     IN UINTN    len
     )
 {
