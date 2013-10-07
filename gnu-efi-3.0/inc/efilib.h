@@ -278,7 +278,7 @@ xtoi (
 
 UINTN
 Atoi (
-    CHAR16  *str
+    CONST CHAR16  *str
     );
 
 BOOLEAN 
