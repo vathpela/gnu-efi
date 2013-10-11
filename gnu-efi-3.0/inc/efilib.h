@@ -522,6 +522,21 @@ LibDeleteVariable (
     );
 
 EFI_STATUS
+LibSetNVVariable (
+    IN CHAR16   *VarName,
+    IN EFI_GUID *VarGuid,
+    IN UINTN	 DataSize,
+    IN VOID     *Data
+    );
+
+EFI_STATUS
+LibSetVariable (
+    IN CHAR16   *VarName,
+    IN EFI_GUID *VarGuid,
+    IN UINTN	 DataSize,
+    IN VOID     *Data
+    );
+EFI_STATUS
 LibInsertToTailOfBootOrder (
     IN  UINT16  BootOption,
     IN  BOOLEAN OnlyInsertIfEmpty
