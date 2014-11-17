@@ -670,7 +670,7 @@ EFI_STATUS
 // Standard EFI table header
 //
 
-typedef struct _EFI_TABLE_HEARDER {
+typedef struct _EFI_TABLE_HEADER {
     UINT64                      Signature;
     UINT32                      Revision;
     UINT32                      HeaderSize;
