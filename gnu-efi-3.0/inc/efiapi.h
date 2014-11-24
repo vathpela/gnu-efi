@@ -585,6 +585,42 @@ EFI_STATUS
     OUT UINT32                  *HighCount
     );
 
+typedef struct {
+    UINT64                      Length;
+    union {
+        EFI_PHYSICAL_ADDRESS    DataBlock;
+       EFI_PHYSICAL_ADDRESS    ContinuationPointer;
+    } Union;
+} EFI_CAPSULE_BLOCK_DESCRIPTOR;
+
+typedef struct {
+    EFI_GUID                    CapsuleGuid;
+    UINT32                      HeaderSize;
+    UINT32                      Flags;
+    UINT32                      CapsuleImageSize;
+} EFI_CAPSULE_HEADER;
+
+#define CAPSULE_FLAGS_PERSIST_ACROSS_RESET    0x00010000
+#define CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE   0x00020000
+#define CAPSULE_FLAGS_INITIATE_RESET          0x00040000
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_UPDATE_CAPSULE) (
+    IN EFI_CAPSULE_HEADER       **CapsuleHeaderArray,
+    IN UINTN                    CapsuleCount,
+    IN EFI_PHYSICAL_ADDRESS     ScatterGatherList OPTIONAL
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_QUERY_CAPSULE_CAPABILITIES) (
+    IN  EFI_CAPSULE_HEADER       **CapsuleHeaderArray,
+    IN  UINTN                    CapsuleCount,
+    OUT UINT64                   *MaximumCapsuleSize,
+    OUT EFI_RESET_TYPE           *ResetType
+    );
+
 //
 // Protocol handler functions
 //
@@ -720,6 +756,8 @@ typedef struct  {
     EFI_GET_NEXT_HIGH_MONO_COUNT    GetNextHighMonotonicCount;
     EFI_RESET_SYSTEM                ResetSystem;
 
+    EFI_UPDATE_CAPSULE              UpdateCapsule;
+    EFI_QUERY_CAPSULE_CAPABILITIES  QueryCapsuleCapabilities;
 } EFI_RUNTIME_SERVICES;
 
 
