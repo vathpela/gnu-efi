@@ -208,4 +208,13 @@ typedef UINT8   ISO_639_2;
 #define EFI_SIZE_TO_PAGES(a)  \
     ( ((a) >> EFI_PAGE_SHIFT) + ((a) & EFI_PAGE_MASK ? 1 : 0) )
 
+#define EFI_OS_INDICATIONS_BOOT_TO_FW_UI        0x0000000000000001
+#define EFI_OS_INDICATIONS_TIMESTAMP_REVOCATION 0x0000000000000002
+#define EFI_OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED \
+                                                0x0000000000000004
+#define EFI_OS_INDICATIONS_FMP_CAPSULE_SUPPORTED \
+                                                0x0000000000000008
+#define EFI_OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED \
+                                                0x0000000000000010
+
 #endif
