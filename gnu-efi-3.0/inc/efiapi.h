@@ -621,6 +621,15 @@ EFI_STATUS
     OUT EFI_RESET_TYPE           *ResetType
     );
 
+typedef
+EFI_STATUS
+(EFIAPI *EFI_QUERY_VARIABLE_INFO) (
+    IN  UINT32                  Attributes,
+    OUT UINT64                  *MaximumVariableStorageSize,
+    OUT UINT64                  *RemainingVariableStorageSize,
+    OUT UINT64                  *MaximumVariableSize
+    );
+
 //
 // Protocol handler functions
 //
@@ -758,6 +767,7 @@ typedef struct  {
 
     EFI_UPDATE_CAPSULE              UpdateCapsule;
     EFI_QUERY_CAPSULE_CAPABILITIES  QueryCapsuleCapabilities;
+    EFI_QUERY_VARIABLE_INFO         QueryVariableInfo;
 } EFI_RUNTIME_SERVICES;
 
 
