@@ -8,34 +8,20 @@ TOPDIR = $(SRCDIR)/..
 
 CDIR=$(TOPDIR)/..
 
-INCDIRINSTALL = $(INSTALLROOT)$(PREFIX)/include/efi
-
-SRCHEADERS = $(wildcard $(SRCDIR)/*.h) \
-             $(wildcard $(SRCDIR)/protocol/*.h) \
-             $(wildcard $(SRCDIR)/$(ARCH)/*.h)
-ifeq ($(ARCH),ia64)
- SRCHEADERS += $(wildcard $(SRCDIR)/protocol/$(ARCH)/*.h)
-endif
-
-HEADERS = $(patsubst $(SRCDIR)/%,%,$(SRCHEADERS))
-
 all:
 
 clean:
 
-	rm -f *~
-
-$(INCDIRINSTALL) \
-$(INCDIRINSTALL)/protocol \
-$(INCDIRINSTALL)/$(ARCH) \
-$(INCDIRINSTALL)/protocol/$(ARCH):
-	mkdir -p $@
-
-.SECONDEXPANSION:
-
-$(INCDIRINSTALL)/%.h: %.h | $$(dir $$@)
-	$(INSTALL) -m 644 $< $(dir $@)
-
-install: $(addprefix $(INCDIRINSTALL)/,$(HEADERS))
+install:
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi/protocol
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi/$(ARCH)
+	$(INSTALL) -m 644 *.h $(INSTALLROOT)$(PREFIX)/include/efi
+	$(INSTALL) -m 644 protocol/*.h $(INSTALLROOT)$(PREFIX)/include/efi/protocol
+	$(INSTALL) -m 644 $(ARCH)/*.h $(INSTALLROOT)$(PREFIX)/include/efi/$(ARCH)
+ifeq ($(ARCH),ia64)
+	mkdir -p $(INSTALLROOT)$(PREFIX)/include/efi/protocol/ia64
+	$(INSTALL) -m 644 protocol/ia64/*.h $(INSTALLROOT)$(PREFIX)/include/efi/protocol/ia64
+endif
 
 include $(SRCDIR)/../Make.rules

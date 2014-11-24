@@ -52,19 +52,6 @@ reloc_aarch64.o: CFLAGS += -fno-jump-tables
 
 TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
 
-INSTALLTARGETS = $(TARGETS)
-ifneq (,$(findstring FreeBSD,$(OS)))
- ifeq ($(ARCH),x86_64)
-  INSTALLTARGETS += elf_$(ARCH)_fbsd_efi.lds
- else
-  INSTALLTARGETS += elf_$(ARCH)_efi.lds
- endif
-else
-  INSTALLTARGETS += elf_$(ARCH)_efi.lds
-endif
-
-LIBDIRINSTALL = $(INSTALLROOT)/$(LIBDIR)
-
 all:	$(TARGETS)
 
 libgnuefi.a: $(patsubst %,libgnuefi.a(%),$(OBJS))
@@ -72,14 +59,17 @@ libgnuefi.a: $(patsubst %,libgnuefi.a(%),$(OBJS))
 clean:
 	rm -f $(TARGETS) *~ *.o $(OBJS)
 
-$(LIBDIRINSTALL):
-	mkdir -p $@
-
-.SECONDEXPANSION:
-
-$(LIBDIRINSTALL)/%: % | $$(dir $$@)
-	$(INSTALL) -m 644 $< $(dir $@)
-
-install: $(addprefix $(LIBDIRINSTALL)/,$(INSTALLTARGETS))
+install:
+	mkdir -p $(INSTALLROOT)/$(LIBDIR)
+	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)/$(LIBDIR)
+ifneq (,$(findstring FreeBSD,$(OS)))
+ ifeq ($(ARCH),x86_64)
+	$(INSTALL) -m 644 elf_$(ARCH)_fbsd_efi.lds $(INSTALLROOT)/$(LIBDIR)
+ else
+	$(INSTALL) -m 644 elf_$(ARCH)_efi.lds $(INSTALLROOT)/$(LIBDIR)
+ endif
+else
+	$(INSTALL) -m 644 elf_$(ARCH)_efi.lds $(INSTALLROOT)/$(LIBDIR)
+endif
 
 include $(SRCDIR)/../Make.rules
