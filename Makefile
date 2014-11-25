@@ -34,6 +34,8 @@
 #    SUCH DAMAGE.
 #
 
+VERSION = 3.0u
+
 SRCDIR = $(shell pwd)
 
 VPATH = $(SRCDIR)
@@ -101,3 +103,26 @@ ifeq ($(GCC_VERSION),2)
 endif
 
 include $(SRCDIR)/Make.rules
+
+test-archive:
+	@rm -rf /tmp/gnu-efi-$(VERSION) /tmp/gnu-efi-$(VERSION)-tmp
+	@mkdir -p /tmp/gnu-efi-$(VERSION)-tmp
+	@git archive --format=tar $(shell git branch | awk '/^*/ { print $$2 }') | ( cd /tmp/gnu-efi-$(VERSION)-tmp/ ; tar x )
+	@git diff | ( cd /tmp/gnu-efi-$(VERSION)-tmp/ ; patch -s -p1 -b -z .gitdiff )
+	@mv /tmp/gnu-efi-$(VERSION)-tmp/ /tmp/gnu-efi-$(VERSION)/
+	@dir=$$PWD; cd /tmp; tar -c --bzip2 -f $$dir/gnu-efi-$(VERSION).tar.bz2 gnu-efi-$(VERSION)
+	@rm -rf /tmp/gnu-efi-$(VERSION)
+	@echo "The archive is in gnu-efi-$(VERSION).tar.bz2"
+
+tag:
+	git tag $(VERSION) refs/heads/master
+
+archive: tag
+	@rm -rf /tmp/gnu-efi-$(VERSION) /tmp/gnu-efi-$(VERSION)-tmp
+	@mkdir -p /tmp/gnu-efi-$(VERSION)-tmp
+	@git archive --format=tar $(VERSION) | ( cd /tmp/gnu-efi-$(VERSION)-tmp/ ; tar x )
+	@mv /tmp/gnu-efi-$(VERSION)-tmp/ /tmp/gnu-efi-$(VERSION)/
+	@dir=$$PWD; cd /tmp; tar -c --bzip2 -f $$dir/gnu-efi-$(VERSION).tar.bz2 gnu-efi-$(VERSION)
+	@rm -rf /tmp/gnu-efi-$(VERSION)
+	@echo "The archive is in gnu-efi-$(VERSION).tar.bz2"
+
