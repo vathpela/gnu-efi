@@ -95,8 +95,8 @@ typedef struct _pstate {
     UINTN       AttrHighlight;
     UINTN       AttrError;
 
-    INTN EFIAPI       (*Output)(VOID *context, CHAR16 *str);
-    INTN EFIAPI       (*SetAttr)(VOID *context, UINTN attr);
+    INTN        (EFIAPI *Output)(VOID *context, CHAR16 *str);
+    INTN        (EFIAPI *SetAttr)(VOID *context, UINTN attr);
     VOID        *Context;    
 
     // Current item being formatted
@@ -235,7 +235,7 @@ Returns:
     if (DbgOut) {
         ps.Attr = DbgOut->Mode->Attribute;
         ps.Context = DbgOut;
-        ps.SetAttr = (INTN EFIAPI (*)(VOID *, UINTN))  DbgOut->SetAttribute;
+        ps.SetAttr = (INTN (EFIAPI *)(VOID *, UINTN))  DbgOut->SetAttribute;
     }
 
     SavedAttribute = ps.Attr;
@@ -403,7 +403,7 @@ _PoolCatPrint (
     IN CHAR16           *fmt,
     IN va_list          args,
     IN OUT POOL_PRINT   *spc,
-    IN INTN EFIAPI      (*Output)(VOID *context, CHAR16 *str)
+    IN INTN             (EFIAPI *Output)(VOID *context, CHAR16 *str)
     )
 // Dispath function for SPrint, PoolPrint, and CatPrint
 {
@@ -781,8 +781,8 @@ _IPrint (
 
     ZeroMem (&ps, sizeof(ps));
     ps.Context = Out;
-    ps.Output  = (INTN EFIAPI (*)(VOID *, CHAR16 *)) Out->OutputString;
-    ps.SetAttr = (INTN EFIAPI (*)(VOID *, UINTN))  Out->SetAttribute;
+    ps.Output  = (INTN (EFIAPI *)(VOID *, CHAR16 *)) Out->OutputString;
+    ps.SetAttr = (INTN (EFIAPI *)(VOID *, UINTN))  Out->SetAttribute;
     ps.Attr = Out->Mode->Attribute;
    
     back = (ps.Attr >> 4) & 0xF;
