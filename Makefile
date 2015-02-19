@@ -75,21 +75,21 @@ mkvars:
 	@echo TOPDIR=$(TOPDIR)
 
 $(SUBDIRS):
-	mkdir -p $@
-	$(MAKE) -C $@ -f $(SRCDIR)/$@/Makefile SRCDIR=$(SRCDIR)/$@ ARCH=$(ARCH)
+	mkdir -p $(OBJDIR)/$@
+	$(MAKE) -C $(OBJDIR)/$@ -f $(SRCDIR)/$@/Makefile SRCDIR=$(SRCDIR)/$@ ARCH=$(ARCH)
 
 clean:
 	rm -f *~
 	@for d in $(SUBDIRS); do \
-		if [ -d $$d ]; then \
-			$(MAKE) -C $$d -f $(SRCDIR)/$$d/Makefile SRCDIR=$(SRCDIR)/$$d clean; \
+		if [ -d $(OBJDIR)/$$d ]; then \
+			$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile SRCDIR=$(SRCDIR)/$$d clean; \
 		fi; \
 	done
 
 install:
 	@for d in $(SUBDIRS); do \
-		mkdir -p $$d; \
-		$(MAKE) -C $$d -f $(SRCDIR)/$$d/Makefile SRCDIR=$(SRCDIR)/$$d install; done
+		mkdir -p $(OBJDIR)/$$d; \
+		$(MAKE) -C $(OBJDIR)/$$d -f $(SRCDIR)/$$d/Makefile SRCDIR=$(SRCDIR)/$$d install; done
 
 .PHONY:	$(SUBDIRS) clean depend
 

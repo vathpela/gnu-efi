@@ -76,6 +76,11 @@ ifeq ($(ARCH),amd64)
 endif
 
 #
+# Where to build the package
+#
+OBJDIR       := $(TOPDIR)/$(ARCH)
+
+#
 # Variables below derived from variables above
 #
 
