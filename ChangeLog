@@ -1,3 +1,309 @@
+    Updated Changelog
+
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 37d7bee82a627999563069b090866076e055a871
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Thu May 14 12:38:39 2015 -0400
+
+    Added some missing error code descriptions
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit dae0b4b0b0d522caecf09123db2cf0250c37a169
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Thu May 14 12:20:51 2015 -0400
+
+    Turns out we actually need setjmp in one of gnu-efi's prominent
+    users, and it seems to make more sense to put it here than in
+    the application.
+    
+    All of these are derived from the Tiano code, but I re-wrote the
+    x86_64 one because we use the ELF psABI calling conventions instead
+    of the MS ABI calling conventions.  Which is to say you probably
+    shouldn't setjmp()/longjmp() between functions with EFIAPI (aka
+    __attribute__((ms_abi))) and those without.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit b5a8e93cec396381a6d2beee022abbf50100f2fd
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Fri Apr 10 08:49:50 2015 -0400
+
+    Bump version to 3.0.2
+    
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 01c9f11ed5ad55661e8fc8a3eee35c578564754b
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Fri Apr 10 08:46:40 2015 -0400
+
+    Fix ARM32 and AARCH64 builds
+    Without these added into SUBDIRS the initplat.c compilation will fail.
+    
+    Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+    Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit dada63fd3de148c6f8551d253355c113547cd5a0
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Mar 23 10:41:43 2015 -0400
+
+    [PATCH] _SPrint: fix NULL termination
+    
+    maxlen is the maximum string length not the buffer size.
+    
+    Signed-off-by: Jeremy Compostella <jeremy.compostella@intel.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit ce7098fb52e5fd4d16038964d029eb759f28eaaf
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Thu Feb 19 11:22:45 2015 -0500
+
+    Enable out-of-tree building
+    
+    This patch enables building gnu-efi outside of the source tree.
+    That in turn enables building for multiple architectures in parallel.
+    
+    The build directory is controlled by the OBJDIR make variable.  It
+    defaults to the value of ARCH, and can be overridden from the command
+    line.
+    
+    This patch also cleans up some doubled slashes between INSTALLROOT
+    and PREFIX.
+    
+    Signed-off-by: Jonathan Boeing <jonathan.n.boeing@gmail.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit f64cef26270bfbe04f038da33f95ae3f14c071bc
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Jan 6 15:49:50 2015 -0500
+
+    Since we're keeping this in git, it'd be nice not to see a bunch
+    of make targets in 'status'
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 322efb6b21ed0a5e42e8f124fd22bf0f8dbf01ae
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Jan 5 13:20:43 2015 -0500
+
+    version number changed from VERSION = 3.0u to VERSION = 3.0.1
+    
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 09027207f7c18af6caa45a744fc15c90b2a829db
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Jan 5 13:13:22 2015 -0500
+
+    From: Pete Batard <pete@akeo.ie>
+    Date: Wed, 10 Dec 2014 21:08:34 +0000
+    Subject: [PATCH] fixes for MSVC compilation
+    
+    These fixes are needed to address the following error and warnings when compiling the library part
+    using Visual Studio 2013 Community Edition (as in https://github.com/pbatard/uefi-simple):
+    * "lib\x86_64\math.c(49): error C4235: nonstandard extension used : '_asm' keyword not supported
+      on this architecture"
+    * "lib\print.c(98): error C2059: syntax error : '('" due to placement of EFIAPI macro
+    * "lib\cmdline.c(94): warning C4090: 'function' : different 'const' qualifiers"
+    * "lib\smbios.c(25): warning C4068: unknown pragma"
+    * Also update macro definitions in "inc\<arch>\efibind.h" for MSVC
+    
+    Signed-off-by: Pete Batard <pete@akeo.ie>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 15805ff38b83a72c2c7c96a24bd642ee1176d819
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Nov 25 14:23:21 2014 -0500
+
+    Add README.git file. Instructions on how to archive.
+    
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit b868aa75669723b7e32f46524822e17e388fe2ba
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Nov 25 13:26:45 2014 -0500
+
+    This patch makes generating releases from git a very simple process; you
+    simply edit the makefile's "VERSION" line to the new version, commit
+    that as its own commit, and do: "make test-archive".  That'll make a
+    file in the current directory gnu-efi-$VERSION.tar.bz2 , with its top
+    level directory gnu-efi-$VERSION/ and the source tree under that.
+    
+    Once you've tested that and you're sure it's what you want to release,
+    you do "make archive", which will tag a release in git and generate a
+    final tarball from it.  You then push to the archive, being sure to
+    include the tag:
+    
+    git push origin master:master --tags
+    
+    And upload the archive wherever it's supposed to go.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 530d68ba191850edafc6da22cb2df55bec0c5fa5
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Nov 25 10:09:50 2014 -0500
+
+    The gnu-efi-3.0 toplevel subdirectory is really annoying. Kill it.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 00bd66ef46b59a1623a293491a8b2c65a6d61975
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Nov 24 14:33:09 2014 -0500
+
+    FreeBSD's binutils doesn't have "-j <glob>" support, so we need to
+    include non-globbed versions of .rel/.rela individually.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Bill Paul <wpaul@windriver.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 56eb64d3c06854b9b68d61e3c2d3bdf6ff2a9853
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Nov 24 14:27:14 2014 -0500
+
+    Right now we wind up trying to build gnuefi/.o from a source file that's
+    an empty string.  This is caused by the macros trying to generate
+    install rules, but there's no real reason to have all that anyway.  So
+    just have some static install rules that are simpler and don't generate
+    stuff on the fly.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 65e28a90a7be9e990b360286cea31e63319217fb
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Nov 24 12:17:45 2014 -0500
+
+    Add current OsIndications values.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com
+
+commit be231055ce14d17610f0d7b6133a87b99a22662b
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Nov 24 12:15:34 2014 -0500
+
+    Add the QueryVariableInfo() API.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 60efb7a2939b65a01e95aa8b535f1b756d984fba
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Nov 24 12:13:23 2014 -0500
+
+    Add the capsule API.
+    
+    Signed-off-by: Peter Jones <pjones@redhat.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit ef08b655d1f8dfbd9a0f3a86d5685b24695ef12f
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Nov 17 16:05:42 2014 -0500
+
+    Fix Table Header misspelling. Change from EFI_TABLE_HEARDER to
+    EFI_TABLE_HEADER.
+    
+    Signed-Off-By: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 370cce41da3fff41ba38feb1262002aff2d85ffd
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Thu Nov 6 14:41:40 2014 -0500
+
+    If CROSS_COMPILE is set, ignore the ARCH value supplied on the
+    command line and use the target machine of the cross compiler.
+    
+    Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit d32fb845433ff6fb38e81ae0d9273454e7d18197
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Thu Nov 6 14:30:03 2014 -0500
+
+    Allow reuse of this file beyond GPL compatible software,
+    update the license of crt0-efi-aarch64.S to dual 2-clause BSD/GPLv2+.
+    
+    Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit aa1df67f48f3c035fa8891e1bb311ec21500d6d9
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Oct 21 11:08:47 2014 -0400
+
+    Add the missing Variable attributes
+    
+    From: Jeremy Compostella <jeremy.compostella@intel.com>
+    Date: Mon, 13 Oct 2014 17:50:50 +0200
+    Subject: [PATCH] Add the missing Variable attributes
+    
+    Signed-off-by: Jeremy Compostella <jeremy.compostella@intel.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 5706dff09364cbbec37f47e2fe1350747f631d74
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Aug 26 10:54:22 2014 -0400
+
+    From: David Decotigny <decot@googlers.com>
+    Date: Mon, 25 Aug 2014 13:28:49 -0700
+    Subject: [PATCH] document that binutils >= 2.24 needed.
+    
+    commit ac983081 "Add support for non-PE/COFF capable objcopy" depends
+    on objcopy accepting wildcards for the section names. This feature is
+    available only with binutils >= 2.24 (binutils 2e62b7218 "PR
+    binutils/15033").
+    
+    Signed-off-by: David Decotigny <decot@googlers.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 6c10e225bc759d69af520a551b9d7b37f3ae0a82
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Mon Aug 25 08:51:23 2014 -0400
+
+    From: David Decotigny <decot@googlers.com>
+    Date: Thu, 31 Jul 2014 18:19:16 -0700
+    Subject: [PATCH 5/5] allow to use external stdarg.h
+    
+    in cases we use gnu-efi together with other libs that define stdarg.h,
+    break the tie by telling gnu-efi to use that stdarg.h .
+    
+    Signed-off-by: David Decotigny <decot@googlers.com>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit 16d65c0669258c8044e3549b2d9eb0cf0eb08f5a
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Tue Aug 19 12:07:00 2014 -0400
+
+    From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+    Date: Mon, 11 Aug 2014 15:39:16 +0200
+    Subject: [PATCH] Add support for 32-bit ARM
+    
+    This adds support for 32-bit ARM using an approach similar to the one used for
+    64-bit ARM (AArch64), i.e., it does not rely on an objcopy that is aware of EFI
+    or PE/COFF, but lays out the entire PE/COFF header using the assembler.
+    
+    In the 32-bit ARM case (which does not have a division instruction), some code
+    has been imported from the Linux kernel to perform the division operations in
+    software.
+    
+    Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
+commit b28143d4fb4f6969dc0c87c853d3527d889951d7
+Author: Nigel Croxon <nigel.croxon@hp.com>
+Date:   Fri Aug 8 15:54:19 2014 -0400
+
+    Updated Changelog
+    
+    Signed-off-by: Nigel Croxon <nigel.croxon@hp.com>
+
 commit 1525190354f5faac33015e17c9ba7ea2bb2be35b
 Author: Nigel Croxon <nigel.croxon@hp.com>
 Date:   Fri Aug 8 15:35:09 2014 -0400
