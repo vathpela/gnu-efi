@@ -42,53 +42,50 @@ include $(SRCDIR)/../Make.defaults
 
 TOPDIR = $(SRCDIR)/..
 
-CDIR=$(TOPDIR)/..
-LINUX_HEADERS	= /usr/src/sys/build
-CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
-CRTOBJS		= ../gnuefi/crt0-efi-$(ARCH).o
+CDIR = $(TOPDIR)/..
+FILES = boxdraw smbios console crc data debug dpath  \
+        error event guid hand hw init lock   \
+        misc print sread str cmdline \
+	runtime/rtlock runtime/efirtlib runtime/rtstr runtime/vm runtime/rtdata  \
+	$(ARCH)/initplat $(ARCH)/math 
 
-LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_efi.lds
-ifneq (,$(findstring FreeBSD,$(OS)))
-LDSCRIPT	= $(TOPDIR)/gnuefi/elf_$(ARCH)_fbsd_efi.lds
+ifeq ($(ARCH),ia64)
+FILES += $(ARCH)/salpal $(ARCH)/palproc
 endif
 
-LDFLAGS		+= -shared -Bsymbolic -L../lib -L../gnuefi $(CRTOBJS)
-
-LOADLIBES	+= -lefi -lgnuefi
-LOADLIBES	+= $(LIBGCC)
-LOADLIBES	+= -T $(LDSCRIPT)
-
-TARGET_APPS = t.efi t2.efi t3.efi t4.efi t5.efi t6.efi \
-	      printenv.efi t7.efi t8.efi tcc.efi modelist.efi \
-	      route80h.efi drv0_use.efi AllocPages.efi \
-	      FreePages.efi setjmp.efi
-TARGET_BSDRIVERS = drv0.efi
-TARGET_RTDRIVERS =
-
-ifneq ($(HAVE_EFI_OBJCOPY),)
-
-FORMAT		:= --target efi-app-$(ARCH)
-$(TARGET_BSDRIVERS): FORMAT=--target efi-bsdrv-$(ARCH)
-$(TARGET_RTDRIVERS): FORMAT=--target efi-rtdrv-$(ARCH)
-
-else
-
-SUBSYSTEM	:= 0xa
-$(TARGET_BSDRIVERS): SUBSYSTEM = 0xb
-$(TARGET_RTDRIVERS): SUBSYSTEM = 0xc
-
-FORMAT		:= -O binary
-LDFLAGS		+= --defsym=EFI_SUBSYSTEM=$(SUBSYSTEM)
-
+ifeq ($(ARCH),x86_64)
+FILES += $(ARCH)/callwrap $(ARCH)/efi_stub
 endif
 
-TARGETS = $(TARGET_APPS) $(TARGET_BSDRIVERS) $(TARGET_RTDRIVERS)
+ifeq ($(ARCH),arm)
+FILES += $(ARCH)/lib1funcs $(ARCH)/div64
+endif
 
-all:	$(TARGETS)
+OBJS  = $(FILES:%=%.o)
+
+SUBDIRS = ia32 x86_64 ia64 aarch64 arm runtime
+
+LIBDIRINSTALL = $(INSTALLROOT)$(LIBDIR)
+
+all: libsubdirs libefi.a
+
+.PHONY: libsubdirs
+libsubdirs:
+	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
+
+libefi.a: $(patsubst %,libefi.a(%),$(OBJS))
 
 clean:
-	rm -f $(TARGETS) *~ *.o *.so
+	rm -f libefi.a *~ $(OBJS) */*.o
 
-.PHONY: install
+$(LIBDIRINSTALL):
+	mkdir -p $@
+
+$(LIBDIRINSTALL)/libefi.a: libefi.a | $(LIBDIRINSTALL)
+	$(INSTALL) -m 644 $< $(dir $@)
+
+install: $(LIBDIRINSTALL)/libefi.a
 
 include $(SRCDIR)/../Make.rules
+
+.PHONY: libsubdirs
