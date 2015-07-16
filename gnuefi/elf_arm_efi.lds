@@ -4,6 +4,7 @@ ENTRY(_start)
 SECTIONS
 {
   .text 0x0 : {
+    _text = .;
     *(.text.head)
     *(.text)
     *(.text.*)
@@ -11,11 +12,13 @@ SECTIONS
     *(.srodata)
     *(.rodata*)
     . = ALIGN(16);
-    _etext = .;
   }
+  _etext = .;
+  _text_size = . - _text;
   .dynamic  : { *(.dynamic) }
   .data :
   {
+   _data = .;
    *(.sdata)
    *(.data)
    *(.data1)
