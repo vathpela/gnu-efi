@@ -298,6 +298,17 @@ typedef struct _IPv6_DEVICE_PATH {
         EFI_IPv6_ADDRESS                GatewayIpAddress ;
 } IPv6_DEVICE_PATH;
 
+
+/**
+ * Uniform Resource Identifiers SubType.
+ * UEFI 2.0 specification version 2.4C § 9.3.5.23.
+ */
+#define MSG_URI_DP                      24
+typedef struct _URI_DEVICE_PATH {
+        EFI_DEVICE_PATH                 Header;
+        CHAR8                           Uri[1];
+} URI_DEVICE_PATH;
+
 /**
  * Device Logical Unit SubType.
  * UEFI 2.0 specification version 2.4 § 9.3.5.8.

@@ -842,6 +842,19 @@ _DevPathIPv6 (
 }
 
 static VOID
+_DevPathUri (
+    IN OUT POOL_PRINT       *Str,
+    IN VOID                 *DevPath
+    )
+{
+    URI_DEVICE_PATH  *Uri;
+
+    Uri = DevPath;
+
+    CatPrint( Str, L"Uri(%a)", Uri->Uri );
+}
+
+static VOID
 _DevPathInfiniBand (
     IN OUT POOL_PRINT       *Str,
     IN VOID                 *DevPath
@@ -1088,6 +1101,7 @@ struct {
 	{ MESSAGING_DEVICE_PATH,  MSG_MAC_ADDR_DP,                  _DevPathMacAddr},
 	{ MESSAGING_DEVICE_PATH,  MSG_IPv4_DP,                      _DevPathIPv4},
 	{ MESSAGING_DEVICE_PATH,  MSG_IPv6_DP,                      _DevPathIPv6},
+	{ MESSAGING_DEVICE_PATH,  MSG_URI_DP,                       _DevPathUri},
 	{ MESSAGING_DEVICE_PATH,  MSG_INFINIBAND_DP,                _DevPathInfiniBand},
 	{ MESSAGING_DEVICE_PATH,  MSG_UART_DP,                      _DevPathUart},
 	{ MESSAGING_DEVICE_PATH , MSG_SATA_DP ,                     _DevPathSata } ,
