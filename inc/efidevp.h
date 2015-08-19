@@ -491,6 +491,7 @@ typedef union {
     MAC_ADDR_DEVICE_PATH                 MacAddr;
     IPv4_DEVICE_PATH                     Ipv4;
     IPv6_DEVICE_PATH                     Ipv6;
+    URI_DEVICE_PATH                      Uri;
     INFINIBAND_DEVICE_PATH               InfiniBand;
     UART_DEVICE_PATH                     Uart;
 
@@ -525,6 +526,7 @@ typedef union {
     MAC_ADDR_DEVICE_PATH                 *MacAddr;
     IPv4_DEVICE_PATH                     *Ipv4;
     IPv6_DEVICE_PATH                     *Ipv6;
+    URI_DEVICE_PATH                      *Uri;
     INFINIBAND_DEVICE_PATH               *InfiniBand;
     UART_DEVICE_PATH                     *Uart;
 
