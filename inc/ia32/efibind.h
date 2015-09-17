@@ -272,7 +272,7 @@ typedef uint32_t   UINTN;
 #ifdef NO_INTERFACE_DECL
 #define INTERFACE_DECL(x)
 #else
-#ifdef __GNUC__
+#if defined(__GNUC__) || defined(_MSC_EXTENSIONS)
 #define INTERFACE_DECL(x) struct x
 #else
 #define INTERFACE_DECL(x) typedef struct x
