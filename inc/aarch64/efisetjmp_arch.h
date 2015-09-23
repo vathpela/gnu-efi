@@ -1,6 +1,8 @@
 #ifndef GNU_EFI_AARCH64_SETJMP_H
 #define GNU_EFI_AARCH64_SETJMP_H
 
+#define JMPBUF_ALIGN 8
+
 typedef struct {
 	/* GP regs */
 	UINT64	X19;
@@ -26,6 +28,6 @@ typedef struct {
 	UINT64	D13;
 	UINT64	D14;
 	UINT64	D15;
-} __attribute__((__aligned__(8))) jmp_buf;
+} ALIGN(JMPBUF_ALIGN) jmp_buf;
 
 #endif /* GNU_EFI_AARCH64_SETJMP_H */

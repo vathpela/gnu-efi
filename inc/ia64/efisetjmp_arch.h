@@ -1,6 +1,8 @@
 #ifndef GNU_EFI_IA64_SETJMP_H
 #define GNU_EFI_IA64_SETJMP_H
 
+#define JMPBUF_ALIGN 0x10
+
 typedef struct {
 	UINT64	F2[2];
 	UINT64	F3[2];
@@ -40,6 +42,6 @@ typedef struct {
 	UINT64	Predicates;
 	UINT64	LoopCount;
 	UINT64	FPSR;
-} __attribute__((__aligned__(0x10))) jmp_buf;
+} ALIGN(JMPBUF_ALIGN) jmp_buf;
 
 #endif /* GNU_EFI_IA64_SETJMP_H */
