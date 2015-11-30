@@ -1,21 +1,18 @@
 /*
  * Copyright (c) 2006 - 2008, Intel Corporation. All rights reserved.
- * This program and the accompanying materials are licensed and made 
-available
- * under the terms and conditions of the BSD License which accompanies 
-this
- * distribution.  The full text of the license may be found at
- * http://opensource.org/licenses/bsd-license.php.
+ * This program and the accompanying materials are licensed and made
+ * available under the terms and conditions of the BSD License which
+ * accompanies this distribution.  The full text of the license may
+ * be found at http://opensource.org/licenses/bsd-license.php.
  *
  * THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" 
-BASIS,
- * WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR
- * IMPLIED.
+ * BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER
+ * EXPRESS OR IMPLIED.
  */
 	.text
 	.arm
 	.globl	setjmp
-	.type	setjmp, @function
+	.type	setjmp, %function
 setjmp:
 	mov	r3, r13
 	stmia	r0, {r3-r12,r14}
@@ -23,6 +20,6 @@ setjmp:
 	bx	lr
 
 	.globl	longjmp
-	.type	longjmp, @function
+	.type	longjmp, %function
 longjmp:
 	ldmia	r0, {r3-r12,r14}
