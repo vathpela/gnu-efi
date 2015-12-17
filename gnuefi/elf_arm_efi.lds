@@ -52,6 +52,7 @@ SECTIONS
     *(.rel.reloc)
     *(.eh_frame)
     *(.note.GNU-stack)
+    *(.note.gnu.build-id)
   }
   .comment 0 : { *(.comment) }
 }
