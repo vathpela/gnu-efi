@@ -15,7 +15,7 @@ BASIS,
 	.text
 	.arm
 	.globl	setjmp
-	.type	setjmp, @function
+	.type	setjmp, %function
 setjmp:
 	mov	r3, r13
 	stmia	r0, {r3-r12,r14}
@@ -23,6 +23,6 @@ setjmp:
 	bx	lr
 
 	.globl	longjmp
-	.type	longjmp, @function
+	.type	longjmp, %function
 longjmp:
 	ldmia	r0, {r3-r12,r14}
