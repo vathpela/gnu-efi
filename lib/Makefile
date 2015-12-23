@@ -58,7 +58,8 @@ FILES += $(ARCH)/callwrap $(ARCH)/efi_stub
 endif
 
 ifeq ($(ARCH),arm)
-FILES += $(ARCH)/lib1funcs $(ARCH)/div64
+FILES += $(ARCH)/uldiv $(ARCH)/ldivmod $(ARCH)/div $(ARCH)/llsl $(ARCH)/llsr \
+	 $(ARCH)/mullu
 endif
 
 OBJS  = $(FILES:%=%.o)
