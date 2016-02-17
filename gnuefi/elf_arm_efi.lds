@@ -22,7 +22,7 @@ SECTIONS
    *(.sdata)
    *(.data)
    *(.data1)
-   *(.data)
+   *(.data.*)
    *(.got.plt)
    *(.got)
 
@@ -34,6 +34,7 @@ SECTIONS
    *(.scommon)
    *(.dynbss)
    *(.bss)
+   *(.bss.*)
    *(COMMON)
    . = ALIGN(16);
    _bss_end = .;
