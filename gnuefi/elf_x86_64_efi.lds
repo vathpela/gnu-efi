@@ -46,6 +46,8 @@ SECTIONS
    *(COMMON)
    *(.rel.local)
   }
+  .note.gnu.build-id : { *(.note.gnu.build-id) }
+
   _edata = .;
   _data_size = . - _etext;
   . = ALIGN(4096);

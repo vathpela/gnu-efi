@@ -38,6 +38,7 @@ SECTIONS
    . = ALIGN(16);
    _bss_end = .;
   }
+
   .rela.dyn : { *(.rela.dyn) }
   .rela.plt : { *(.rela.plt) }
   .rela.got : { *(.rela.got) }
