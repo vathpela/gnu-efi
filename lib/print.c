@@ -743,7 +743,7 @@ Routine Description:
 
 Arguments:
 
-    Out         - The console to print the string too
+    Out         - The console to print the string to
 
     Column, Row - The cursor position to print the string at
 
@@ -759,7 +759,7 @@ Returns:
     UINTN       back;
 
     va_start (args, fmt);
-    back = _IPrint (Column, Row, ST->ConOut, fmt, NULL, args);
+    back = _IPrint (Column, Row, Out, fmt, NULL, args);
     va_end (args);
     return back;
 }
