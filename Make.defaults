@@ -140,11 +140,13 @@ INCDIR  += -I$(SRCDIR) -I$(TOPDIR)/inc -I$(TOPDIR)/inc/$(ARCH) \
            -I$(TOPDIR)/inc/protocol
 
 ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
-CFLAGS  += $(ARCH3264) -g -O2 -fpic -Wall -fshort-wchar -fno-strict-aliasing \
+CFLAGS  += $(ARCH3264) -g -O2 -fpic -Wall -Wextra -Werror \
+           -fshort-wchar -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
-CFLAGS  += $(ARCH3264) -g -O2 -fpic -Wall -fshort-wchar -fno-strict-aliasing \
-           -fno-merge-constants -ffreestanding -fno-stack-protector       \
+CFLAGS  += $(ARCH3264) -g -O2 -fpic -Wall -Wextra -Werror \
+           -fshort-wchar -fno-strict-aliasing \
+           -fno-merge-constants -ffreestanding -fno-stack-protector \
            -fno-stack-check
 endif
 
