@@ -76,7 +76,7 @@ ReadPort (
         )
 {
     UINT32       Data;
-    EFI_STATUS  Status;
+    EFI_STATUS  Status __attribute__((__unused__));
 
     Status = uefi_call_wrapper(GlobalIoFncs->Io.Read, 5, GlobalIoFncs, Width, (UINT64)Port, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
@@ -91,7 +91,7 @@ WritePort (
         IN  UINTN                       Data
         )
 {
-    EFI_STATUS  Status;
+    EFI_STATUS  Status __attribute__((__unused__));
 
     Status = uefi_call_wrapper(GlobalIoFncs->Io.Write, 5, GlobalIoFncs, Width, (UINT64)Port, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
@@ -106,7 +106,7 @@ ReadPciConfig (
         )
 {
     UINT32       Data;
-    EFI_STATUS  Status;
+    EFI_STATUS  Status __attribute__((__unused__));
 
     Status = uefi_call_wrapper(GlobalIoFncs->Pci.Read, 5, GlobalIoFncs, Width, (UINT64)Address, 1, &Data);
     ASSERT(!EFI_ERROR(Status));
@@ -121,7 +121,7 @@ WritePciConfig (
         IN  UINTN                       Data
         )
 {
-    EFI_STATUS  Status;
+    EFI_STATUS  Status __attribute__((__unused__));
 
     Status = uefi_call_wrapper(GlobalIoFncs->Pci.Write, 5, GlobalIoFncs, Width, (UINT64)Address, 1, &Data);
     ASSERT(!EFI_ERROR(Status));

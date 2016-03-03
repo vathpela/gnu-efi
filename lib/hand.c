@@ -117,7 +117,7 @@ LibLocateHandleByDiskSignature (
     EFI_HANDLE            *BlockIoBuffer;
     EFI_DEVICE_PATH       *DevicePath;
     UINTN                 Index;
-    EFI_DEVICE_PATH       *Start, *Next, *DevPath;
+    EFI_DEVICE_PATH       *Next, *DevPath;
     HARDDRIVE_DEVICE_PATH *HardDriveDevicePath;
     BOOLEAN               Match;
     BOOLEAN               PreviousNodeIsHardDriveDevicePath;
@@ -200,7 +200,6 @@ LibLocateHandleByDiskSignature (
             PreviousNodeIsHardDriveDevicePath = FALSE;
 
             DevPath = DevicePath;
-            Start = DevPath;
 
             //
             // Check for end of device path type
