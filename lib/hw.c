@@ -23,7 +23,7 @@ EFI_STATUS
 InitializeGlobalIoDevice (
         IN  EFI_DEVICE_PATH             *DevicePath,
         IN  EFI_GUID                    *Protocol,
-        IN  CHAR8                       *ErrorStr,
+        IN  CHAR8                       *ErrorStr __attribute__((__unused__)),
         OUT EFI_DEVICE_IO_INTERFACE     **GlobalIoFncs 
         )
 /*++

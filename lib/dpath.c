@@ -1017,7 +1017,7 @@ _DevPathBssBss (
 static VOID
 _DevPathEndInstance (
     IN OUT POOL_PRINT       *Str,
-    IN VOID                 *DevPath
+    IN VOID                 *DevPath __attribute__((__unused__))
     )
 {
     CatPrint(Str, L",");

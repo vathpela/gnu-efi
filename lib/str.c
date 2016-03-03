@@ -52,7 +52,8 @@ StrnCmp (
 
 INTN EFIAPI
 LibStubStriCmp (
-    IN EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN EFI_UNICODE_COLLATION_INTERFACE  *This 
+    __attribute__((__unused__)),
     IN CHAR16                           *s1,
     IN CHAR16                           *s2
     )
@@ -62,8 +63,8 @@ LibStubStriCmp (
 
 VOID EFIAPI
 LibStubStrLwrUpr (
-    IN EFI_UNICODE_COLLATION_INTERFACE  *This,
-    IN CHAR16                           *Str
+    IN EFI_UNICODE_COLLATION_INTERFACE  *This __attribute__((__unused__)),
+    IN CHAR16                           *Str __attribute__((__unused__))
     )
 {
 }
@@ -358,7 +359,8 @@ MetaMatch (
 
 BOOLEAN EFIAPI
 LibStubMetaiMatch (
-    IN EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN EFI_UNICODE_COLLATION_INTERFACE  *This 
+    __attribute__((__unused__)),
     IN CHAR16                           *String,
     IN CHAR16                           *Pattern
     )
