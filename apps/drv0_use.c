@@ -23,7 +23,7 @@ PlayWithGnuEfiAppsDrv0Protocol(IN EFI_HANDLE DrvHandle) {
   Status = uefi_call_wrapper(BS->OpenProtocol, 6,
                              DrvHandle,
                              &GnuEfiAppsDrv0ProtocolGuid,
-                             &drv,
+                             NULL,
                              DrvHandle,
                              NULL,
                              EFI_OPEN_PROTOCOL_GET_PROTOCOL);

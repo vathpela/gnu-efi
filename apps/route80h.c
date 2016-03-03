@@ -68,8 +68,7 @@ static EFI_STATUS find_pci_device(uint16_t vendor_id, uint16_t device_id,
 {
 	EFI_STATUS rc;
 	EFI_HANDLE *Handles;
-	UINTN NoHandles;
-	int i;
+	UINTN NoHandles, i;
 
 	if (!pciio)
 		return EFI_INVALID_PARAMETER;
