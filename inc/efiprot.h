@@ -753,5 +753,45 @@ typedef struct _EFI_SERVICE_BINDING {
     EFI_SERVICE_BINDING_DESTROY_CHILD DestroyChild;
 } EFI_SERVICE_BINDING;
 
+//
+// Driver Binding Protocol
+//
+
+#define DRIVER_BINDING_PROTOCOL \
+    { 0x18A031AB, 0xB443, 0x4D1A, { 0xA5, 0xC0, 0x0C, 0x09, 0x26, 0x1E, 0x9F, 0x71} }
+
+INTERFACE_DECL(_EFI_DRIVER_BINDING);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DRIVER_SUPPORTED) (
+    IN struct _EFI_DRIVER_BINDING *This,
+    IN EFI_HANDLE                 ControllerHandle,
+    IN EFI_DEVICE_PATH            *RemainingDevicePath OPTIONAL);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DRIVER_START) (
+    IN struct _EFI_DRIVER_BINDING *This,
+    IN EFI_HANDLE                 ControllerHandle,
+    IN EFI_DEVICE_PATH            *RemainingDevicePath OPTIONAL);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DRIVER_STOP) (
+    IN struct _EFI_DRIVER_BINDING *This,
+    IN EFI_HANDLE                 ControllerHandle,
+    IN UINTN                      NumberOfChildren,
+    IN EFI_HANDLE                 *ChildHandleBuffer OPTIONAL);
+
+typedef struct _EFI_DRIVER_BINDING {
+    EFI_DRIVER_SUPPORTED          Supported;
+    EFI_DRIVER_START              Start;
+    EFI_DRIVER_STOP               Stop;
+    UINT32                        Version;
+    EFI_HANDLE                    ImageHandle;
+    EFI_HANDLE                    DriverBindingHandle;
+} EFI_DRIVER_BINDING;
+
 #endif
 
