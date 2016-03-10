@@ -60,6 +60,7 @@ extern EFI_GUID NetworkInterfaceIdentifierProtocol;
 extern EFI_GUID UiProtocol;
 extern EFI_GUID InternalShellProtocol;
 extern EFI_GUID PciIoProtocol;
+extern EFI_GUID DriverBindingProtocol;
 
 extern EFI_GUID EfiGlobalVariable;
 extern EFI_GUID GenericFileInfo;
