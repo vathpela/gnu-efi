@@ -793,5 +793,68 @@ typedef struct _EFI_DRIVER_BINDING {
     EFI_HANDLE                    DriverBindingHandle;
 } EFI_DRIVER_BINDING;
 
+//
+// Component Name Protocol
+// Deprecated - use Component Name 2 Protocol instead
+//
+
+#define COMPONENT_NAME_PROTOCOL \
+    {0x107A772C, 0xD5E1, 0x11D4, { 0x9A, 0x46, 0x00, 0x90, 0x27, 0x3F, 0xC1, 0x4D} }
+
+INTERFACE_DECL(_EFI_COMPONENT_NAME);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_COMPONENT_NAME_GET_DRIVER_NAME) (
+  IN struct _EFI_COMPONENT_NAME   *This,
+  IN CHAR8                        *Language,
+  OUT CHAR16                      **DriverName);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_COMPONENT_NAME_GET_CONTROLLER_NAME) (
+  IN struct _EFI_COMPONENT_NAME   *This,
+  IN EFI_HANDLE                   ControllerHandle,
+  IN EFI_HANDLE                   ChildHandle OPTIONAL,
+  IN CHAR8                        *Language,
+  OUT CHAR16                      **ControllerName);
+
+typedef struct _EFI_COMPONENT_NAME {
+  EFI_COMPONENT_NAME_GET_DRIVER_NAME     GetDriverName;
+  EFI_COMPONENT_NAME_GET_CONTROLLER_NAME GetControllerName;
+  CHAR8                                  *SupportedLanguages;
+} EFI_COMPONENT_NAME;
+
+//
+// Component Name 2 Protocol
+//
+
+#define COMPONENT_NAME2_PROTOCOL \
+    {0x6A7A5CFF, 0xE8D9, 0x4F70, { 0xBA, 0xDA, 0x75, 0xAB, 0x30, 0x25, 0xCE, 0x14} }
+
+INTERFACE_DECL(_EFI_COMPONENT_NAME2);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_COMPONENT_NAME2_GET_DRIVER_NAME) (
+  IN struct _EFI_COMPONENT_NAME2  *This,
+  IN CHAR8                        *Language,
+  OUT CHAR16                      **DriverName);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_COMPONENT_NAME2_GET_CONTROLLER_NAME) (
+  IN struct _EFI_COMPONENT_NAME2  *This,
+  IN EFI_HANDLE                   ControllerHandle,
+  IN EFI_HANDLE                   ChildHandle OPTIONAL,
+  IN CHAR8                        *Language,
+  OUT CHAR16                      **ControllerName);
+
+typedef struct _EFI_COMPONENT_NAME2 {
+  EFI_COMPONENT_NAME2_GET_DRIVER_NAME     GetDriverName;
+  EFI_COMPONENT_NAME2_GET_CONTROLLER_NAME GetControllerName;
+  CHAR8                                   *SupportedLanguages;
+} EFI_COMPONENT_NAME2;
+
 #endif
 
