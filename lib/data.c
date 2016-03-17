@@ -107,6 +107,7 @@ EFI_GUID PciIoProtocol            = EFI_PCI_IO_PROTOCOL;
 EFI_GUID DriverBindingProtocol    = DRIVER_BINDING_PROTOCOL;
 EFI_GUID ComponentNameProtocol    = COMPONENT_NAME_PROTOCOL;
 EFI_GUID ComponentName2Protocol   = COMPONENT_NAME2_PROTOCOL;
+EFI_GUID HashProtocol             = HASH_PROTOCOL;
 
 //
 // File system information IDs
