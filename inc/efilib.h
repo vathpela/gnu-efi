@@ -63,6 +63,7 @@ extern EFI_GUID PciIoProtocol;
 extern EFI_GUID DriverBindingProtocol;
 extern EFI_GUID ComponentNameProtocol;
 extern EFI_GUID ComponentName2Protocol;
+extern EFI_GUID LoadedImageProtocol;
 extern EFI_GUID HashProtocol;
 
 extern EFI_GUID EfiGlobalVariable;

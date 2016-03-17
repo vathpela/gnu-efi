@@ -351,15 +351,9 @@ EFI_STATUS
     IN CHAR16                       *ExitData OPTIONAL
     );
 
-typedef 
-EFI_STATUS
-(EFIAPI *EFI_IMAGE_UNLOAD) (
-    IN EFI_HANDLE                   ImageHandle
-    );
-
 
 // Image handle
-#define LOADED_IMAGE_PROTOCOL      \
+/*#define LOADED_IMAGE_PROTOCOL      \
     { 0x5B1B31A1, 0x9562, 0x11d2, {0x8E, 0x3F, 0x00, 0xA0, 0xC9, 0x69, 0x72, 0x3B} }
 
 #define EFI_IMAGE_INFORMATION_REVISION      0x1000
@@ -386,7 +380,7 @@ typedef struct {
     // If the driver image supports a dynamic unload request
     EFI_IMAGE_UNLOAD                Unload;
 
-} EFI_LOADED_IMAGE;
+} EFI_LOADED_IMAGE;*/
 
 
 typedef
