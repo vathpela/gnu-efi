@@ -998,7 +998,8 @@ Routine Description:
     s       -   unicode string
     X       -   fixed 8 byte value in hex
     x       -   hex value
-    d       -   value as decimal    
+    d       -   value as signed decimal
+    u       -   value as unsigned decimal
     c       -   Unicode char
     t       -   EFI time structure
     g       -   Pointer to GUID
@@ -1144,15 +1145,24 @@ Returns:
                 GuidToString (Item.Item.pw, va_arg(ps->args, EFI_GUID *));
                 break;
 
-            case 'd':
+            case 'u':
                 Item.Item.pw = Item.Scratch;
                 ValueToString (
                     Item.Item.pw, 
                     Item.Comma, 
                     Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
-                break
-                    ;
+                break;
+
+            case 'd':
+                Item.Item.pw = Item.Scratch;
+                ValueToString (
+                    Item.Item.pw, 
+                    Item.Comma, 
+                    Item.Long ? va_arg(ps->args, INT64) : va_arg(ps->args, INT32)
+                    );
+                break;
+
             case 't':
                 Item.Item.pw = Item.Scratch;
                 TimeToString (Item.Item.pw, va_arg(ps->args, EFI_TIME *));
