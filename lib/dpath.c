@@ -63,7 +63,7 @@ DevicePathInstance (
 
     //
     // Check for end of device path type
-    //    
+    //
 
     for (Count = 0; ; Count++) {
         Next = NextDevicePathNode(DevPath);
@@ -128,7 +128,7 @@ AppendDevicePath (
     )
 // Src1 may have multiple "instances" and each instance is appended
 // Src2 is appended to each instance is Src1.  (E.g., it's possible
-// to append a new instance to the complete device path by passing 
+// to append a new instance to the complete device path by passing
 // it in Src2)
 {
     UINTN               Src1Size, Src1Inst, Src2Size, Size;
@@ -164,7 +164,7 @@ AppendDevicePath (
     Src1Inst = DevicePathInstanceCount(Src1);
     Src2Size = DevicePathSize(Src2);
     Size = Src1Size * Src1Inst + Src2Size;
-    
+
     Dst = AllocatePool (Size);
     if (Dst) {
         DstPos = (UINT8 *) Dst;
@@ -217,7 +217,7 @@ AppendDevicePathNode (
     }
 
     CopyMem (Temp, Src2, Length);
-    Eop = NextDevicePathNode(Temp); 
+    Eop = NextDevicePathNode(Temp);
     SetDevicePathEndNode(Eop);
 
     //
@@ -244,7 +244,7 @@ FileDevicePath (
 {
     UINTN                   Size;
     FILEPATH_DEVICE_PATH    *FilePath;
-    EFI_DEVICE_PATH         *Eop, *DevicePath;    
+    EFI_DEVICE_PATH         *Eop, *DevicePath;
 
     Size = StrSize(FileName);
     FilePath = AllocateZeroPool (Size + SIZE_OF_FILEPATH_DEVICE_PATH + sizeof(EFI_DEVICE_PATH));
@@ -292,7 +292,7 @@ DevicePathSize (
 
     //
     // Search for the end of the device path structure
-    //    
+    //
 
     Start = DevPath;
     while (!IsDevicePathEnd(DevPath)) {
@@ -312,7 +312,7 @@ DuplicateDevicePath (
     )
 {
     EFI_DEVICE_PATH     *NewDevPath;
-    UINTN               Size;    
+    UINTN               Size;
 
 
     //
@@ -340,10 +340,10 @@ UnpackDevicePath (
 {
     EFI_DEVICE_PATH     *Src, *Dest, *NewPath;
     UINTN               Size;
-    
+
     //
     // Walk device path and round sizes to valid boundries
-    //    
+    //
 
     Src = DevPath;
     Size = 0;
@@ -416,7 +416,7 @@ AppendDevicePathInstance (
 
     CopyMem (Ptr, Src, SrcSize);
 //    FreePool (Src);
-    
+
     while (!IsDevicePathEnd(DevPath)) {
         DevPath = NextDevicePathNode(DevPath);
     }
@@ -426,7 +426,7 @@ AppendDevicePathInstance (
     //  idea.
     //
     DevPath->SubType = END_INSTANCE_DEVICE_PATH_SUBTYPE;
-    
+
     DevPath = NextDevicePathNode(DevPath);
     CopyMem (DevPath, Instance, InstanceSize);
     return (EFI_DEVICE_PATH *)Ptr;
@@ -490,7 +490,7 @@ _DevPathPccard (
 {
     PCCARD_DEVICE_PATH      *Pccard;
 
-    Pccard = DevPath;   
+    Pccard = DevPath;
     CatPrint(Str, L"Pccard(0x%x)", Pccard-> FunctionNumber );
 }
 
@@ -502,7 +502,7 @@ _DevPathMemMap (
 {
     MEMMAP_DEVICE_PATH      *MemMap;
 
-    MemMap = DevPath;   
+    MemMap = DevPath;
     CatPrint(Str, L"MemMap(%d,0x%x,0x%x)",
         MemMap->MemoryType,
         MemMap->StartingAddress,
@@ -540,7 +540,7 @@ _DevPathVendor (
     case MESSAGING_DEVICE_PATH: Type = L"Msg";       break;
     case MEDIA_DEVICE_PATH:     Type = L"Media";     break;
     default:                    Type = L"?";         break;
-    }                            
+    }
 
     CatPrint(Str, L"Ven%s(%g", Type, &Vendor->Guid);
     if (CompareGuid (&Vendor->Guid, &UnknownDevice) == 0) {
@@ -617,7 +617,7 @@ _DevPathAtapi (
     ATAPI_DEVICE_PATH       *Atapi;
 
     Atapi = DevPath;
-    CatPrint(Str, L"Ata(%s,%s)", 
+    CatPrint(Str, L"Ata(%s,%s)",
         Atapi->PrimarySecondary ? L"Secondary" : L"Primary",
         Atapi->SlaveMaster ? L"Slave" : L"Master"
         );
@@ -708,7 +708,7 @@ _DevPathMacAddr (
     if (MAC->IfType == 0x01 || MAC->IfType == 0x00) {
         HwAddressSize = 6;
     }
-    
+
     CatPrint(Str, L"Mac(");
 
     for(Index = 0; Index < HwAddressSize; Index++) {
@@ -721,7 +721,7 @@ _DevPathMacAddr (
 }
 
 static VOID
-CatPrintIPv4( 
+CatPrintIPv4(
     IN OUT POOL_PRINT * Str ,
     IN EFI_IPv4_ADDRESS * Address
     )
@@ -742,7 +742,7 @@ IsNotNullIPv4(
 }
 
 static VOID
-CatPrintNetworkProtocol( 
+CatPrintNetworkProtocol(
     IN OUT POOL_PRINT * Str ,
     IN UINT16 Proto
     )
@@ -799,7 +799,7 @@ _DevPathIPv4 (
 
 #define CatPrintIPv6_ADD( x , y ) ( ( (UINT16) ( x ) ) << 8 | ( y ) )
 static VOID
-CatPrintIPv6( 
+CatPrintIPv6(
     IN OUT POOL_PRINT * Str ,
     IN EFI_IPv6_ADDRESS * Address
     )
@@ -933,19 +933,19 @@ _DevPathHardDrive (
     Hd = DevPath;
     switch (Hd->SignatureType) {
         case SIGNATURE_TYPE_MBR:
-            CatPrint(Str, L"HD(Part%d,Sig%08X)", 
+            CatPrint(Str, L"HD(Part%d,Sig%08X)",
                 Hd->PartitionNumber,
                 *((UINT32 *)(&(Hd->Signature[0])))
                 );
             break;
         case SIGNATURE_TYPE_GUID:
-            CatPrint(Str, L"HD(Part%d,Sig%g)", 
+            CatPrint(Str, L"HD(Part%d,Sig%g)",
                 Hd->PartitionNumber,
-                (EFI_GUID *) &(Hd->Signature[0])     
+                (EFI_GUID *) &(Hd->Signature[0])
                 );
             break;
         default:
-            CatPrint(Str, L"HD(Part%d,MBRType=%02x,SigType=%02x)", 
+            CatPrint(Str, L"HD(Part%d,MBRType=%02x,SigType=%02x)",
                 Hd->PartitionNumber,
                 Hd->MBRType,
                 Hd->SignatureType
@@ -972,7 +972,7 @@ _DevPathFilePath (
     IN VOID                 *DevPath
     )
 {
-    FILEPATH_DEVICE_PATH    *Fp;   
+    FILEPATH_DEVICE_PATH    *Fp;
 
     Fp = DevPath;
     CatPrint(Str, L"%s", Fp->PathName);
@@ -1017,7 +1017,7 @@ _DevPathBssBss (
 static VOID
 _DevPathEndInstance (
     IN OUT POOL_PRINT       *Str,
-    IN VOID                 *DevPath __attribute__((__unused__))
+    IN VOID                 *DevPath EFI_UNUSED
     )
 {
     CatPrint(Str, L",");
@@ -1084,7 +1084,7 @@ _DevPathNodeUnknown (
 struct {
     UINT8   Type;
     UINT8   SubType;
-    VOID    (*Function)(POOL_PRINT *, VOID *);    
+    VOID    (*Function)(POOL_PRINT *, VOID *);
 } DevPathTable[] = {
 	{ HARDWARE_DEVICE_PATH,   HW_PCI_DP,                        _DevPathPci},
 	{ HARDWARE_DEVICE_PATH,   HW_PCCARD_DP,                     _DevPathPccard},
@@ -1131,7 +1131,7 @@ DevicePathToStr (
 {
     POOL_PRINT          Str;
     EFI_DEVICE_PATH     *DevPathNode;
-    VOID                (*DumpNode)(POOL_PRINT *, VOID *);    
+    VOID                (*DumpNode)(POOL_PRINT *, VOID *);
     UINTN               Index, NewSize;
 
     ZeroMem(&Str, sizeof(Str));
@@ -1146,7 +1146,7 @@ DevicePathToStr (
 
     //
     // Process each device path node
-    //    
+    //
 
     DevPathNode = DevPath;
     while (!IsDevicePathEnd(DevPathNode)) {
@@ -1232,7 +1232,7 @@ LibDuplicateDevicePathInstance (
     )
 {
     EFI_DEVICE_PATH     *NewDevPath,*DevicePathInst,*Temp;
-    UINTN               Size = 0;    
+    UINTN               Size = 0;
 
     //
     // get the size of an instance from the input
@@ -1240,18 +1240,18 @@ LibDuplicateDevicePathInstance (
 
     Temp = DevPath;
     DevicePathInst = DevicePathInstance (&Temp, &Size);
-    
+
     //
     // Make a copy and set proper end type
     //
     NewDevPath = NULL;
-    if (Size) { 
+    if (Size) {
         NewDevPath = AllocatePool (Size + sizeof(EFI_DEVICE_PATH));
     }
 
     if (NewDevPath) {
         CopyMem (NewDevPath, DevicePathInst, Size);
-        Temp = NextDevicePathNode(NewDevPath); 
+        Temp = NextDevicePathNode(NewDevPath);
         SetDevicePathEndNode(Temp);
     }
 

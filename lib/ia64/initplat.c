@@ -19,8 +19,8 @@ Revision History
 
 VOID
 InitializeLibPlatform (
-    IN EFI_HANDLE           ImageHandle __attribute__((__unused__)),
-    IN EFI_SYSTEM_TABLE     *SystemTable __attribute__((__unused__))
+    IN EFI_HANDLE           ImageHandle EFI_UNUSED,
+    IN EFI_SYSTEM_TABLE     *SystemTable EFI_UNUSED
     )
 {
     PLABEL  SalPlabel;

@@ -40,8 +40,8 @@
 #include <elf.h>
 
 EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
-		      EFI_HANDLE image __attribute__((__unused__)),
-		      EFI_SYSTEM_TABLE *systab __attribute__((__unused__)))
+		      EFI_HANDLE image EFI_UNUSED,
+		      EFI_SYSTEM_TABLE *systab EFI_UNUSED)
 {
 	long relsz = 0, relent = 0;
 	Elf64_Rela *rel = 0;

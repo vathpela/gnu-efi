@@ -33,6 +33,7 @@ Revision History
 #define EFI_FIRMWARE_REVISION ((EFI_FIRMWARE_MAJOR_REVISION <<16) | (EFI_FIRMWARE_MINOR_REVISION))
 
 #include "efibind.h"
+#include "eficompiler.h"
 #include "efidef.h"
 #include "efidevp.h"
 #include "efipciio.h"
