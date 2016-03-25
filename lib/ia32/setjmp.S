@@ -14,7 +14,11 @@ BASIS,
  */
 	.text
 	.globl	setjmp
-	.type	setjmp, @function
+#ifndef __MINGW32__
+	.type setjmp, @function
+#else
+	.def setjmp; .scl 2; .type 32; .endef
+#endif
 setjmp:
 	pop	%ecx
 	movl	(%esp), %edx
@@ -27,7 +31,11 @@ setjmp:
 	jmp	*%ecx
 
 	.globl	longjmp
+#ifndef __MINGW32__
 	.type	longjmp, @function
+#else
+	.def longjmp; .scl 2; .type 32; .endef
+#endif
 longjmp:
 	pop	%eax
 	pop	%edx
