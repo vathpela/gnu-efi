@@ -25,6 +25,7 @@ InitializeLibPlatform (
 {
 }
 
+#ifdef __GNUC__
 /*
  * Calls to these functions may be emitted implicitly by GCC even when
  * -ffreestanding is in effect.
@@ -55,4 +56,4 @@ void __div0(void)
 	// TODO handle divide by zero fault
 	while (1);
 }
-
+#endif

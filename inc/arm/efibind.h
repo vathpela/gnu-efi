@@ -36,7 +36,9 @@ typedef signed char         int8_t;   // unqualified 'char' is unsigned on ARM
  * This prevents GCC from emitting GOT based relocations, and use R_ARM_REL32
  * relative relocations instead, which are more suitable for static binaries.
  */
+#ifdef __GNUC__
 #pragma GCC visibility push (hidden)
+#endif
 
 //
 // Basic EFI types of various widths
