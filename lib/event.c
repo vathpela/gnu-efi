@@ -53,8 +53,8 @@ LibCreateProtocolNotifyEvent (
     Status = uefi_call_wrapper(
 		    BS->RegisterProtocolNotify,
 			3,
-                    ProtocolGuid, 
-                    Event, 
+                    ProtocolGuid,
+                    Event,
                     Registration
                     );
     if ( EFI_ERROR( Status ) ) return NULL ;
@@ -94,7 +94,7 @@ WaitForSingleEvent (
             //
 
             uefi_call_wrapper(BS->SetTimer, 3, TimerEvent, TimerRelative, Timeout);
-            
+
             //
             // Wait for the original event or the timer
             //
@@ -149,6 +149,6 @@ WaitForEventWithTimeout (
             }
         }
     } while (Timeout > 0);
-    *Key = TimeoutKey;
+    CopyMem(Key, &TimeoutKey, sizeof(EFI_INPUT_KEY));
 }
 
