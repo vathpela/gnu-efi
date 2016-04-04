@@ -88,7 +88,7 @@ typedef struct _pstate {
     CHAR16      *Pos;
     UINTN       Len;
 
-    UINTN       Attr;    
+    UINTN       Attr;
     UINTN       RestoreAttr;
 
     UINTN       AttrNorm;
@@ -97,7 +97,7 @@ typedef struct _pstate {
 
     INTN        (EFIAPI *Output)(VOID *context, CHAR16 *str);
     INTN        (EFIAPI *SetAttr)(VOID *context, UINTN attr);
-    VOID        *Context;    
+    VOID        *Context;
 
     // Current item being formatted
     struct _pitem  *Item;
@@ -194,7 +194,7 @@ Routine Description:
 Arguments:
 
     mask        - Bit mask of debug string.  If a bit is set in the
-                  mask that is also set in EFIDebug the string is 
+                  mask that is also set in EFIDebug the string is
                   printed; otherwise, the string is not printed
 
     fmt         - Format string
@@ -220,11 +220,11 @@ Returns:
     va_start (args, fmt);
     ZeroMem (&ps, sizeof(ps));
 
-    ps.Output = _DbgOut; 
+    ps.Output = _DbgOut;
     ps.fmt.Ascii = TRUE;
     ps.fmt.pc = fmt;
     va_copy(ps.args, args);
-    ps.Attr = EFI_TEXT_ATTR(EFI_LIGHTGRAY, EFI_RED); 
+    ps.Attr = EFI_TEXT_ATTR(EFI_LIGHTGRAY, EFI_RED);
 
     DbgOut = LibRuntimeDebugOut;
 
@@ -272,7 +272,7 @@ Returns:
     if (ps.SetAttr) {
         uefi_call_wrapper(ps.SetAttr, 2, ps.Context, SavedAttribute);
     }
-    
+
     return 0;
 }
 
@@ -378,8 +378,8 @@ _PoolPrint (
         newlen += PRINT_STRING_LEN;
         spc->maxlen = newlen;
         spc->str = ReallocatePool (
-                        spc->str, 
-                        spc->len * sizeof(CHAR16), 
+                        spc->str,
+                        spc->len * sizeof(CHAR16),
                         spc->maxlen * sizeof(CHAR16)
                         );
 
@@ -519,7 +519,7 @@ Arguments:
 
 Returns:
 
-    Allocated buffer with the formatted string printed in it.  
+    Allocated buffer with the formatted string printed in it.
     The caller must free the allocated buffer.   The buffer
     allocation is not packed.
 
@@ -549,7 +549,7 @@ Arguments:
 
 Returns:
 
-    Allocated buffer with the formatted string printed in it.  
+    Allocated buffer with the formatted string printed in it.
     The caller must free the allocated buffer.   The buffer
     allocation is not packed.
 
@@ -573,19 +573,19 @@ CatPrint (
 
 Routine Description:
 
-    Concatenates a formatted unicode string to allocated pool.  
+    Concatenates a formatted unicode string to allocated pool.
     The caller must free the resulting buffer.
 
 Arguments:
 
-    Str         - Tracks the allocated pool, size in use, and 
+    Str         - Tracks the allocated pool, size in use, and
                   amount of pool allocated.
 
     fmt         - The format string
 
 Returns:
 
-    Allocated buffer with the formatted string printed in it.  
+    Allocated buffer with the formatted string printed in it.
     The caller must free the allocated buffer.   The buffer
     allocation is not packed.
 
@@ -667,7 +667,7 @@ PrintAt (
 
 Routine Description:
 
-    Prints a formatted unicode string to the default console, at 
+    Prints a formatted unicode string to the default console, at
     the supplied cursor position
 
 Arguments:
@@ -784,7 +784,7 @@ _IPrint (
     ps.Output  = (INTN (EFIAPI *)(VOID *, CHAR16 *)) Out->OutputString;
     ps.SetAttr = (INTN (EFIAPI *)(VOID *, UINTN))  Out->SetAttribute;
     ps.Attr = Out->Mode->Attribute;
-   
+
     back = (ps.Attr >> 4) & 0xF;
     ps.AttrNorm = EFI_TEXT_ATTR(EFI_LIGHTGRAY, back);
     ps.AttrHighlight = EFI_TEXT_ATTR(EFI_WHITE, back);
@@ -850,7 +850,7 @@ PFLUSH (
 {
     *ps->Pos = 0;
     if (IsLocalPrint(ps->Output))
-	ps->Output(ps->Context, ps->Buffer);		
+	ps->Output(ps->Context, ps->Buffer);
     else
     	uefi_call_wrapper(ps->Output, 2, ps->Context, ps->Buffer);
     ps->Pos = ps->Buffer;
@@ -871,7 +871,7 @@ PSETATTR (
    }
 
    ps->Attr = Attr;
-}   
+}
 
 STATIC
 VOID
@@ -957,7 +957,7 @@ PITEM (
     }
 
     // add the item
-    Item->Item.Index=0; 
+    Item->Item.Index=0;
     while (Item->Item.Index < Len) {
         PPUTC (ps, PGETC(&Item->Item));
     }
@@ -987,7 +987,7 @@ Routine Description:
   Args F:
     0       -   pad with zeros
     -       -   justify on left (default is on right)
-    ,       -   add comma's to field    
+    ,       -   add comma's to field
     *       -   width provided on stack
     n       -   Set output attribute to normal (for this field only)
     h       -   Set output attribute to highlight (for this field only)
@@ -1009,14 +1009,14 @@ Routine Description:
     H       -   Set output attribute to highlight
     E       -   Set output attribute to error
     %       -   Print a %
-    
+
 Arguments:
 
     SystemTable     - The system table
 
 Returns:
 
-    Number of charactors written   
+    Number of charactors written
 
 --*/
 {
@@ -1036,7 +1036,7 @@ Returns:
 
         if (c != '%') {
             PPUTC ( ps, c );
-            continue;   
+            continue;
         }
 
         // setup for new item
@@ -1055,13 +1055,13 @@ Returns:
         while ((c = PGETC(&ps->fmt))) {
 
             switch (c) {
-            
+
             case '%':
                 //
                 // %% -> %
                 //
                 Item.Item.pw = Item.Scratch;
-                Item.Item.pw[0] = '%';  
+                Item.Item.pw[0] = '%';
                 Item.Item.pw[1] = 0;
                 break;
 
@@ -1084,7 +1084,7 @@ Returns:
             case '*':
                 *Item.WidthParse = va_arg(ps->args, UINTN);
                 break;
-            
+
             case '1':
             case '2':
             case '3':
@@ -1119,7 +1119,7 @@ Returns:
 
             case 'c':
                 Item.Item.pw = Item.Scratch;
-                Item.Item.pw[0] = (CHAR16) va_arg(ps->args, UINTN);  
+                Item.Item.pw[0] = (CHAR16) va_arg(ps->args, UINTN);
                 Item.Item.pw[1] = 0;
                 break;
 
@@ -1133,12 +1133,12 @@ Returns:
             case 'x':
                 Item.Item.pw = Item.Scratch;
                 ValueToHex (
-                    Item.Item.pw, 
+                    Item.Item.pw,
                     Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
 
                 break;
-        
+
 
             case 'g':
                 Item.Item.pw = Item.Scratch;
@@ -1148,8 +1148,8 @@ Returns:
             case 'u':
                 Item.Item.pw = Item.Scratch;
                 ValueToString (
-                    Item.Item.pw, 
-                    Item.Comma, 
+                    Item.Item.pw,
+                    Item.Comma,
                     Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
                 break;
@@ -1157,8 +1157,8 @@ Returns:
             case 'd':
                 Item.Item.pw = Item.Scratch;
                 ValueToString (
-                    Item.Item.pw, 
-                    Item.Comma, 
+                    Item.Item.pw,
+                    Item.Comma,
                     Item.Long ? va_arg(ps->args, INT64) : va_arg(ps->args, INT32)
                     );
                 break;
@@ -1250,7 +1250,8 @@ ValueToHex (
     p2 = Buffer;
 
     while (v) {
-        *(p1++) = Hex[v & 0xf];
+        // Without the cast, the MSVC compiler may insert a reference to __allmull
+        *(p1++) = Hex[(UINTN)(v & 0xf)];
         v = RShiftU64 (v, 4);
     }
 
@@ -1327,7 +1328,7 @@ TimeToString (
     }
 
     Year = Time->Year % 100;
-    
+
     // bugbug: for now just print it any old way
     SPrint (Buffer, 0, L"%02d/%02d/%02d  %02d:%02d%c",
         Time->Month,
@@ -1337,7 +1338,7 @@ TimeToString (
         Time->Minute,
         AmPm
         );
-} 
+}
 
 
 
@@ -1352,7 +1353,7 @@ DumpHex (
 {
     CHAR8           *Data, Val[50], Str[20], c;
     UINTN           Size, Index;
-    
+
     UINTN           ScreenCount;
     UINTN           TempColumn;
     UINTN           ScreenSize;
