@@ -65,6 +65,9 @@ extern EFI_GUID ComponentNameProtocol;
 extern EFI_GUID ComponentName2Protocol;
 extern EFI_GUID LoadedImageProtocol;
 extern EFI_GUID HashProtocol;
+extern EFI_GUID PlatformDriverOverrideProtocol;
+extern EFI_GUID BusSpecificDriverOverrideProtocol;
+extern EFI_GUID DriverFamilyOverrideProtocol;
 
 extern EFI_GUID EfiGlobalVariable;
 extern EFI_GUID GenericFileInfo;

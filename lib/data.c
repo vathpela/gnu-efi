@@ -108,6 +108,9 @@ EFI_GUID DriverBindingProtocol    = DRIVER_BINDING_PROTOCOL;
 EFI_GUID ComponentNameProtocol    = COMPONENT_NAME_PROTOCOL;
 EFI_GUID ComponentName2Protocol   = COMPONENT_NAME2_PROTOCOL;
 EFI_GUID HashProtocol             = HASH_PROTOCOL;
+EFI_GUID PlatformDriverOverrideProtocol     = EFI_PLATFORM_DRIVER_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID BusSpecificDriverOverrideProtocol  = EFI_BUS_SPECIFIC_DRIVER_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID DriverFamilyOverrideProtocol       = EFI_DRIVER_FAMILY_OVERRIDE_PROTOCOL_GUID;
 
 //
 // File system information IDs
