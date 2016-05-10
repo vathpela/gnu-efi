@@ -802,6 +802,7 @@ struct _EFI_GRAPHICS_OUTPUT_PROTOCOL {
   EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE        *Mode;
 };
 
+
 INTERFACE_DECL(_EFI_SERVICE_BINDING);
 
 typedef
@@ -823,123 +824,161 @@ typedef struct _EFI_SERVICE_BINDING {
     EFI_SERVICE_BINDING_DESTROY_CHILD DestroyChild;
 } EFI_SERVICE_BINDING;
 
-//
-// Driver Binding Protocol
-//
 
-#define DRIVER_BINDING_PROTOCOL \
+
+/*
+ * EFI Driver Binding Protocol
+ * UEFI Specification Version 2.5 Section 10.1
+ */
+#define EFI_DRIVER_BINDING_PROTOCOL_GUID \
     { 0x18A031AB, 0xB443, 0x4D1A, { 0xA5, 0xC0, 0x0C, 0x09, 0x26, 0x1E, 0x9F, 0x71} }
 
-INTERFACE_DECL(_EFI_DRIVER_BINDING);
+INTERFACE_DECL(_EFI_DRIVER_BINDING_PROTOCOL);
 
 typedef
 EFI_STATUS
-(EFIAPI *EFI_DRIVER_SUPPORTED) (
-    IN struct _EFI_DRIVER_BINDING *This,
-    IN EFI_HANDLE                 ControllerHandle,
-    IN EFI_DEVICE_PATH            *RemainingDevicePath OPTIONAL);
+(EFIAPI *EFI_DRIVER_BINDING_PROTOCOL_SUPPORTED) (
+  IN      struct _EFI_DRIVER_BINDING_PROTOCOL *This,
+  IN      EFI_HANDLE                          ControllerHandle,
+  IN      EFI_DEVICE_PATH                     *RemainingDevicePath OPTIONAL);
 
 typedef
 EFI_STATUS
-(EFIAPI *EFI_DRIVER_START) (
-    IN struct _EFI_DRIVER_BINDING *This,
-    IN EFI_HANDLE                 ControllerHandle,
-    IN EFI_DEVICE_PATH            *RemainingDevicePath OPTIONAL);
+(EFIAPI *EFI_DRIVER_BINDING_PROTOCOL_START) (
+  IN      struct _EFI_DRIVER_BINDING_PROTOCOL *This,
+  IN      EFI_HANDLE                          ControllerHandle,
+  IN      EFI_DEVICE_PATH                     *RemainingDevicePath OPTIONAL);
 
 typedef
 EFI_STATUS
-(EFIAPI *EFI_DRIVER_STOP) (
-    IN struct _EFI_DRIVER_BINDING *This,
-    IN EFI_HANDLE                 ControllerHandle,
-    IN UINTN                      NumberOfChildren,
-    IN EFI_HANDLE                 *ChildHandleBuffer OPTIONAL);
+(EFIAPI *EFI_DRIVER_BINDING_PROTOCOL_STOP) (
+  IN      struct _EFI_DRIVER_BINDING_PROTOCOL *This,
+  IN      EFI_HANDLE                          ControllerHandle,
+  IN      UINTN                               NumberOfChildren,
+  IN      EFI_HANDLE                          *ChildHandleBuffer OPTIONAL);
 
-typedef struct _EFI_DRIVER_BINDING {
-    EFI_DRIVER_SUPPORTED          Supported;
-    EFI_DRIVER_START              Start;
-    EFI_DRIVER_STOP               Stop;
-    UINT32                        Version;
-    EFI_HANDLE                    ImageHandle;
-    EFI_HANDLE                    DriverBindingHandle;
-} EFI_DRIVER_BINDING;
+typedef struct _EFI_DRIVER_BINDING_PROTOCOL {
+  EFI_DRIVER_BINDING_PROTOCOL_SUPPORTED       Supported;
+  EFI_DRIVER_BINDING_PROTOCOL_START           Start;
+  EFI_DRIVER_BINDING_PROTOCOL_STOP            Stop;
+  UINT32                                      Version;
+  EFI_HANDLE                                  ImageHandle;
+  EFI_HANDLE                                  DriverBindingHandle;
+} EFI_DRIVER_BINDING_PROTOCOL;
 
-//
-// Component Name Protocol
-// Deprecated - use Component Name 2 Protocol instead
-//
 
-#define COMPONENT_NAME_PROTOCOL \
+
+/*
+ * Backwards compatibility with older GNU-EFI versions. Deprecated.
+ */
+#define DRIVER_BINDING_PROTOCOL      EFI_DRIVER_BINDING_PROTOCOL_GUID
+#define EFI_DRIVER_SUPPORTED         EFI_DRIVER_BINDING_PROTOCOL_SUPPORTED
+#define EFI_DRIVER_START             EFI_DRIVER_BINDING_PROTOCOL_START
+#define EFI_DRIVER_STOP              EFI_DRIVER_BINDING_PROTOCOL_STOP
+#define _EFI_DRIVER_BINDING          _EFI_DRIVER_BINDING_PROTOCOL
+#define EFI_DRIVER_BINDING           EFI_DRIVER_BINDING_PROTOCOL
+
+
+
+/*
+ * EFI Component Name Protocol
+ * Deprecated - use EFI Component Name 2 Protocol instead
+ */
+#define EFI_COMPONENT_NAME_PROTOCOL_GUID \
     {0x107A772C, 0xD5E1, 0x11D4, { 0x9A, 0x46, 0x00, 0x90, 0x27, 0x3F, 0xC1, 0x4D} }
 
-INTERFACE_DECL(_EFI_COMPONENT_NAME);
+INTERFACE_DECL(_EFI_COMPONENT_NAME_PROTOCOL);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_COMPONENT_NAME_GET_DRIVER_NAME) (
-  IN struct _EFI_COMPONENT_NAME   *This,
-  IN CHAR8                        *Language,
-  OUT CHAR16                      **DriverName);
+  IN      struct _EFI_COMPONENT_NAME_PROTOCOL   *This,
+  IN      CHAR8                                 *Language,
+  OUT     CHAR16                                **DriverName);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_COMPONENT_NAME_GET_CONTROLLER_NAME) (
-  IN struct _EFI_COMPONENT_NAME   *This,
-  IN EFI_HANDLE                   ControllerHandle,
-  IN EFI_HANDLE                   ChildHandle OPTIONAL,
-  IN CHAR8                        *Language,
-  OUT CHAR16                      **ControllerName);
+  IN      struct _EFI_COMPONENT_NAME_PROTOCOL   *This,
+  IN      EFI_HANDLE                            ControllerHandle,
+  IN      EFI_HANDLE                            ChildHandle OPTIONAL,
+  IN      CHAR8                                 *Language,
+  OUT     CHAR16                                **ControllerName);
 
-typedef struct _EFI_COMPONENT_NAME {
-  EFI_COMPONENT_NAME_GET_DRIVER_NAME     GetDriverName;
-  EFI_COMPONENT_NAME_GET_CONTROLLER_NAME GetControllerName;
-  CHAR8                                  *SupportedLanguages;
-} EFI_COMPONENT_NAME;
+typedef struct _EFI_COMPONENT_NAME_PROTOCOL {
+  EFI_COMPONENT_NAME_GET_DRIVER_NAME      GetDriverName;
+  EFI_COMPONENT_NAME_GET_CONTROLLER_NAME  GetControllerName;
+  CHAR8                                   *SupportedLanguages;
+} EFI_COMPONENT_NAME_PROTOCOL;
 
-//
-// Component Name 2 Protocol
-//
 
-#define COMPONENT_NAME2_PROTOCOL \
+
+/*
+ * Backwards compatibility with older GNU-EFI versions. Deprecated.
+ */
+#define COMPONENT_NAME_PROTOCOL  EFI_COMPONENT_NAME_PROTOCOL_GUID
+#define _EFI_COMPONENT_NAME      _EFI_COMPONENT_NAME_PROTOCOL
+#define EFI_COMPONENT_NAME       EFI_COMPONENT_NAME_PROTOCOL
+
+
+
+/*
+ * EFI Component Name 2 Protocol
+ * UEFI Specification Version 2.5 Section 10.5
+ */
+#define EFI_COMPONENT_NAME2_PROTOCOL_GUID \
     {0x6A7A5CFF, 0xE8D9, 0x4F70, { 0xBA, 0xDA, 0x75, 0xAB, 0x30, 0x25, 0xCE, 0x14} }
 
-INTERFACE_DECL(_EFI_COMPONENT_NAME2);
+INTERFACE_DECL(_EFI_COMPONENT_NAME2_PROTOCOL);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_COMPONENT_NAME2_GET_DRIVER_NAME) (
-  IN struct _EFI_COMPONENT_NAME2  *This,
-  IN CHAR8                        *Language,
-  OUT CHAR16                      **DriverName);
+  IN      struct _EFI_COMPONENT_NAME2_PROTOCOL   *This,
+  IN      CHAR8                                  *Language,
+  OUT     CHAR16                                 **DriverName);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_COMPONENT_NAME2_GET_CONTROLLER_NAME) (
-  IN struct _EFI_COMPONENT_NAME2  *This,
-  IN EFI_HANDLE                   ControllerHandle,
-  IN EFI_HANDLE                   ChildHandle OPTIONAL,
-  IN CHAR8                        *Language,
-  OUT CHAR16                      **ControllerName);
+  IN      struct _EFI_COMPONENT_NAME2_PROTOCOL   *This,
+  IN      EFI_HANDLE                             ControllerHandle,
+  IN      EFI_HANDLE                             ChildHandle OPTIONAL,
+  IN      CHAR8                                  *Language,
+  OUT     CHAR16                                 **ControllerName);
 
-typedef struct _EFI_COMPONENT_NAME2 {
-  EFI_COMPONENT_NAME2_GET_DRIVER_NAME     GetDriverName;
-  EFI_COMPONENT_NAME2_GET_CONTROLLER_NAME GetControllerName;
-  CHAR8                                   *SupportedLanguages;
-} EFI_COMPONENT_NAME2;
+typedef struct _EFI_COMPONENT_NAME2_PROTOCOL {
+  EFI_COMPONENT_NAME2_GET_DRIVER_NAME       GetDriverName;
+  EFI_COMPONENT_NAME2_GET_CONTROLLER_NAME   GetControllerName;
+  CHAR8                                     *SupportedLanguages;
+} EFI_COMPONENT_NAME2_PROTOCOL;
 
 
-//
-// Loaded Image Protocol
-//
-#define LOADED_IMAGE_PROTOCOL      \
+
+/*
+ * Backwards compatibility with older GNU-EFI versions. Deprecated.
+ */
+#define COMPONENT_NAME2_PROTOCOL  EFI_COMPONENT_NAME2_PROTOCOL_GUID
+#define _EFI_COMPONENT_NAME2      _EFI_COMPONENT_NAME2_PROTOCOL
+#define EFI_COMPONENT_NAME2       EFI_COMPONENT_NAME2_PROTOCOL
+
+
+
+/*
+ * EFI Loaded Image Protocol
+ * UEFI Specification Version 2.5 Section 8.1
+ */
+#define EFI_LOADED_IMAGE_PROTOCOL_GUID \
     { 0x5B1B31A1, 0x9562, 0x11d2, {0x8E, 0x3F, 0x00, 0xA0, 0xC9, 0x69, 0x72, 0x3B} }
 
-typedef 
+#define EFI_LOADED_IMAGE_PROTOCOL_REVISION  0x1000
+
+typedef
 EFI_STATUS
 (EFIAPI *EFI_IMAGE_UNLOAD) (
     IN EFI_HANDLE                   ImageHandle
     );
 
-#define EFI_IMAGE_INFORMATION_REVISION      0x1000
 typedef struct {
     UINT32                          Revision;
     EFI_HANDLE                      ParentHandle;
@@ -962,13 +1001,23 @@ typedef struct {
 
     // If the driver image supports a dynamic unload request
     EFI_IMAGE_UNLOAD                Unload;
-} EFI_LOADED_IMAGE;
+} EFI_LOADED_IMAGE_PROTOCOL;
 
 
-//
-// EFI_RNG_PROTOCOL
-//
 
+/*
+ * Backwards compatibility with older GNU-EFI versions. Deprecated.
+ */
+#define LOADED_IMAGE_PROTOCOL           EFI_LOADED_IMAGE_PROTOCOL_GUID
+#define EFI_IMAGE_INFORMATION_REVISION  EFI_LOADED_IMAGE_PROTOCOL_REVISION
+#define EFI_LOADED_IMAGE                EFI_LOADED_IMAGE_PROTOCOL
+
+
+
+/*
+ * Random Number Generator Protocol
+ * UEFI Specification Version 2.5 Section 35.5
+ */
 #define EFI_RNG_PROTOCOL_GUID                          \
           { 0x3152bca5, 0xeade, 0x433d, {0x86, 0x2e, 0xc0, 0x1c, 0xdc, 0x29, 0x1f, 0x44} }
 
@@ -997,23 +1046,23 @@ INTERFACE_DECL(_EFI_RNG_PROTOCOL);
 typedef
 EFI_STATUS
 (EFIAPI *EFI_RNG_GET_INFO) (
-IN struct _EFI_RNG_PROTOCOL   *This,
-IN OUT UINTN                  *RNGAlgorithmListSize,
-OUT EFI_RNG_ALGORITHM         *RNGAlgorithmList
+  IN      struct _EFI_RNG_PROTOCOL   *This,
+  IN OUT  UINTN                      *RNGAlgorithmListSize,
+  OUT     EFI_RNG_ALGORITHM          *RNGAlgorithmList
 );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_RNG_GET_RNG) (
-IN struct _EFI_RNG_PROTOCOL   *This,
-IN EFI_RNG_ALGORITHM          *RNGAlgorithm,           OPTIONAL
-IN UINTN                      RNGValueLength,
-OUT UINT8                     *RNGValue
+  IN      struct _EFI_RNG_PROTOCOL   *This,
+  IN      EFI_RNG_ALGORITHM          *RNGAlgorithm,           OPTIONAL
+  IN      UINTN                      RNGValueLength,
+  OUT     UINT8                      *RNGValue
 );
 
 typedef struct _EFI_RNG_PROTOCOL {
-     EFI_RNG_GET_INFO        GetInfo;
-     EFI_RNG_GET_RNG         GetRNG;
+          EFI_RNG_GET_INFO           GetInfo;
+          EFI_RNG_GET_RNG            GetRNG;
 } EFI_RNG_PROTOCOL;
 
 
