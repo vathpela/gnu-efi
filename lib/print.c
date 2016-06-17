@@ -1336,18 +1336,37 @@ FloatToString (
      */
     UINTN x = StrLen(Buffer);
     Buffer[x] = L'.';
+    x++;
 
 
     /*
-     * Fractional part.
+     * Keep fractional part.
      */
     float f = v - (float)i;
     if (f < 0) f = -f;
+
+
+    /*
+     * Leading fractional zeroes.
+     */
+    f *= 10.0;
+    while (   (f != 0)
+           && ((INTN)f == 0))
+    {
+      Buffer[x] = L'0';
+      x++;
+      f *= 10.0;
+    }
+
+
+    /*
+     * Fractional digits.
+     */
     while ((float)(INTN)f != f)
     {
       f *= 10;
     }
-    ValueToString(Buffer + x + 1, FALSE, (INTN)f);
+    ValueToString(Buffer + x, FALSE, (INTN)f);
     return;
 }
 
