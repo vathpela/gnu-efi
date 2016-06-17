@@ -111,7 +111,7 @@ ifeq ($(ARCH),x86_64)
     CPPFLAGS += -DGNU_EFI_USE_MS_ABI -maccumulate-outgoing-args --std=c11
   endif
 
-  CFLAGS += -mno-red-zone -mno-mmx -mno-sse
+  CFLAGS += -mno-red-zone
   ifeq ($(HOSTARCH),ia32)
     ARCH3264 = -m64
   endif

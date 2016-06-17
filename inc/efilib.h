@@ -500,6 +500,13 @@ ValueToString (
     );
 
 VOID
+FloatToString (
+    IN CHAR16   *Buffer,
+    IN BOOLEAN  Comma,
+    IN double    v
+    );
+
+VOID
 TimeToString (
     OUT CHAR16      *Buffer,
     IN EFI_TIME     *Time

@@ -1000,6 +1000,7 @@ Routine Description:
     x       -   hex value
     d       -   value as signed decimal
     u       -   value as unsigned decimal
+    f       -   value as floating point
     c       -   Unicode char
     t       -   EFI time structure
     g       -   Pointer to GUID
@@ -1163,6 +1164,15 @@ Returns:
                     );
                 break;
 
+            case 'f':
+                Item.Item.pw = Item.Scratch;
+                FloatToString (
+                    Item.Item.pw,
+                    Item.Comma,
+                    va_arg(ps->args, double)
+                    );
+                break;
+
             case 't':
                 Item.Item.pw = Item.Scratch;
                 TimeToString (Item.Item.pw, va_arg(ps->args, EFI_TIME *));
@@ -1305,6 +1315,40 @@ ValueToString (
         *(p2++) = *(--p1);
     }
     *p2 = 0;
+}
+
+VOID
+FloatToString (
+    IN CHAR16   *Buffer,
+    IN BOOLEAN  Comma,
+    IN double   v
+    )
+{
+    /*
+     * Integer part.
+     */
+    INTN i = (INTN)v;
+    ValueToString(Buffer, Comma, i);
+
+
+    /*
+     * Decimal point.
+     */
+    UINTN x = StrLen(Buffer);
+    Buffer[x] = L'.';
+
+
+    /*
+     * Fractional part.
+     */
+    float f = v - (float)i;
+    if (f < 0) f = -f;
+    while ((float)(INTN)f != f)
+    {
+      f *= 10;
+    }
+    ValueToString(Buffer + x + 1, FALSE, (INTN)f);
+    return;
 }
 
 VOID
