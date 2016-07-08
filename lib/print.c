@@ -1342,7 +1342,7 @@ FloatToString (
     /*
      * Keep fractional part.
      */
-    float f = v - (float)i;
+    float f = (float)(v - i);
     if (f < 0) f = -f;
 
 
