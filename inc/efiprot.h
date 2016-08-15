@@ -22,62 +22,69 @@ Revision History
 //
 //  FPSWA library protocol
 //
-#define FPSWA_PROTOCOL          \
+#define EFI_FPSWA_PROTOCOL_GUID \
     { 0xc41b6531, 0x97b9, 0x11d3, {0x9a, 0x29, 0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d} }
+#define FPSWA_PROTOCOL EFI_FPSWA_PROTOCOL_GUID
 
 //
 // Device Path protocol
 //
 
-#define DEVICE_PATH_PROTOCOL    \
+#define EFI_DEVICE_PATH_PROTOCOL_GUID \
     { 0x9576e91, 0x6d3f, 0x11d2, {0x8e, 0x39, 0x0, 0xa0, 0xc9, 0x69, 0x72, 0x3b} }
+#define DEVICE_PATH_PROTOCOL EFI_DEVICE_PATH_PROTOCOL_GUID
 
 
 //
 // Block IO protocol
 //
 
-#define BLOCK_IO_PROTOCOL \
+#define EFI_BLOCK_IO_PROTOCOL_GUID \
     { 0x964e5b21, 0x6459, 0x11d2, {0x8e, 0x39, 0x0, 0xa0, 0xc9, 0x69, 0x72, 0x3b} }
-#define EFI_BLOCK_IO_INTERFACE_REVISION   0x00010000
-#define EFI_BLOCK_IO_INTERFACE_REVISION2  0x00020001
-#define EFI_BLOCK_IO_INTERFACE_REVISION3  ((2<<16) | 31)
+#define BLOCK_IO_PROTOCOL EFI_BLOCK_IO_PROTOCOL_GUID
 
-INTERFACE_DECL(_EFI_BLOCK_IO);
+#define EFI_BLOCK_IO_PROTOCOL_REVISION    0x00010000
+#define EFI_BLOCK_IO_PROTOCOL_REVISION2   0x00020001
+#define EFI_BLOCK_IO_PROTOCOL_REVISION3   ((2<<16) | 31)
+#define EFI_BLOCK_IO_INTERFACE_REVISION   EFI_BLOCK_IO_PROTOCOL_REVISION
+#define EFI_BLOCK_IO_INTERFACE_REVISION2  EFI_BLOCK_IO_PROTOCOL_REVISION2
+#define EFI_BLOCK_IO_INTERFACE_REVISION3  EFI_BLOCK_IO_PROTOCOL_REVISION3
+
+INTERFACE_DECL(_EFI_BLOCK_IO_PROTOCOL);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_BLOCK_RESET) (
-    IN struct _EFI_BLOCK_IO     *This,
-    IN BOOLEAN                  ExtendedVerification
+    IN struct _EFI_BLOCK_IO_PROTOCOL  *This,
+    IN BOOLEAN                        ExtendedVerification
     );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_BLOCK_READ) (
-    IN struct _EFI_BLOCK_IO     *This,
-    IN UINT32                   MediaId,
-    IN EFI_LBA                  LBA,
-    IN UINTN                    BufferSize,
-    OUT VOID                    *Buffer
+    IN struct _EFI_BLOCK_IO_PROTOCOL  *This,
+    IN UINT32                         MediaId,
+    IN EFI_LBA                        LBA,
+    IN UINTN                          BufferSize,
+    OUT VOID                          *Buffer
     );
 
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_BLOCK_WRITE) (
-    IN struct _EFI_BLOCK_IO     *This,
-    IN UINT32                   MediaId,
-    IN EFI_LBA                  LBA,
-    IN UINTN                    BufferSize,
-    IN VOID                     *Buffer
+    IN struct _EFI_BLOCK_IO_PROTOCOL  *This,
+    IN UINT32                         MediaId,
+    IN EFI_LBA                        LBA,
+    IN UINTN                          BufferSize,
+    IN VOID                           *Buffer
     );
 
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_BLOCK_FLUSH) (
-    IN struct _EFI_BLOCK_IO     *This
+    IN struct _EFI_BLOCK_IO_PROTOCOL  *This
     );
 
 
@@ -103,7 +110,7 @@ typedef struct {
     UINT32              OptimalTransferLengthGranularity;
 } EFI_BLOCK_IO_MEDIA;
 
-typedef struct _EFI_BLOCK_IO {
+typedef struct _EFI_BLOCK_IO_PROTOCOL {
     UINT64                  Revision;
 
     EFI_BLOCK_IO_MEDIA      *Media;
@@ -113,72 +120,84 @@ typedef struct _EFI_BLOCK_IO {
     EFI_BLOCK_WRITE         WriteBlocks;
     EFI_BLOCK_FLUSH         FlushBlocks;
 
-} EFI_BLOCK_IO;
+} EFI_BLOCK_IO_PROTOCOL;
 
+typedef struct _EFI_BLOCK_IO_PROTOCOL _EFI_BLOCK_IO;
+typedef EFI_BLOCK_IO_PROTOCOL EFI_BLOCK_IO;
 
 
 //
 // Disk Block IO protocol
 //
 
-#define DISK_IO_PROTOCOL \
+#define EFI_DISK_IO_PROTOCOL_GUID \
     { 0xce345171, 0xba0b, 0x11d2,  {0x8e, 0x4f, 0x0, 0xa0, 0xc9, 0x69, 0x72, 0x3b} }
-#define EFI_DISK_IO_INTERFACE_REVISION   0x00010000
+#define DISK_IO_PROTOCOL EFI_DISK_IO_PROTOCOL_GUID
 
-INTERFACE_DECL(_EFI_DISK_IO);
+#define EFI_DISK_IO_PROTOCOL_REVISION  0x00010000
+#define EFI_DISK_IO_INTERFACE_REVISION EFI_DISK_IO_PROTOCOL_REVISION
+
+INTERFACE_DECL(_EFI_DISK_IO_PROTOCOL);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_DISK_READ) (
-    IN struct _EFI_DISK_IO      *This,
-    IN UINT32                   MediaId,
-    IN UINT64                   Offset,
-    IN UINTN                    BufferSize,
-    OUT VOID                    *Buffer
+    IN struct _EFI_DISK_IO_PROTOCOL  *This,
+    IN UINT32                        MediaId,
+    IN UINT64                        Offset,
+    IN UINTN                         BufferSize,
+    OUT VOID                         *Buffer
     );
 
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_DISK_WRITE) (
-    IN struct _EFI_DISK_IO      *This,
-    IN UINT32                   MediaId,
-    IN UINT64                   Offset,
-    IN UINTN                    BufferSize,
-    IN VOID                     *Buffer
+    IN struct _EFI_DISK_IO_PROTOCOL  *This,
+    IN UINT32                        MediaId,
+    IN UINT64                        Offset,
+    IN UINTN                         BufferSize,
+    IN VOID                          *Buffer
     );
 
 
-typedef struct _EFI_DISK_IO {
+typedef struct _EFI_DISK_IO_PROTOCOL {
     UINT64              Revision;
     EFI_DISK_READ       ReadDisk;
     EFI_DISK_WRITE      WriteDisk;
-} EFI_DISK_IO;
+} EFI_DISK_IO_PROTOCOL;
 
+typedef struct _EFI_DISK_IO_PROTOCOL _EFI_DISK_IO;
+typedef EFI_DISK_IO_PROTOCOL EFI_DISK_IO;
 
 //
 // Simple file system protocol
 //
 
-#define SIMPLE_FILE_SYSTEM_PROTOCOL \
+#define EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID \
     { 0x964e5b22, 0x6459, 0x11d2, {0x8e, 0x39, 0x0, 0xa0, 0xc9, 0x69, 0x72, 0x3b} }
+#define SIMPLE_FILE_SYSTEM_PROTOCOL EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID
 
-INTERFACE_DECL(_EFI_FILE_IO_INTERFACE);
+INTERFACE_DECL(_EFI_SIMPLE_FILE_SYSTEM_PROTOCOL);
 INTERFACE_DECL(_EFI_FILE_HANDLE);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_VOLUME_OPEN) (
-    IN struct _EFI_FILE_IO_INTERFACE    *This,
-    OUT struct _EFI_FILE_HANDLE         **Root
+    IN struct _EFI_SIMPLE_FILE_SYSTEM_PROTOCOL    *This,
+    OUT struct _EFI_FILE_HANDLE                   **Root
     );
 
-#define EFI_FILE_IO_INTERFACE_REVISION   0x00010000
+#define EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_REVISION  0x00010000
+#define EFI_FILE_IO_INTERFACE_REVISION EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_REVISION
 
-typedef struct _EFI_FILE_IO_INTERFACE {
+typedef struct _EFI_SIMPLE_FILE_SYSTEM_PROTOCOL {
     UINT64                  Revision;
     EFI_VOLUME_OPEN         OpenVolume;
-} EFI_FILE_IO_INTERFACE;
+} EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
+
+typedef struct _EFI_SIMPLE_FILE_SYSTEM_PROTOCOL _EFI_FILE_IO_INTERFACE;
+typedef EFI_SIMPLE_FILE_SYSTEM_PROTOCOL EFI_FILE_IO_INTERFACE;
 
 //
 //
@@ -313,9 +332,9 @@ typedef struct {
 //
 // The FileName field of the EFI_FILE_INFO data structure is variable length.
 // Whenever code needs to know the size of the EFI_FILE_INFO data structure, it needs to
-// be the size of the data structure without the FileName field.  The following macro 
+// be the size of the data structure without the FileName field.  The following macro
 // computes this size correctly no matter how big the FileName array is declared.
-// This is required to make the EFI_FILE_INFO data structure ANSI compilant. 
+// This is required to make the EFI_FILE_INFO data structure ANSI compilant.
 //
 
 #define SIZE_OF_EFI_FILE_INFO EFI_FIELD_OFFSET(EFI_FILE_INFO,FileName)
@@ -335,9 +354,9 @@ typedef struct {
 //
 // The VolumeLabel field of the EFI_FILE_SYSTEM_INFO data structure is variable length.
 // Whenever code needs to know the size of the EFI_FILE_SYSTEM_INFO data structure, it needs
-// to be the size of the data structure without the VolumeLable field.  The following macro 
+// to be the size of the data structure without the VolumeLable field.  The following macro
 // computes this size correctly no matter how big the VolumeLable array is declared.
-// This is required to make the EFI_FILE_SYSTEM_INFO data structure ANSI compilant. 
+// This is required to make the EFI_FILE_SYSTEM_INFO data structure ANSI compilant.
 //
 
 #define SIZE_OF_EFI_FILE_SYSTEM_INFO EFI_FIELD_OFFSET(EFI_FILE_SYSTEM_INFO,VolumeLabel)
@@ -356,34 +375,38 @@ typedef struct {
 //
 
 
-#define LOAD_FILE_PROTOCOL \
+#define EFI_LOAD_FILE_PROTOCOL_GUID \
     { 0x56EC3091, 0x954C, 0x11d2, {0x8E, 0x3F, 0x00, 0xA0, 0xC9, 0x69, 0x72, 0x3B} }
+#define LOAD_FILE_PROTOCOL EFI_LOAD_FILE_PROTOCOL_GUID
 
-INTERFACE_DECL(_EFI_LOAD_FILE_INTERFACE);
+INTERFACE_DECL(_EFI_LOAD_FILE_PROTOCOL);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_LOAD_FILE) (
-    IN struct _EFI_LOAD_FILE_INTERFACE  *This,
+    IN struct _EFI_LOAD_FILE_PROTOCOL  *This,
     IN EFI_DEVICE_PATH                  *FilePath,
     IN BOOLEAN                          BootPolicy,
     IN OUT UINTN                        *BufferSize,
     IN VOID                             *Buffer OPTIONAL
     );
 
-typedef struct _EFI_LOAD_FILE_INTERFACE {
+typedef struct _EFI_LOAD_FILE_PROTOCOL {
     EFI_LOAD_FILE                       LoadFile;
-} EFI_LOAD_FILE_INTERFACE;
+} EFI_LOAD_FILE_PROTOCOL;
 
+typedef struct _EFI_LOAD_FILE_PROTOCOL _EFI_LOAD_FILE_INTERFACE;
+typedef EFI_LOAD_FILE_PROTOCOL EFI_LOAD_FILE_INTERFACE;
 
 //
 // Device IO protocol
 //
 
-#define DEVICE_IO_PROTOCOL \
+#define EFI_DEVICE_IO_PROTOCOL_GUID \
     { 0xaf6ac311, 0x84c3, 0x11d2, {0x8e, 0x3c, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b} }
+#define DEVICE_IO_PROTOCOL EFI_DEVICE_IO_PROTOCOL_GUID
 
-INTERFACE_DECL(_EFI_DEVICE_IO_INTERFACE);
+INTERFACE_DECL(_EFI_DEVICE_IO_PROTOCOL);
 
 typedef enum {
     IO_UINT8,
@@ -406,7 +429,7 @@ typedef enum {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_DEVICE_IO) (
-    IN struct _EFI_DEVICE_IO_INTERFACE *This,
+    IN struct _EFI_DEVICE_IO_PROTOCOL *This,
     IN EFI_IO_WIDTH                 Width,
     IN UINT64                       Address,
     IN UINTN                        Count,
@@ -418,10 +441,10 @@ typedef struct {
     EFI_DEVICE_IO                   Write;
 } EFI_IO_ACCESS;
 
-typedef 
+typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_DEVICE_PATH) (
-    IN struct _EFI_DEVICE_IO_INTERFACE  *This,
+    IN struct _EFI_DEVICE_IO_PROTOCOL   *This,
     IN UINT64                           Address,
     IN OUT EFI_DEVICE_PATH              **PciDevicePath
     );
@@ -435,7 +458,7 @@ typedef enum {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_IO_MAP) (
-    IN struct _EFI_DEVICE_IO_INTERFACE  *This,
+    IN struct _EFI_DEVICE_IO_PROTOCOL   *This,
     IN EFI_IO_OPERATION_TYPE            Operation,
     IN EFI_PHYSICAL_ADDRESS             *HostAddress,
     IN OUT UINTN                        *NumberOfBytes,
@@ -446,14 +469,14 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_IO_UNMAP) (
-    IN struct _EFI_DEVICE_IO_INTERFACE  *This,
+    IN struct _EFI_DEVICE_IO_PROTOCOL   *This,
     IN VOID                             *Mapping
     );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_IO_ALLOCATE_BUFFER) (
-    IN struct _EFI_DEVICE_IO_INTERFACE  *This,
+    IN struct _EFI_DEVICE_IO_PROTOCOL   *This,
     IN EFI_ALLOCATE_TYPE                Type,
     IN EFI_MEMORY_TYPE                  MemoryType,
     IN UINTN                            Pages,
@@ -463,18 +486,18 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_IO_FLUSH) (
-    IN struct _EFI_DEVICE_IO_INTERFACE  *This
+    IN struct _EFI_DEVICE_IO_PROTOCOL   *This
     );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_IO_FREE_BUFFER) (
-    IN struct _EFI_DEVICE_IO_INTERFACE  *This,
+    IN struct _EFI_DEVICE_IO_PROTOCOL   *This,
     IN UINTN                            Pages,
     IN EFI_PHYSICAL_ADDRESS             HostAddress
     );
 
-typedef struct _EFI_DEVICE_IO_INTERFACE {
+typedef struct _EFI_DEVICE_IO_PROTOCOL {
     EFI_IO_ACCESS                       Mem;
     EFI_IO_ACCESS                       Io;
     EFI_IO_ACCESS                       Pci;
@@ -484,24 +507,28 @@ typedef struct _EFI_DEVICE_IO_INTERFACE {
     EFI_IO_ALLOCATE_BUFFER              AllocateBuffer;
     EFI_IO_FLUSH                        Flush;
     EFI_IO_FREE_BUFFER                  FreeBuffer;
-} EFI_DEVICE_IO_INTERFACE;
+} EFI_DEVICE_IO_PROTOCOL;
 
+typedef struct _EFI_DEVICE_IO_PROTOCOL _EFI_DEVICE_IO_INTERFACE;
+typedef EFI_DEVICE_IO_PROTOCOL EFI_DEVICE_IO_INTERFACE;
 
 //
 // Unicode Collation protocol
 //
 
-#define UNICODE_COLLATION_PROTOCOL \
+#define EFI_UNICODE_COLLATION_PROTOCOL_GUID \
     { 0x1d85cd7f, 0xf43d, 0x11d2, {0x9a, 0xc,  0x0, 0x90, 0x27, 0x3f, 0xc1, 0x4d} }
+#define UNICODE_COLLATION_PROTOCOL EFI_UNICODE_COLLATION_PROTOCOL_GUID
 
-#define UNICODE_BYTE_ORDER_MARK       (CHAR16)(0xfeff)
+#define EFI_UNICODE_BYTE_ORDER_MARK       (CHAR16)(0xfeff)
+#define UNICODE_BYTE_ORDER_MARK EFI_UNICODE_BYTE_ORDER_MARK
 
-INTERFACE_DECL(_EFI_UNICODE_COLLATION_INTERFACE);
+INTERFACE_DECL(_EFI_UNICODE_COLLATION_PROTOCOL);
 
 typedef
 INTN
 (EFIAPI *EFI_UNICODE_STRICOLL) (
-    IN struct _EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN struct _EFI_UNICODE_COLLATION_PROTOCOL  *This,
     IN CHAR16                         *s1,
     IN CHAR16                         *s2
     );
@@ -509,7 +536,7 @@ INTN
 typedef
 BOOLEAN
 (EFIAPI *EFI_UNICODE_METAIMATCH) (
-    IN struct _EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN struct _EFI_UNICODE_COLLATION_PROTOCOL  *This,
     IN CHAR16                         *String,
     IN CHAR16                         *Pattern
     );
@@ -517,21 +544,21 @@ BOOLEAN
 typedef
 VOID
 (EFIAPI *EFI_UNICODE_STRLWR) (
-    IN struct _EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN struct _EFI_UNICODE_COLLATION_PROTOCOL  *This,
     IN OUT CHAR16                       *Str
     );
 
 typedef
 VOID
 (EFIAPI *EFI_UNICODE_STRUPR) (
-    IN struct _EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN struct _EFI_UNICODE_COLLATION_PROTOCOL  *This,
     IN OUT CHAR16                       *Str
     );
 
 typedef
 VOID
 (EFIAPI *EFI_UNICODE_FATTOSTR) (
-    IN struct _EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN struct _EFI_UNICODE_COLLATION_PROTOCOL  *This,
     IN UINTN                            FatSize,
     IN CHAR8                            *Fat,
     OUT CHAR16                          *String
@@ -540,7 +567,7 @@ VOID
 typedef
 BOOLEAN
 (EFIAPI *EFI_UNICODE_STRTOFAT) (
-    IN struct _EFI_UNICODE_COLLATION_INTERFACE  *This,
+    IN struct _EFI_UNICODE_COLLATION_PROTOCOL  *This,
     IN CHAR16                           *String,
     IN UINTN                            FatSize,
     OUT CHAR8                           *Fat
@@ -549,35 +576,44 @@ BOOLEAN
 //
 // Hash Protocol
 //
-#define HASH_PROTOCOL \
+#define EFI_HASH_PROTOCOL_GUID \
   { 0xC5184932, 0xDBA5, 0x46DB, { 0xA5, 0xBA, 0xCC, 0x0B, 0xDA, 0x9C, 0x14, 0x35 } }
+#define HASH_PROTOCOL EFI_HASH_PROTOCOL_GUID
 
-#define EFI_HASH_ALGORITHM_SHA1 \
+#define EFI_HASH_ALGORITHM_SHA1_GUID \
   { 0x2AE9D80F, 0x3FB2, 0x4095, { 0xB7, 0xB1, 0xE9, 0x31, 0x57, 0xB9, 0x46, 0xB6 } } // Deprecated
+#define EFI_HASH_ALGORITHM_SHA1 EFI_HASH_ALGORITHM_SHA1_GUID
 
-#define EFI_HASH_ALGORITHM_SHA224 \
+#define EFI_HASH_ALGORITHM_SHA224_GUID \
   { 0x8DF01A06, 0x9BD5, 0x4BF7, { 0xB0, 0x21, 0xDB, 0x4F, 0xD9, 0xCC, 0xF4, 0x5B } } // Deprecated
+#define EFI_HASH_ALGORITHM_SHA224 EFI_HASH_ALGORITHM_SHA224_GUID
 
-#define EFI_HASH_ALGORITHM_SHA256 \
+#define EFI_HASH_ALGORITHM_SHA256_GUID \
   { 0x51AA59DE, 0xFDF2, 0x4EA3, { 0xBC, 0x63, 0x87, 0x5F, 0xB7, 0x84, 0x2E, 0xE9 } } // Deprecated
+#define EFI_HASH_ALGORITHM_SHA256 EFI_HASH_ALGORITHM_SHA256_GUID
 
-#define EFI_HASH_ALGORITHM_SHA384 \
+#define EFI_HASH_ALGORITHM_SHA384_GUID \
   { 0xEFA96432, 0xDE33, 0x4DD2, { 0xAE, 0xE6, 0x32, 0x8C, 0x33, 0xDF, 0x77, 0x7A } } // Deprecated
+#define EFI_HASH_ALGORITHM_SHA384 EFI_HASH_ALGORITHM_SHA384_GUID
 
-#define EFI_HASH_ALGORITHM_SHA512 \
+#define EFI_HASH_ALGORITHM_SHA512_GUID \
   { 0xCAA4381E, 0x750C, 0x4770, { 0xB8, 0x70, 0x7A, 0x23, 0xB4, 0xE4, 0x21, 0x30 } } // Deprecated
+#define EFI_HASH_ALGORITHM_SHA512 EFI_HASH_ALGORITHM_SHA512_GUID
 
-#define EFI_HASH_ALGORITHM_MD5 \
+#define EFI_HASH_ALGORITHM_MD5_GUID \
   { 0x0AF7C79C, 0x65B5, 0x4319, { 0xB0, 0xAE, 0x44, 0xEC, 0x48, 0x4E, 0x4A, 0xD7 } } // Deprecated
+#define EFI_HASH_ALGORITHM_MD5 EFI_HASH_ALGORITHM_MD5_GUID
 
-#define EFI_HASH_ALGORITHM_SHA1_NOPAD \
+#define EFI_HASH_ALGORITHM_SHA1_NOPAD_GUID \
   { 0x24C5DC2F, 0x53E2, 0x40CA, { 0x9E, 0xD6, 0xA5, 0xD9, 0xA4, 0x9F, 0x46, 0x3B } }
+#define EFI_HASH_ALGORITHM_SHA1_NOPAD EFI_HASH_ALGORITHM_SHA1_NOPAD_GUID
 
-#define EFI_HASH_ALGORITHM_SHA256_NOPAD \
+#define EFI_HASH_ALGORITHM_SHA256_NOPAD_GUID \
   { 0x8628752A, 0x6CB7, 0x4814, { 0x96, 0xFC, 0x24, 0xA8, 0x15, 0xAC, 0x22, 0x26 } }
+#define EFI_HASH_ALGORITHM_SHA256_NOPAD EFI_HASH_ALGORITHM_SHA256_NOPAD_GUID
 
 
-INTERFACE_DECL(_EFI_HASH);
+INTERFACE_DECL(_EFI_HASH_PROTOCOL);
 
 typedef UINT8 EFI_MD5_HASH[16];
 typedef UINT8 EFI_SHA1_HASH[20];
@@ -597,27 +633,30 @@ typedef union _EFI_HASH_OUTPUT {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_HASH_GET_HASH_SIZE) (
-  IN CONST struct _EFI_HASH       *This,
+  IN CONST struct _EFI_HASH_PROTOCOL  *This,
   IN CONST EFI_GUID               *HashAlgorithm,
   OUT UINTN                       *HashSize);
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_HASH_HASH) (
-  IN CONST struct _EFI_HASH       *This,
+  IN CONST struct _EFI_HASH_PROTOCOL  *This,
   IN CONST EFI_GUID               *HashAlgorithm,
   IN BOOLEAN                      Extend,
   IN CONST UINT8                  *Message,
   IN UINT64                       MessageSize,
   IN OUT EFI_HASH_OUTPUT          *Hash);
 
-typedef struct _EFI_HASH {
+typedef struct _EFI_HASH_PROTOCOL {
   EFI_HASH_GET_HASH_SIZE                  GetHashSize;
   EFI_HASH_HASH                           Hash;
-} EFI_HASH;
+} EFI_HASH_PROTOCOL;
+
+typedef struct _EFI_HASH_PROTOCOL _EFI_HASH;
+typedef EFI_HASH_PROTOCOL EFI_HASH;
 
 
-typedef struct _EFI_UNICODE_COLLATION_INTERFACE {
+typedef struct _EFI_UNICODE_COLLATION_PROTOCOL {
 
     // general
     EFI_UNICODE_STRICOLL                StriColl;
@@ -630,14 +669,14 @@ typedef struct _EFI_UNICODE_COLLATION_INTERFACE {
     EFI_UNICODE_STRTOFAT                StrToFat;
 
     CHAR8                               *SupportedLanguages;
-} EFI_UNICODE_COLLATION_INTERFACE;
+} EFI_UNICODE_COLLATION_PROTOCOL;
+
+typedef struct _EFI_UNICODE_COLLATION_PROTOCOL EFI_UNICODE_COLLATION_PROTOCOL;
+typedef EFI_UNICODE_COLLATION_PROTOCOL EFI_UNICODE_COLLATION_INTERFACE;
 
 /* Graphics output protocol */
 #define EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID \
-  { \
-    0x9042a9de, 0x23dc, 0x4a38, {0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } \
-  }
-
+   { 0x9042a9de, 0x23dc, 0x4a38, {0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } }
 typedef struct _EFI_GRAPHICS_OUTPUT_PROTOCOL EFI_GRAPHICS_OUTPUT_PROTOCOL;
 
 typedef struct {
@@ -722,7 +761,7 @@ typedef union {
 typedef enum {
   EfiBltVideoFill,
   EfiBltVideoToBltBuffer,
-  EfiBltBufferToVideo, 
+  EfiBltBufferToVideo,
   EfiBltVideoToVideo,
   EfiGraphicsOutputBltOperationMax
 } EFI_GRAPHICS_OUTPUT_BLT_OPERATION;
@@ -730,28 +769,28 @@ typedef enum {
 /**
   The following table defines actions for BltOperations:
 
-  <B>EfiBltVideoFill</B> - Write data from the  BltBuffer pixel (SourceX, SourceY) 
-  directly to every pixel of the video display rectangle 
-  (DestinationX, DestinationY) (DestinationX + Width, DestinationY + Height). 
+  <B>EfiBltVideoFill</B> - Write data from the  BltBuffer pixel (SourceX, SourceY)
+  directly to every pixel of the video display rectangle
+  (DestinationX, DestinationY) (DestinationX + Width, DestinationY + Height).
   Only one pixel will be used from the BltBuffer. Delta is NOT used.
 
-  <B>EfiBltVideoToBltBuffer</B> - Read data from the video display rectangle 
-  (SourceX, SourceY) (SourceX + Width, SourceY + Height) and place it in 
-  the BltBuffer rectangle (DestinationX, DestinationY ) 
-  (DestinationX + Width, DestinationY + Height). If DestinationX or 
-  DestinationY is not zero then Delta must be set to the length in bytes 
+  <B>EfiBltVideoToBltBuffer</B> - Read data from the video display rectangle
+  (SourceX, SourceY) (SourceX + Width, SourceY + Height) and place it in
+  the BltBuffer rectangle (DestinationX, DestinationY )
+  (DestinationX + Width, DestinationY + Height). If DestinationX or
+  DestinationY is not zero then Delta must be set to the length in bytes
   of a row in the BltBuffer.
 
-  <B>EfiBltBufferToVideo</B> - Write data from the  BltBuffer rectangle 
-  (SourceX, SourceY) (SourceX + Width, SourceY + Height) directly to the 
-  video display rectangle (DestinationX, DestinationY) 
-  (DestinationX + Width, DestinationY + Height). If SourceX or SourceY is 
-  not zero then Delta must be set to the length in bytes of a row in the 
+  <B>EfiBltBufferToVideo</B> - Write data from the  BltBuffer rectangle
+  (SourceX, SourceY) (SourceX + Width, SourceY + Height) directly to the
+  video display rectangle (DestinationX, DestinationY)
+  (DestinationX + Width, DestinationY + Height). If SourceX or SourceY is
+  not zero then Delta must be set to the length in bytes of a row in the
   BltBuffer.
 
   <B>EfiBltVideoToVideo</B> - Copy from the video display rectangle (SourceX, SourceY)
-  (SourceX + Width, SourceY + Height) .to the video display rectangle 
-  (DestinationX, DestinationY) (DestinationX + Width, DestinationY + Height). 
+  (SourceX + Width, SourceY + Height) .to the video display rectangle
+  (DestinationX, DestinationY) (DestinationX + Width, DestinationY + Height).
   The BltBuffer and Delta  are not used in this mode.
 
   @param  This         Protocol instance pointer.
@@ -885,6 +924,7 @@ typedef struct _EFI_SERVICE_BINDING {
  */
 #define EFI_DRIVER_BINDING_PROTOCOL_GUID \
     { 0x18A031AB, 0xB443, 0x4D1A, { 0xA5, 0xC0, 0x0C, 0x09, 0x26, 0x1E, 0x9F, 0x71} }
+#define DRIVER_BINDING_PROTOCOL EFI_DRIVER_BINDING_PROTOCOL_GUID
 
 INTERFACE_DECL(_EFI_DRIVER_BINDING_PROTOCOL);
 
@@ -919,17 +959,16 @@ typedef struct _EFI_DRIVER_BINDING_PROTOCOL {
   EFI_HANDLE                                  DriverBindingHandle;
 } EFI_DRIVER_BINDING_PROTOCOL;
 
+typedef struct _EFI_DRIVER_BINDING_PROTOCOL _EFI_DRIVER_BINDING;
+typedef EFI_DRIVER_BINDING_PROTOCOL EFI_DRIVER_BINDING;
 
 
 /*
  * Backwards compatibility with older GNU-EFI versions. Deprecated.
  */
-#define DRIVER_BINDING_PROTOCOL      EFI_DRIVER_BINDING_PROTOCOL_GUID
 #define EFI_DRIVER_SUPPORTED         EFI_DRIVER_BINDING_PROTOCOL_SUPPORTED
 #define EFI_DRIVER_START             EFI_DRIVER_BINDING_PROTOCOL_START
 #define EFI_DRIVER_STOP              EFI_DRIVER_BINDING_PROTOCOL_STOP
-#define _EFI_DRIVER_BINDING          _EFI_DRIVER_BINDING_PROTOCOL
-#define EFI_DRIVER_BINDING           EFI_DRIVER_BINDING_PROTOCOL
 
 
 
@@ -939,6 +978,7 @@ typedef struct _EFI_DRIVER_BINDING_PROTOCOL {
  */
 #define EFI_COMPONENT_NAME_PROTOCOL_GUID \
     {0x107A772C, 0xD5E1, 0x11D4, { 0x9A, 0x46, 0x00, 0x90, 0x27, 0x3F, 0xC1, 0x4D} }
+#define COMPONENT_NAME_PROTOCOL EFI_COMPONENT_NAME_PROTOCOL_GUID
 
 INTERFACE_DECL(_EFI_COMPONENT_NAME_PROTOCOL);
 
@@ -964,15 +1004,8 @@ typedef struct _EFI_COMPONENT_NAME_PROTOCOL {
   CHAR8                                   *SupportedLanguages;
 } EFI_COMPONENT_NAME_PROTOCOL;
 
-
-
-/*
- * Backwards compatibility with older GNU-EFI versions. Deprecated.
- */
-#define COMPONENT_NAME_PROTOCOL  EFI_COMPONENT_NAME_PROTOCOL_GUID
-#define _EFI_COMPONENT_NAME      _EFI_COMPONENT_NAME_PROTOCOL
-#define EFI_COMPONENT_NAME       EFI_COMPONENT_NAME_PROTOCOL
-
+typedef struct _EFI_COMPONENT_NAME_PROTOCOL _EFI_COMPONENT_NAME;
+typedef EFI_COMPONENT_NAME_PROTOCOL EFI_COMPONENT_NAME;
 
 
 /*
@@ -981,6 +1014,7 @@ typedef struct _EFI_COMPONENT_NAME_PROTOCOL {
  */
 #define EFI_COMPONENT_NAME2_PROTOCOL_GUID \
     {0x6A7A5CFF, 0xE8D9, 0x4F70, { 0xBA, 0xDA, 0x75, 0xAB, 0x30, 0x25, 0xCE, 0x14} }
+#define COMPONENT_NAME2_PROTOCOL EFI_COMPONENT_NAME2_PROTOCOL_GUID
 
 INTERFACE_DECL(_EFI_COMPONENT_NAME2_PROTOCOL);
 
@@ -1006,14 +1040,8 @@ typedef struct _EFI_COMPONENT_NAME2_PROTOCOL {
   CHAR8                                     *SupportedLanguages;
 } EFI_COMPONENT_NAME2_PROTOCOL;
 
-
-
-/*
- * Backwards compatibility with older GNU-EFI versions. Deprecated.
- */
-#define COMPONENT_NAME2_PROTOCOL  EFI_COMPONENT_NAME2_PROTOCOL_GUID
-#define _EFI_COMPONENT_NAME2      _EFI_COMPONENT_NAME2_PROTOCOL
-#define EFI_COMPONENT_NAME2       EFI_COMPONENT_NAME2_PROTOCOL
+typedef struct _EFI_COMPONENT_NAME2_PROTOCOL _EFI_COMPONENT_NAME2;
+typedef EFI_COMPONENT_NAME2_PROTOCOL EFI_COMPONENT_NAME2;
 
 
 
@@ -1023,8 +1051,10 @@ typedef struct _EFI_COMPONENT_NAME2_PROTOCOL {
  */
 #define EFI_LOADED_IMAGE_PROTOCOL_GUID \
     { 0x5B1B31A1, 0x9562, 0x11d2, {0x8E, 0x3F, 0x00, 0xA0, 0xC9, 0x69, 0x72, 0x3B} }
+#define LOADED_IMAGE_PROTOCOL EFI_LOADED_IMAGE_PROTOCOL_GUID
 
 #define EFI_LOADED_IMAGE_PROTOCOL_REVISION  0x1000
+#define EFI_IMAGE_INFORMATION_REVISION  EFI_LOADED_IMAGE_PROTOCOL_REVISION
 
 typedef
 EFI_STATUS
@@ -1056,14 +1086,7 @@ typedef struct {
     EFI_IMAGE_UNLOAD                Unload;
 } EFI_LOADED_IMAGE_PROTOCOL;
 
-
-
-/*
- * Backwards compatibility with older GNU-EFI versions. Deprecated.
- */
-#define LOADED_IMAGE_PROTOCOL           EFI_LOADED_IMAGE_PROTOCOL_GUID
-#define EFI_IMAGE_INFORMATION_REVISION  EFI_LOADED_IMAGE_PROTOCOL_REVISION
-#define EFI_LOADED_IMAGE                EFI_LOADED_IMAGE_PROTOCOL
+typedef EFI_LOADED_IMAGE_PROTOCOL EFI_LOADED_IMAGE;
 
 
 
