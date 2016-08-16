@@ -55,7 +55,7 @@ EFI_UNICODE_COLLATION_INTERFACE   LibStubUnicodeInterface = {
     NULL,   // FatToStr
     NULL,   // StrToFat
     NULL    // SupportedLanguages
-}; 
+};
 
 EFI_UNICODE_COLLATION_INTERFACE   *UnicodeInterface = &LibStubUnicodeInterface;
 
@@ -87,16 +87,20 @@ EFI_GUID NullGuid = { 0,0,0,{0,0,0,0,0,0,0,0} };
 // Protocol IDs
 //
 
-EFI_GUID DevicePathProtocol       = DEVICE_PATH_PROTOCOL;
-EFI_GUID LoadedImageProtocol      = LOADED_IMAGE_PROTOCOL;
+EFI_GUID DevicePathProtocol       = EFI_DEVICE_PATH_PROTOCOL_GUID;
+EFI_GUID DevicePathToTextProtocol = EFI_DEVICE_PATH_TO_TEXT_PROTOCOL_GUID;
+EFI_GUID DevicePathFromTextProtocol = EFI_DEVICE_PATH_FROM_TEXT_PROTOCOL_GUID;
+EFI_GUID LoadedImageProtocol      = EFI_LOADED_IMAGE_PROTOCOL_GUID;
 EFI_GUID TextInProtocol           = SIMPLE_TEXT_INPUT_PROTOCOL;
 EFI_GUID TextOutProtocol          = SIMPLE_TEXT_OUTPUT_PROTOCOL;
-EFI_GUID BlockIoProtocol          = BLOCK_IO_PROTOCOL;
-EFI_GUID DiskIoProtocol           = DISK_IO_PROTOCOL;
-EFI_GUID FileSystemProtocol       = SIMPLE_FILE_SYSTEM_PROTOCOL;
-EFI_GUID LoadFileProtocol         = LOAD_FILE_PROTOCOL;
-EFI_GUID DeviceIoProtocol         = DEVICE_IO_PROTOCOL;
-EFI_GUID UnicodeCollationProtocol = UNICODE_COLLATION_PROTOCOL;
+EFI_GUID BlockIoProtocol          = EFI_BLOCK_IO_PROTOCOL_GUID;
+EFI_GUID BlockIo2Protocol         = EFI_BLOCK_IO_PROTOCOL_GUID;
+EFI_GUID DiskIoProtocol           = EFI_DISK_IO_PROTOCOL_GUID;
+EFI_GUID DiskIo2Protocol          = EFI_DISK_IO2_PROTOCOL_GUID;
+EFI_GUID FileSystemProtocol       = EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID;
+EFI_GUID LoadFileProtocol         = EFI_LOAD_FILE_PROTOCOL_GUID;
+EFI_GUID DeviceIoProtocol         = EFI_DEVICE_IO_PROTOCOL_GUID;
+EFI_GUID UnicodeCollationProtocol = EFI_UNICODE_COLLATION_PROTOCOL_GUID;
 EFI_GUID SerialIoProtocol         = SERIAL_IO_PROTOCOL;
 EFI_GUID SimpleNetworkProtocol    = EFI_SIMPLE_NETWORK_PROTOCOL;
 EFI_GUID PxeBaseCodeProtocol      = EFI_PXE_BASE_CODE_PROTOCOL;
@@ -104,10 +108,10 @@ EFI_GUID PxeCallbackProtocol      = EFI_PXE_BASE_CODE_CALLBACK_PROTOCOL;
 EFI_GUID NetworkInterfaceIdentifierProtocol = EFI_NETWORK_INTERFACE_IDENTIFIER_PROTOCOL;
 EFI_GUID UiProtocol               = EFI_UI_PROTOCOL;
 EFI_GUID PciIoProtocol            = EFI_PCI_IO_PROTOCOL;
-EFI_GUID DriverBindingProtocol    = DRIVER_BINDING_PROTOCOL;
-EFI_GUID ComponentNameProtocol    = COMPONENT_NAME_PROTOCOL;
-EFI_GUID ComponentName2Protocol   = COMPONENT_NAME2_PROTOCOL;
-EFI_GUID HashProtocol             = HASH_PROTOCOL;
+EFI_GUID DriverBindingProtocol    = EFI_DRIVER_BINDING_PROTOCOL_GUID;
+EFI_GUID ComponentNameProtocol    = EFI_COMPONENT_NAME_PROTOCOL_GUID;
+EFI_GUID ComponentName2Protocol   = EFI_COMPONENT_NAME2_PROTOCOL_GUID;
+EFI_GUID HashProtocol             = EFI_HASH_PROTOCOL_GUID;
 EFI_GUID PlatformDriverOverrideProtocol     = EFI_PLATFORM_DRIVER_OVERRIDE_PROTOCOL_GUID;
 EFI_GUID BusSpecificDriverOverrideProtocol  = EFI_BUS_SPECIFIC_DRIVER_OVERRIDE_PROTOCOL_GUID;
 EFI_GUID DriverFamilyOverrideProtocol       = EFI_DRIVER_FAMILY_OVERRIDE_PROTOCOL_GUID;

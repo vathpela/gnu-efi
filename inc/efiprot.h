@@ -125,6 +125,59 @@ typedef struct _EFI_BLOCK_IO_PROTOCOL {
 typedef struct _EFI_BLOCK_IO_PROTOCOL _EFI_BLOCK_IO;
 typedef EFI_BLOCK_IO_PROTOCOL EFI_BLOCK_IO;
 
+#define EFI_BLOCK_IO2_PROTOCOL_GUID \
+    { 0xa77b2472, 0xe282, 0x4e9f, {0xa2, 0x45, 0xc2, 0xc0, 0xe2, 0x7b, 0xbc, 0xc1} }
+
+INTERFACE_DECL(_EFI_BLOCK_IO2_PROTOCOL);
+
+typedef struct {
+    EFI_EVENT               Event;
+    EFI_STATUS              TransactionStatus;
+} EFI_BLOCK_IO2_TOKEN;
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_BLOCK_RESET_EX) (
+    IN struct _EFI_BLOCK_IO2_PROTOCOL  *This,
+    IN BOOLEAN                         ExtendedVerification
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_BLOCK_READ_EX) (
+    IN struct _EFI_BLOCK_IO2_PROTOCOL  *This,
+    IN UINT32                          MediaId,
+    IN EFI_LBA                         LBA,
+    IN OUT EFI_BLOCK_IO2_TOKEN         *Token,
+    IN UINTN                           BufferSize,
+    OUT VOID                           *Buffer
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_BLOCK_WRITE_EX) (
+    IN struct _EFI_BLOCK_IO2_PROTOCOL  *This,
+    IN UINT32                          MediaId,
+    IN EFI_LBA                         LBA,
+    IN OUT EFI_BLOCK_IO2_TOKEN         *Token,
+    IN UINTN                           BufferSize,
+    IN VOID                            *Buffer
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_BLOCK_FLUSH_EX) (
+    IN struct _EFI_BLOCK_IO2_PROTOCOL  *This,
+    IN OUT EFI_BLOCK_IO2_TOKEN         *Token
+    );
+
+typedef struct _EFI_BLOCK_IO2_PROTOCOL {
+    EFI_BLOCK_IO_MEDIA  *Media;
+    EFI_BLOCK_RESET_EX  Reset;
+    EFI_BLOCK_READ_EX   ReadBlocksEx;
+    EFI_BLOCK_WRITE_EX  WriteBlocksEx;
+    EFI_BLOCK_FLUSH_EX  FlushBlocksEx;
+} EFI_BLOCK_IO2_PROTOCOL;
 
 //
 // Disk Block IO protocol
@@ -169,6 +222,62 @@ typedef struct _EFI_DISK_IO_PROTOCOL {
 
 typedef struct _EFI_DISK_IO_PROTOCOL _EFI_DISK_IO;
 typedef EFI_DISK_IO_PROTOCOL EFI_DISK_IO;
+
+
+#define EFI_DISK_IO2_PROTOCOL_GUID \
+    { 0x151c8eae, 0x7f2c, 0x472c,  {0x9e, 0x54, 0x98, 0x28, 0x19, 0x4f, 0x6a, 0x88} }
+
+#define EFI_DISK_IO2_PROTOCOL_REVISION  0x00020000
+
+INTERFACE_DECL(_EFI_DISK_IO2_PROTOCOL);
+
+typedef struct {
+    EFI_EVENT  Event;
+    EFI_STATUS TransactionStatus;
+} EFI_DISK_IO2_TOKEN;
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DISK_CANCEL_EX) (
+    IN struct _EFI_DISK_IO2_PROTOCOL  *This
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DISK_READ_EX) (
+    IN struct _EFI_DISK_IO2_PROTOCOL  *This,
+    IN UINT32                         MediaId,
+    IN UINT64                         Offset,
+    IN OUT EFI_DISK_IO2_TOKEN         *Token,
+    IN UINTN                          BufferSize,
+    OUT VOID                          *Buffer
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DISK_WRITE_EX) (
+    IN struct _EFI_DISK_IO2_PROTOCOL  *This,
+    IN UINT32                         MediaId,
+    IN UINT64                         Offset,
+    IN OUT EFI_DISK_IO2_TOKEN         *Token,
+    IN UINTN                          BufferSize,
+    IN VOID                           *Buffer
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DISK_FLUSH_EX) (
+    IN struct _EFI_DISK_IO2_PROTOCOL  *This,
+    IN OUT EFI_DISK_IO2_TOKEN         *Token
+    );
+
+typedef struct _EFI_DISK_IO2_PROTOCOL {
+    UINT64                            Revision;
+    EFI_DISK_CANCEL_EX                Cancel;
+    EFI_DISK_READ_EX                  ReadDiskEx;
+    EFI_DISK_WRITE_EX                 WriteDiskEx;
+    EFI_DISK_FLUSH_EX                 FlushDiskEx;
+} EFI_DISK_IO2_PROTOCOL;
 
 //
 // Simple file system protocol
@@ -293,9 +402,50 @@ EFI_STATUS
     IN struct _EFI_FILE_HANDLE  *File
     );
 
+typedef struct {
+    EFI_EVENT       Event;
+    EFI_STATUS      Status;
+    UINTN           BufferSize;
+    VOID            *Buffer;
+} EFI_FILE_IO_TOKEN;
 
+typedef
+EFI_STATUS
+(EFIAPI *EFI_FILE_OPEN_EX)(
+    IN struct _EFI_FILE_HANDLE  *File,
+    OUT struct _EFI_FILE_HANDLE **NewHandle,
+    IN CHAR16                   *FileName,
+    IN UINT64                   OpenMode,
+    IN UINT64                   Attributes,
+    IN OUT EFI_FILE_IO_TOKEN    *Token
+    );
 
-#define EFI_FILE_HANDLE_REVISION         0x00010000
+typedef
+EFI_STATUS
+(EFIAPI *EFI_FILE_READ_EX) (
+    IN struct _EFI_FILE_HANDLE  *File,
+    IN OUT EFI_FILE_IO_TOKEN    *Token
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_FILE_WRITE_EX) (
+    IN struct _EFI_FILE_HANDLE  *File,
+    IN OUT EFI_FILE_IO_TOKEN    *Token
+    );
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_FILE_FLUSH_EX) (
+    IN struct _EFI_FILE_HANDLE  *File,
+    IN OUT EFI_FILE_IO_TOKEN    *Token
+    );
+
+#define EFI_FILE_PROTOCOL_REVISION         0x00010000
+#define EFI_FILE_PROTOCOL_REVISION2        0x00020000
+#define EFI_FILE_PROTOCOL_LATEST_REVISION  EFI_FILE_PROTOCOL_REVISION2
+#define EFI_FILE_HANDLE_REVISION           EFI_FILE_PROTOCOL_REVISION
+
 typedef struct _EFI_FILE_HANDLE {
     UINT64                  Revision;
     EFI_FILE_OPEN           Open;
@@ -308,7 +458,13 @@ typedef struct _EFI_FILE_HANDLE {
     EFI_FILE_GET_INFO       GetInfo;
     EFI_FILE_SET_INFO       SetInfo;
     EFI_FILE_FLUSH          Flush;
-} EFI_FILE, *EFI_FILE_HANDLE;
+    EFI_FILE_OPEN_EX        OpenEx;
+    EFI_FILE_READ_EX        ReadEx;
+    EFI_FILE_WRITE_EX       WriteEx;
+    EFI_FILE_FLUSH_EX       FlushEx;
+} EFI_FILE_PROTOCOL, *EFI_FILE_HANDLE;
+
+typedef EFI_FILE_PROTOCOL EFI_FILE;
 
 
 //

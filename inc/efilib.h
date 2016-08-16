@@ -37,6 +37,8 @@ extern EFI_BOOT_SERVICES        *BS;
 extern EFI_RUNTIME_SERVICES     *RT;
 
 extern EFI_GUID DevicePathProtocol;
+extern EFI_GUID DevicePathToTextProtocol;
+extern EFI_GUID DevicePathFromTextProtocol;
 extern EFI_GUID LoadedImageProtocol;
 extern EFI_GUID TextInProtocol;
 extern EFI_GUID TextOutProtocol;
@@ -45,7 +47,9 @@ extern EFI_GUID EdidDiscoveredProtocol;
 extern EFI_GUID EdidActiveProtocol;
 extern EFI_GUID EdidOverrideProtocol;
 extern EFI_GUID BlockIoProtocol;
+extern EFI_GUID BlockIo2Protocol;
 extern EFI_GUID DiskIoProtocol;
+extern EFI_GUID DiskIo2Protocol;
 extern EFI_GUID FileSystemProtocol;
 extern EFI_GUID LoadFileProtocol;
 extern EFI_GUID DeviceIoProtocol;
@@ -67,7 +71,6 @@ extern EFI_GUID PciIoProtocol;
 extern EFI_GUID DriverBindingProtocol;
 extern EFI_GUID ComponentNameProtocol;
 extern EFI_GUID ComponentName2Protocol;
-extern EFI_GUID LoadedImageProtocol;
 extern EFI_GUID HashProtocol;
 extern EFI_GUID PlatformDriverOverrideProtocol;
 extern EFI_GUID BusSpecificDriverOverrideProtocol;
@@ -202,7 +205,7 @@ VOID
 SetMem (
     IN VOID     *Buffer,
     IN UINTN    Size,
-    IN UINT8    Value    
+    IN UINT8    Value
     );
 
 VOID
@@ -279,7 +282,7 @@ UINTN
 strlena (
     IN CONST CHAR8    *s1
     );
-    
+
 UINTN
 strcmpa (
     IN CONST CHAR8    *s1,
@@ -303,13 +306,13 @@ Atoi (
     CONST CHAR16  *str
     );
 
-BOOLEAN 
+BOOLEAN
 MetaMatch (
     IN CHAR16   *String,
     IN CHAR16   *Pattern
     );
 
-BOOLEAN 
+BOOLEAN
 MetaiMatch (
     IN CHAR16   *String,
     IN CHAR16   *Pattern
@@ -807,7 +810,7 @@ OpenSimpleReadFile (
     IN VOID                     *SourceBuffer   OPTIONAL,
     IN UINTN                    SourceSize,
     IN OUT EFI_DEVICE_PATH      **FilePath,
-    OUT EFI_HANDLE              *DeviceHandle,    
+    OUT EFI_HANDLE              *DeviceHandle,
     OUT SIMPLE_READ_FILE        *SimpleReadHandle
     );
 
@@ -848,7 +851,7 @@ LibGetSystemConfigurationTable(
 
 BOOLEAN
 LibIsValidTextGraphics (
-    IN  CHAR16  Graphic,   
+    IN  CHAR16  Graphic,
     OUT CHAR8   *PcAnsi,    OPTIONAL
     OUT CHAR8   *Ascii      OPTIONAL
     );
@@ -889,34 +892,34 @@ InitializeGlobalIoDevice (
         IN  EFI_DEVICE_PATH             *DevicePath,
         IN  EFI_GUID                    *Protocol,
         IN  CHAR8                       *ErrorStr,
-        OUT EFI_DEVICE_IO_INTERFACE     **GlobalIoFncs 
+        OUT EFI_DEVICE_IO_INTERFACE     **GlobalIoFncs
         );
 
-UINT32 
+UINT32
 ReadPort (
-        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs, 
+        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs,
         IN  EFI_IO_WIDTH                Width,
         IN  UINTN                       Port
         );
 
-UINT32 
+UINT32
 WritePort (
-        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs, 
+        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs,
         IN  EFI_IO_WIDTH                Width,
         IN  UINTN                       Port,
         IN  UINTN                       Data
         );
 
-UINT32 
+UINT32
 ReadPciConfig (
-        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs, 
+        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs,
         IN  EFI_IO_WIDTH                Width,
         IN  UINTN                       Port
         );
 
-UINT32 
+UINT32
 WritePciConfig (
-        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs, 
+        IN  EFI_DEVICE_IO_INTERFACE     *GlobalIoFncs,
         IN  EFI_IO_WIDTH                Width,
         IN  UINTN                       Port,
         IN  UINTN                       Data
