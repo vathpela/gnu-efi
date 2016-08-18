@@ -16,6 +16,12 @@ Revision History
 
 --*/
 
+
+// Add a predefined macro to detect usage of the library
+#ifndef _GNU_EFI
+#define _GNU_EFI
+#endif
+
 //
 // Build flags on input
 //  EFI32

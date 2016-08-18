@@ -80,49 +80,49 @@ EFI_DEVICE_PATH EndInstanceDevicePath[] = {
 // EFI IDs
 //
 
-EFI_GUID EfiGlobalVariable  = EFI_GLOBAL_VARIABLE;
+EFI_GUID gEfiGlobalVariableGuid = EFI_GLOBAL_VARIABLE;
 EFI_GUID NullGuid = { 0,0,0,{0,0,0,0,0,0,0,0} };
 
 //
 // Protocol IDs
 //
 
-EFI_GUID DevicePathProtocol       = EFI_DEVICE_PATH_PROTOCOL_GUID;
-EFI_GUID DevicePathToTextProtocol = EFI_DEVICE_PATH_TO_TEXT_PROTOCOL_GUID;
-EFI_GUID DevicePathFromTextProtocol = EFI_DEVICE_PATH_FROM_TEXT_PROTOCOL_GUID;
-EFI_GUID LoadedImageProtocol      = EFI_LOADED_IMAGE_PROTOCOL_GUID;
-EFI_GUID TextInProtocol           = SIMPLE_TEXT_INPUT_PROTOCOL;
-EFI_GUID TextOutProtocol          = SIMPLE_TEXT_OUTPUT_PROTOCOL;
-EFI_GUID BlockIoProtocol          = EFI_BLOCK_IO_PROTOCOL_GUID;
-EFI_GUID BlockIo2Protocol         = EFI_BLOCK_IO_PROTOCOL_GUID;
-EFI_GUID DiskIoProtocol           = EFI_DISK_IO_PROTOCOL_GUID;
-EFI_GUID DiskIo2Protocol          = EFI_DISK_IO2_PROTOCOL_GUID;
-EFI_GUID FileSystemProtocol       = EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID;
-EFI_GUID LoadFileProtocol         = EFI_LOAD_FILE_PROTOCOL_GUID;
-EFI_GUID DeviceIoProtocol         = EFI_DEVICE_IO_PROTOCOL_GUID;
-EFI_GUID UnicodeCollationProtocol = EFI_UNICODE_COLLATION_PROTOCOL_GUID;
-EFI_GUID SerialIoProtocol         = SERIAL_IO_PROTOCOL;
-EFI_GUID SimpleNetworkProtocol    = EFI_SIMPLE_NETWORK_PROTOCOL;
-EFI_GUID PxeBaseCodeProtocol      = EFI_PXE_BASE_CODE_PROTOCOL;
-EFI_GUID PxeCallbackProtocol      = EFI_PXE_BASE_CODE_CALLBACK_PROTOCOL;
-EFI_GUID NetworkInterfaceIdentifierProtocol = EFI_NETWORK_INTERFACE_IDENTIFIER_PROTOCOL;
-EFI_GUID UiProtocol               = EFI_UI_PROTOCOL;
-EFI_GUID PciIoProtocol            = EFI_PCI_IO_PROTOCOL;
-EFI_GUID DriverBindingProtocol    = EFI_DRIVER_BINDING_PROTOCOL_GUID;
-EFI_GUID ComponentNameProtocol    = EFI_COMPONENT_NAME_PROTOCOL_GUID;
-EFI_GUID ComponentName2Protocol   = EFI_COMPONENT_NAME2_PROTOCOL_GUID;
-EFI_GUID HashProtocol             = EFI_HASH_PROTOCOL_GUID;
-EFI_GUID PlatformDriverOverrideProtocol     = EFI_PLATFORM_DRIVER_OVERRIDE_PROTOCOL_GUID;
-EFI_GUID BusSpecificDriverOverrideProtocol  = EFI_BUS_SPECIFIC_DRIVER_OVERRIDE_PROTOCOL_GUID;
-EFI_GUID DriverFamilyOverrideProtocol       = EFI_DRIVER_FAMILY_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID gEfiDevicePathProtocolGuid                 = EFI_DEVICE_PATH_PROTOCOL_GUID;
+EFI_GUID gEfiDevicePathToTextProtocolGuid           = EFI_DEVICE_PATH_TO_TEXT_PROTOCOL_GUID;
+EFI_GUID gEfiDevicePathFromTextProtocolGuid         = EFI_DEVICE_PATH_FROM_TEXT_PROTOCOL_GUID;
+EFI_GUID gEfiLoadedImageProtocolGuid                = EFI_LOADED_IMAGE_PROTOCOL_GUID;
+EFI_GUID gEfiSimpleTextInProtocolGuid               = EFI_SIMPLE_TEXT_INPUT_PROTOCOL_GUID;
+EFI_GUID gEfiSimpleTextOutProtocolGuid              = EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL_GUID;
+EFI_GUID gEfiBlockIoProtocolGuid                    = EFI_BLOCK_IO_PROTOCOL_GUID;
+EFI_GUID gEfiBlockIo2ProtocolGuid                   = EFI_BLOCK_IO2_PROTOCOL_GUID;
+EFI_GUID gEfiDiskIoProtocolGuid                     = EFI_DISK_IO_PROTOCOL_GUID;
+EFI_GUID gEfiDiskIo2ProtocolGuid                    = EFI_DISK_IO2_PROTOCOL_GUID;
+EFI_GUID gEfiSimpleFileSystemProtocolGuid           = EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID;
+EFI_GUID gEfiLoadFileProtocolGuid                   = EFI_LOAD_FILE_PROTOCOL_GUID;
+EFI_GUID gEfiDeviceIoProtocolGuid                   = EFI_DEVICE_IO_PROTOCOL_GUID;
+EFI_GUID gEfiUnicodeCollationProtocolGuid           = EFI_UNICODE_COLLATION_PROTOCOL_GUID;
+EFI_GUID gEfiSerialIoProtocolGuid                   = EFI_SERIAL_IO_PROTOCOL_GUID;
+EFI_GUID gEfiSimpleNetworkProtocolGuid              = EFI_SIMPLE_NETWORK_PROTOCOL_GUID;
+EFI_GUID gEfiPxeBaseCodeProtocolGuid                = EFI_PXE_BASE_CODE_PROTOCOL_GUID;
+EFI_GUID gEfiPxeBaseCodeCallbackProtocolGuid        = EFI_PXE_BASE_CODE_CALLBACK_PROTOCOL_GUID;
+EFI_GUID gEfiNetworkInterfaceIdentifierProtocolGuid = EFI_NETWORK_INTERFACE_IDENTIFIER_PROTOCOL_GUID;
+EFI_GUID gEFiUiInterfaceProtocolGuid                = EFI_UI_INTERFACE_PROTOCOL_GUID;
+EFI_GUID gEfiPciIoProtocolGuid                      = EFI_PCI_IO_PROTOCOL_GUID;
+EFI_GUID gEfiDriverBindingProtocolGuid              = EFI_DRIVER_BINDING_PROTOCOL_GUID;
+EFI_GUID gEfiComponentNameProtocolGuid              = EFI_COMPONENT_NAME_PROTOCOL_GUID;
+EFI_GUID gEfiComponentName2ProtocolGuid             = EFI_COMPONENT_NAME2_PROTOCOL_GUID;
+EFI_GUID gEfiHashProtocolGuid                       = EFI_HASH_PROTOCOL_GUID;
+EFI_GUID gEfiPlatformDriverOverrideProtocolGuid     = EFI_PLATFORM_DRIVER_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID gEfiBusSpecificDriverOverrideProtocolGuid  = EFI_BUS_SPECIFIC_DRIVER_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID gEfiDriverFamilyOverrideProtocolGuid       = EFI_DRIVER_FAMILY_OVERRIDE_PROTOCOL_GUID;
 
 //
 // File system information IDs
 //
 
-EFI_GUID GenericFileInfo           = EFI_FILE_INFO_ID;
-EFI_GUID FileSystemInfo            = EFI_FILE_SYSTEM_INFO_ID;
-EFI_GUID FileSystemVolumeLabelInfo = EFI_FILE_SYSTEM_VOLUME_LABEL_INFO_ID;
+EFI_GUID gEfiFileInfoGuid                           = EFI_FILE_INFO_ID;
+EFI_GUID gEfiFileSystemInfoGuid                     = EFI_FILE_SYSTEM_INFO_ID;
+EFI_GUID gEfiFileSystemVolumeLabelInfoIdGuid        = EFI_FILE_SYSTEM_VOLUME_LABEL_INFO_ID;
 
 //
 // Reference implementation public protocol IDs
@@ -137,18 +137,20 @@ EFI_GUID TextOutSpliterProtocol = TEXT_OUT_SPLITER_PROTOCOL;
 EFI_GUID ErrorOutSpliterProtocol = ERROR_OUT_SPLITER_PROTOCOL;
 EFI_GUID TextInSpliterProtocol = TEXT_IN_SPLITER_PROTOCOL;
 /* Added for GOP support */
-EFI_GUID GraphicsOutputProtocol = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
-EFI_GUID EdidDiscoveredProtocol = EFI_EDID_DISCOVERED_PROTOCOL_GUID;
-EFI_GUID EdidActiveProtocol = EFI_EDID_ACTIVE_PROTOCOL_GUID;
-EFI_GUID EdidOverrideProtocol = EFI_EDID_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID gEfiGraphicsOutputProtocolGuid             = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
+EFI_GUID gEfiEdidDiscoveredProtocolGuid             = EFI_EDID_DISCOVERED_PROTOCOL_GUID;
+EFI_GUID gEfiEdidActiveProtocolGuid                 = EFI_EDID_ACTIVE_PROTOCOL_GUID;
+EFI_GUID gEfiEdidOverrideProtocolGuid               = EFI_EDID_OVERRIDE_PROTOCOL_GUID;
 
 EFI_GUID AdapterDebugProtocol = ADAPTER_DEBUG_PROTOCOL;
 
 //
 // Device path media protocol IDs
 //
-EFI_GUID PcAnsiProtocol = DEVICE_PATH_MESSAGING_PC_ANSI;
-EFI_GUID Vt100Protocol  = DEVICE_PATH_MESSAGING_VT_100;
+EFI_GUID gEfiPcAnsiGuid                             = EFI_PC_ANSI_GUID;
+EFI_GUID gEfiVT100Guid                              = EFI_VT_100_GUID;
+EFI_GUID gEfiVT100PlusGuid                          = EFI_VT_100_PLUS_GUID;
+EFI_GUID gEfiVTUTF8Guid                             = EFI_VT_UTF8_GUID;
 
 //
 // EFI GPT Partition Type GUIDs

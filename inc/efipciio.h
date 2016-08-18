@@ -1,10 +1,10 @@
 #ifndef _EFI_PCI_IO_H
 #define _EFI_PCI_IO_H
 
-#define EFI_PCI_IO_PROTOCOL \
+#define EFI_PCI_IO_PROTOCOL_GUID \
     { 0x4cf5b200, 0x68b8, 0x4ca5, {0x9e, 0xec, 0xb2, 0x3e, 0x3f, 0x50, 0x02, 0x9a} }
 
-INTERFACE_DECL(_EFI_PCI_IO);
+INTERFACE_DECL(_EFI_PCI_IO_PROTOCOL);
 
 typedef enum {
     EfiPciIoWidthUint8,
@@ -27,25 +27,25 @@ typedef enum {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_POLL_IO_MEM) (
-  IN struct _EFI_PCI_IO *This,
-  IN EFI_PCI_IO_PROTOCOL_WIDTH  Width,
-  IN UINT8                      BarIndex,
-  IN UINT64                     Offset,
-  IN UINT64                     Mask,
-  IN UINT64                     Value,
-  IN UINT64                     Delay,
-  OUT UINT64                    *Result
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN EFI_PCI_IO_PROTOCOL_WIDTH    Width,
+  IN UINT8                        BarIndex,
+  IN UINT64                       Offset,
+  IN UINT64                       Mask,
+  IN UINT64                       Value,
+  IN UINT64                       Delay,
+  OUT UINT64                      *Result
   );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_IO_MEM) (
-  IN struct _EFI_PCI_IO *This,
-  IN EFI_PCI_IO_PROTOCOL_WIDTH  Width,
-  IN UINT8                      BarIndex,
-  IN UINT64                     Offset,
-  IN UINTN                      Count,
-  IN OUT VOID                   *Buffer
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN EFI_PCI_IO_PROTOCOL_WIDTH    Width,
+  IN UINT8                        BarIndex,
+  IN UINT64                       Offset,
+  IN UINTN                        Count,
+  IN OUT VOID                     *Buffer
 );
 
 typedef struct {
@@ -56,11 +56,11 @@ typedef struct {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_CONFIG) (
-  IN struct _EFI_PCI_IO *This,
-  IN EFI_PCI_IO_PROTOCOL_WIDTH  Width,
-  IN UINT32                     Offset,
-  IN UINTN                      Count,
-  IN OUT VOID                   *Buffer
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN EFI_PCI_IO_PROTOCOL_WIDTH    Width,
+  IN UINT32                       Offset,
+  IN UINTN                        Count,
+  IN OUT VOID                     *Buffer
 );
 
 typedef struct {
@@ -71,13 +71,13 @@ typedef struct {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_COPY_MEM) (
-  IN struct _EFI_PCI_IO *This,
-  IN EFI_PCI_IO_PROTOCOL_WIDTH  Width,
-  IN UINT8                      DestBarIndex,
-  IN UINT64                     DestOffset,
-  IN UINT8                      SrcBarIndex,
-  IN UINT64                     SrcOffset,
-  IN UINTN                      Count
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN EFI_PCI_IO_PROTOCOL_WIDTH    Width,
+  IN UINT8                        DestBarIndex,
+  IN UINT64                       DestOffset,
+  IN UINT8                        SrcBarIndex,
+  IN UINT64                       SrcOffset,
+  IN UINTN                        Count
   );
 
 typedef enum {
@@ -90,7 +90,7 @@ typedef enum {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_MAP) (
-  IN struct _EFI_PCI_IO    *This,
+  IN struct _EFI_PCI_IO_PROTOCOL   *This,
   IN EFI_PCI_IO_PROTOCOL_OPERATION Operation,
   IN VOID                          *HostAddress,
   IN OUT UINTN                     *NumberOfBytes,
@@ -101,43 +101,43 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_UNMAP) (
-  IN struct _EFI_PCI_IO *This,
-  IN VOID                       *Mapping
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN VOID                         *Mapping
 );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_ALLOCATE_BUFFER) (
-  IN struct _EFI_PCI_IO *This,
-  IN EFI_ALLOCATE_TYPE          Type,
-  IN EFI_MEMORY_TYPE            MemoryType,
-  IN UINTN                      Pages,
-  OUT VOID                      **HostAddress,
-  IN UINT64                     Attributes
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN EFI_ALLOCATE_TYPE            Type,
+  IN EFI_MEMORY_TYPE              MemoryType,
+  IN UINTN                        Pages,
+  OUT VOID                        **HostAddress,
+  IN UINT64                       Attributes
   );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_FREE_BUFFER) (
-  IN struct _EFI_PCI_IO *This,
-  IN UINTN                      Pages,
-  IN VOID                       *HostAddress
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN UINTN                        Pages,
+  IN VOID                         *HostAddress
   );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_FLUSH) (
-  IN struct _EFI_PCI_IO *This
+  IN struct _EFI_PCI_IO_PROTOCOL  *This
   );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_GET_LOCATION) (
-  IN struct _EFI_PCI_IO *This,
-  OUT UINTN                     *SegmentNumber,
-  OUT UINTN                     *BusNumber,
-  OUT UINTN                     *DeviceNumber,
-  OUT UINTN                     *FunctionNumber
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  OUT UINTN                       *SegmentNumber,
+  OUT UINTN                       *BusNumber,
+  OUT UINTN                       *DeviceNumber,
+  OUT UINTN                       *FunctionNumber
   );
 
 #define EFI_PCI_IO_ATTRIBUTE_ISA_IO               0x0002
@@ -171,7 +171,7 @@ typedef enum {
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_ATTRIBUTES) (
-  IN struct _EFI_PCI_IO             *This,
+  IN struct _EFI_PCI_IO_PROTOCOL             *This,
   IN EFI_PCI_IO_PROTOCOL_ATTRIBUTE_OPERATION Operation,
   IN UINT64                                  Attributes,
   OUT UINT64                                 *Result OPTIONAL
@@ -180,23 +180,23 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_GET_BAR_ATTRIBUTES) (
-  IN struct _EFI_PCI_IO *This,
-  IN UINT8                      BarIndex,
-  OUT UINT64                    *Supports OPTIONAL,
-  OUT VOID                      **Resources OPTIONAL
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN UINT8                        BarIndex,
+  OUT UINT64                      *Supports   OPTIONAL,
+  OUT VOID                        **Resources OPTIONAL
   );
 
 typedef
 EFI_STATUS
 (EFIAPI *EFI_PCI_IO_PROTOCOL_SET_BAR_ATTRIBUTES) (
-  IN struct _EFI_PCI_IO *This,
-  IN UINT64                     Attributes,
-  IN UINT8                      BarIndex,
-  IN OUT UINT64                 *Offset,
-  IN OUT UINT64                 *Length
+  IN struct _EFI_PCI_IO_PROTOCOL  *This,
+  IN UINT64                       Attributes,
+  IN UINT8                        BarIndex,
+  IN OUT UINT64                   *Offset,
+  IN OUT UINT64                   *Length
   );
 
-typedef struct _EFI_PCI_IO {
+typedef struct _EFI_PCI_IO_PROTOCOL {
   EFI_PCI_IO_PROTOCOL_POLL_IO_MEM        PollMem;
   EFI_PCI_IO_PROTOCOL_POLL_IO_MEM        PollIo;
   EFI_PCI_IO_PROTOCOL_ACCESS             Mem;
@@ -214,6 +214,14 @@ typedef struct _EFI_PCI_IO {
   EFI_PCI_IO_PROTOCOL_SET_BAR_ATTRIBUTES SetBarAttributes;
   UINT64                                 RomSize;
   VOID                                   *RomImage;
-} EFI_PCI_IO;
+} EFI_PCI_IO_PROTOCOL;
+
+// Note: Because it conflicted with the EDK2 struct name, the
+// 'EFI_PCI_IO_PROTOCOL' GUID definition, from older versions
+// of gnu-efi, is now obsoleted.
+// Use 'EFI_PCI_IO_PROTOCOL_GUID' instead.
+
+typedef struct _EFI_PCI_IO_PROTOCOL _EFI_PCI_IO;
+typedef EFI_PCI_IO_PROTOCOL EFI_PCI_IO;
 
 #endif /* _EFI_PCI_IO_H */
