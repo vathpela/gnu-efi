@@ -108,6 +108,7 @@ EFI_GUID gEfiPxeBaseCodeCallbackProtocolGuid        = EFI_PXE_BASE_CODE_CALLBACK
 EFI_GUID gEfiNetworkInterfaceIdentifierProtocolGuid = EFI_NETWORK_INTERFACE_IDENTIFIER_PROTOCOL_GUID;
 EFI_GUID gEFiUiInterfaceProtocolGuid                = EFI_UI_INTERFACE_PROTOCOL_GUID;
 EFI_GUID gEfiPciIoProtocolGuid                      = EFI_PCI_IO_PROTOCOL_GUID;
+EFI_GUID gEfiPciRootBridgeIoProtocolGuid            = EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL_GUID;
 EFI_GUID gEfiDriverBindingProtocolGuid              = EFI_DRIVER_BINDING_PROTOCOL_GUID;
 EFI_GUID gEfiComponentNameProtocolGuid              = EFI_COMPONENT_NAME_PROTOCOL_GUID;
 EFI_GUID gEfiComponentName2ProtocolGuid             = EFI_COMPONENT_NAME2_PROTOCOL_GUID;

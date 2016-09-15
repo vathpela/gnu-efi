@@ -96,6 +96,7 @@ extern EFI_GUID gEFiUiInterfaceProtocolGuid;
 extern EFI_GUID InternalShellProtocol;
 extern EFI_GUID gEfiPciIoProtocolGuid;
 #define PciIoProtocol gEfiPciIoProtocolGuid
+extern EFI_GUID gEfiPciRootBridgeIoProtocolGuid;
 extern EFI_GUID gEfiDriverBindingProtocolGuid;
 #define DriverBindingProtocol gEfiDriverBindingProtocolGuid
 extern EFI_GUID gEfiComponentNameProtocolGuid;
