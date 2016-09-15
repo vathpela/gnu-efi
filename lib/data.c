@@ -116,6 +116,7 @@ EFI_GUID gEfiHashProtocolGuid                       = EFI_HASH_PROTOCOL_GUID;
 EFI_GUID gEfiPlatformDriverOverrideProtocolGuid     = EFI_PLATFORM_DRIVER_OVERRIDE_PROTOCOL_GUID;
 EFI_GUID gEfiBusSpecificDriverOverrideProtocolGuid  = EFI_BUS_SPECIFIC_DRIVER_OVERRIDE_PROTOCOL_GUID;
 EFI_GUID gEfiDriverFamilyOverrideProtocolGuid       = EFI_DRIVER_FAMILY_OVERRIDE_PROTOCOL_GUID;
+EFI_GUID gEfiEbcProtocolGuid                        = EFI_EBC_PROTOCOL_GUID;
 
 //
 // File system information IDs

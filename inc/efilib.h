@@ -111,6 +111,7 @@ extern EFI_GUID gEfiBusSpecificDriverOverrideProtocolGuid;
 #define BusSpecificDriverOverrideProtocol gEfiBusSpecificDriverOverrideProtocolGuid
 extern EFI_GUID gEfiDriverFamilyOverrideProtocolGuid;
 #define DriverFamilyOverrideProtocol gEfiDriverFamilyOverrideProtocolGuid
+extern EFI_GUID gEfiEbcProtocolGuid;
 
 extern EFI_GUID gEfiGlobalVariableGuid;
 #define EfiGlobalVariable gEfiGlobalVariableGuid
