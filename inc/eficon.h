@@ -150,7 +150,7 @@ typedef struct _SIMPLE_TEXT_OUTPUT_INTERFACE {
 
     // Current mode
     SIMPLE_TEXT_OUTPUT_MODE         *Mode;
-} SIMPLE_TEXT_OUTPUT_INTERFACE;
+} SIMPLE_TEXT_OUTPUT_INTERFACE, EFI_SIMPLE_TEXT_OUT_PROTOCOL;
 
 //
 // Define's for required EFI Unicode Box Draw character
@@ -278,6 +278,8 @@ typedef struct {
 #define SCAN_F8                         0x0012
 #define SCAN_F9                         0x0013
 #define SCAN_F10                        0x0014
+#define SCAN_F11                        0x0015
+#define SCAN_F12                        0x0016
 #define SCAN_ESC                        0x0017
 
 typedef
@@ -298,7 +300,7 @@ typedef struct _SIMPLE_INPUT_INTERFACE {
     EFI_INPUT_RESET                     Reset;
     EFI_INPUT_READ_KEY                  ReadKeyStroke;
     EFI_EVENT                           WaitForKey;
-} SIMPLE_INPUT_INTERFACE;
+} SIMPLE_INPUT_INTERFACE, EFI_SIMPLE_TEXT_IN_PROTOCOL;
 
 #endif
 
