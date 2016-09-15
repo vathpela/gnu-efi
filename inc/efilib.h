@@ -142,6 +142,9 @@ extern EFI_GUID SalSystemTableGuid;
 extern EFI_GUID SimplePointerProtocol;
 extern EFI_GUID AbsolutePointerProtocol;
 
+extern EFI_GUID gEfiDebugImageInfoTableGuid;
+extern EFI_GUID gEfiDebugSupportProtocolGuid;
+
 //
 // EFI Variable strings
 //
