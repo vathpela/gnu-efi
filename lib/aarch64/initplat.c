@@ -41,7 +41,8 @@ void *memset(void *s, int c, __SIZE_TYPE__ n)
 
 void *memcpy(void *dest, const void *src, __SIZE_TYPE__ n)
 {
-    unsigned char *p = dest, *q = src;
+    const unsigned char *q = src;
+    unsigned char *p = dest;
 
     while (n--)
         *p++ = *q++;
