@@ -156,6 +156,7 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-stack-check
 endif
 
+ARFLAGS += -U
 ASFLAGS += $(ARCH3264)
 LDFLAGS	+= -nostdlib --warn-common --no-undefined --fatal-warnings \
 	   --build-id=sha1
