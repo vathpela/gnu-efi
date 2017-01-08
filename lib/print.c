@@ -55,8 +55,8 @@ typedef struct {
     BOOLEAN             Ascii;
     UINTN               Index;
     union {
-        CHAR16          *pw;
-        CHAR8           *pc;
+        CONST CHAR16    *pw;
+        CONST CHAR8     *pc;
     } un;
 } POINTER;
 
@@ -119,8 +119,8 @@ _IPrint (
     IN UINTN                            Column,
     IN UINTN                            Row,
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
-    IN CHAR16                           *fmt,
-    IN CHAR8                            *fmta,
+    IN CONST CHAR16                     *fmt,
+    IN CONST CHAR8                      *fmta,
     IN va_list                          args
     );
 
@@ -181,8 +181,8 @@ _PoolPrint (
 
 INTN
 DbgPrint (
-    IN INTN      mask,
-    IN CHAR8     *fmt,
+    IN INTN         mask,
+    IN CONST CHAR8  *fmt,
     ...
     )
 /*++
@@ -400,7 +400,7 @@ _PoolPrint (
 
 VOID
 _PoolCatPrint (
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     IN va_list          args,
     IN OUT POOL_PRINT   *spc,
     IN INTN             (EFIAPI *Output)(VOID *context, CHAR16 *str)
@@ -422,10 +422,10 @@ _PoolCatPrint (
 
 UINTN
 VSPrint (
-    OUT CHAR16  *Str,
-    IN UINTN    StrSize,
-    IN CHAR16   *fmt,
-    va_list     args
+    OUT CHAR16        *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR16   *fmt,
+    va_list           args
     )
 /*++
 
@@ -464,9 +464,9 @@ Returns:
 
 UINTN
 SPrint (
-    OUT CHAR16  *Str,
-    IN UINTN    StrSize,
-    IN CHAR16   *fmt,
+    OUT CHAR16        *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR16   *fmt,
     ...
     )
 /*++
@@ -502,7 +502,7 @@ Returns:
 
 CHAR16 *
 VPoolPrint (
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     va_list             args
     )
 /*++
@@ -533,7 +533,7 @@ Returns:
 
 CHAR16 *
 PoolPrint (
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     ...
     )
 /*++
@@ -566,7 +566,7 @@ Returns:
 CHAR16 *
 CatPrint (
     IN OUT POOL_PRINT   *Str,
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     ...
     )
 /*++
@@ -603,7 +603,7 @@ Returns:
 
 UINTN
 Print (
-    IN CHAR16   *fmt,
+    IN CONST CHAR16   *fmt,
     ...
     )
 /*++
@@ -633,8 +633,8 @@ Returns:
 
 UINTN
 VPrint (
-    IN CHAR16   *fmt,
-    va_list     args
+    IN CONST CHAR16   *fmt,
+    va_list           args
     )
 /*++
 
@@ -658,9 +658,9 @@ Returns:
 
 UINTN
 PrintAt (
-    IN UINTN     Column,
-    IN UINTN     Row,
-    IN CHAR16    *fmt,
+    IN UINTN          Column,
+    IN UINTN          Row,
+    IN CONST CHAR16   *fmt,
     ...
     )
 /*++
@@ -695,7 +695,7 @@ Returns:
 UINTN
 IPrint (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE    *Out,
-    IN CHAR16                          *fmt,
+    IN CONST CHAR16                    *fmt,
     ...
     )
 /*++
@@ -731,7 +731,7 @@ IPrintAt (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
     IN UINTN                            Column,
     IN UINTN                            Row,
-    IN CHAR16                           *fmt,
+    IN CONST CHAR16                     *fmt,
     ...
     )
 /*++
@@ -770,8 +770,8 @@ _IPrint (
     IN UINTN                            Column,
     IN UINTN                            Row,
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
-    IN CHAR16                           *fmt,
-    IN CHAR8                            *fmta,
+    IN CONST CHAR16                     *fmt,
+    IN CONST CHAR8                      *fmta,
     IN va_list                          args
     )
 // Display string worker for: Print, PrintAt, IPrint, IPrintAt
@@ -811,7 +811,7 @@ _IPrint (
 
 UINTN
 APrint (
-    IN CHAR8    *fmt,
+    IN CONST CHAR8    *fmt,
     ...
     )
 /*++
@@ -1061,9 +1061,9 @@ Returns:
                 //
                 // %% -> %
                 //
+                Item.Scratch[0] = '%';
+                Item.Scratch[1] = 0;
                 Item.Item.pw = Item.Scratch;
-                Item.Item.pw[0] = '%';
-                Item.Item.pw[1] = 0;
                 break;
 
             case '0':
@@ -1119,9 +1119,9 @@ Returns:
                 break;
 
             case 'c':
+                Item.Scratch[0] = (CHAR16) va_arg(ps->args, UINTN);
+                Item.Scratch[1] = 0;
                 Item.Item.pw = Item.Scratch;
-                Item.Item.pw[0] = (CHAR16) va_arg(ps->args, UINTN);
-                Item.Item.pw[1] = 0;
                 break;
 
             case 'l':
@@ -1132,55 +1132,55 @@ Returns:
                 Item.Width = Item.Long ? 16 : 8;
                 Item.Pad = '0';
             case 'x':
-                Item.Item.pw = Item.Scratch;
                 ValueToHex (
-                    Item.Item.pw,
+                    Item.Scratch,
                     Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
+                Item.Item.pw = Item.Scratch;
 
                 break;
 
 
             case 'g':
+                GuidToString (Item.Scratch, va_arg(ps->args, EFI_GUID *));
                 Item.Item.pw = Item.Scratch;
-                GuidToString (Item.Item.pw, va_arg(ps->args, EFI_GUID *));
                 break;
 
             case 'u':
-                Item.Item.pw = Item.Scratch;
                 ValueToString (
-                    Item.Item.pw,
+                    Item.Scratch,
                     Item.Comma,
                     Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
                     );
+                Item.Item.pw = Item.Scratch;
                 break;
 
             case 'd':
-                Item.Item.pw = Item.Scratch;
                 ValueToString (
-                    Item.Item.pw,
+                    Item.Scratch,
                     Item.Comma,
                     Item.Long ? va_arg(ps->args, INT64) : va_arg(ps->args, INT32)
                     );
+                Item.Item.pw = Item.Scratch;
                 break;
 
             case 'f':
-                Item.Item.pw = Item.Scratch;
                 FloatToString (
-                    Item.Item.pw,
+                    Item.Scratch,
                     Item.Comma,
                     va_arg(ps->args, double)
                     );
+                Item.Item.pw = Item.Scratch;
                 break;
 
             case 't':
+                TimeToString (Item.Scratch, va_arg(ps->args, EFI_TIME *));
                 Item.Item.pw = Item.Scratch;
-                TimeToString (Item.Item.pw, va_arg(ps->args, EFI_TIME *));
                 break;
 
             case 'r':
+                StatusToString (Item.Scratch, va_arg(ps->args, EFI_STATUS));
                 Item.Item.pw = Item.Scratch;
-                StatusToString (Item.Item.pw, va_arg(ps->args, EFI_STATUS));
                 break;
 
             case 'n':
@@ -1208,9 +1208,9 @@ Returns:
                 break;
 
             default:
+                Item.Scratch[0] = '?';
+                Item.Scratch[1] = 0;
                 Item.Item.pw = Item.Scratch;
-                Item.Item.pw[0] = '?';
-                Item.Item.pw[1] = 0;
                 break;
             }
 

@@ -461,41 +461,41 @@ IInput (
 
 UINTN
 Print (
-    IN CHAR16   *fmt,
+    IN CONST CHAR16   *fmt,
     ...
     );
 
 UINTN
 VPrint (
-    IN CHAR16   *fmt,
-    va_list     args
+    IN CONST CHAR16   *fmt,
+    va_list           args
     );
 
 UINTN
 SPrint (
-    OUT CHAR16  *Str,
-    IN UINTN    StrSize,
-    IN CHAR16   *fmt,
+    OUT CHAR16        *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR16   *fmt,
     ...
     );
 
 UINTN
 VSPrint (
-    OUT CHAR16  *Str,
-    IN UINTN    StrSize,
-    IN CHAR16   *fmt,
-    va_list     args
+    OUT CHAR16        *Str,
+    IN UINTN          StrSize,
+    IN CONST CHAR16   *fmt,
+    va_list           args
     );
 
 CHAR16 *
 VPoolPrint (
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     va_list             args
     );
 
 CHAR16 *
 PoolPrint (
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     ...
     );
 
@@ -508,22 +508,22 @@ typedef struct {
 CHAR16 *
 CatPrint (
     IN OUT POOL_PRINT   *Str,
-    IN CHAR16           *fmt,
+    IN CONST CHAR16     *fmt,
     ...
     );
 
 UINTN
 PrintAt (
-    IN UINTN    Column,
-    IN UINTN    Row,
-    IN CHAR16   *fmt,
+    IN UINTN         Column,
+    IN UINTN         Row,
+    IN CONST CHAR16  *fmt,
     ...
     );
 
 UINTN
 IPrint (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE    *Out,
-    IN CHAR16                          *fmt,
+    IN CONST CHAR16                    *fmt,
     ...
     );
 
@@ -532,13 +532,13 @@ IPrintAt (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
     IN UINTN                            Column,
     IN UINTN                            Row,
-    IN CHAR16                           *fmt,
+    IN CONST CHAR16                     *fmt,
     ...
     );
 
 UINTN
 APrint (
-    IN CHAR8    *fmt,
+    IN CONST CHAR8    *fmt,
     ...
     );
 

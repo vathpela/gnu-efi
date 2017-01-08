@@ -94,15 +94,15 @@ extern UINTN     EFIDebug;
 
 INTN
 DbgAssert (
-    CHAR8   *file,
-    INTN    lineno,
-    CHAR8   *string
+    CONST CHAR8   *file,
+    INTN          lineno,
+    CONST CHAR8   *string
     );
 
 INTN
 DbgPrint (
-    INTN    mask,
-    CHAR8   *format,
+    INTN          mask,
+    CONST CHAR8   *format,
     ...
     );
 
