@@ -164,7 +164,7 @@ efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SysTab)
   /* Grab handle to this image: we'll attach our proto instance to it */
   Status = uefi_call_wrapper(BS->OpenProtocol, 6,
                              ImageHandle, &LoadedImageProtocol,
-                             NULL, ImageHandle,
+                             (void**)&LoadedImage, ImageHandle,
                              NULL, EFI_OPEN_PROTOCOL_GET_PROTOCOL);
   if (EFI_ERROR(Status)) {
     Print(L"Could not open loaded image protocol: %d\n", Status);
