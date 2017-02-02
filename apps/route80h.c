@@ -129,7 +129,7 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 	lpcif.rcba &= ~1UL;
 
 	Print(L"rcba: 0x%8x\n", lpcif.rcba, lpcif.rcba);
-	set_bit((uint32_t *)(uint64_t)(lpcif.rcba + GCS_OFFSET_ADDR),
+	set_bit((uint32_t *)(intptr_t)(lpcif.rcba + GCS_OFFSET_ADDR),
 		     GCS_RPR_SHIFT, GCS_RPR_PCI);
 
 	return EFI_SUCCESS;
