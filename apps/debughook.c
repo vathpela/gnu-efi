@@ -50,7 +50,7 @@ DebugHook(void)
 	UINT8 *data = NULL;
 	UINTN dataSize = 0;
 	EFI_STATUS efi_status;
-	register volatile UINTN x = 0;
+	register volatile unsigned long long x = 0;
 	extern char _text, _data;
 
 	if (x)
@@ -71,7 +71,7 @@ DebugHook(void)
 	while (x++) {
 		/* Make this so it can't /totally/ DoS us. */
 #if defined(__x86_64__) || defined(__i386__) || defined(__i686__)
-		if (x > 4294967294)
+		if (x > 4294967294ULL)
 			break;
 		__asm__ __volatile__("pause");
 #elif defined(__aarch64__)
