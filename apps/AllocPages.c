@@ -116,7 +116,7 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	INTN AllocType = -1;
 	INTN MemType = -1;
 	INTN NumPages = -1;
-	UINTN Addr = 0;
+	EFI_PHYSICAL_ADDRESS Addr = 0;
 
 	InitializeLib(image, systab);
 
