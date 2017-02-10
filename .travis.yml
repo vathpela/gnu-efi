@@ -1,7 +1,7 @@
 dist: precise
 language: c
 install: true
-script: make
+script: make mkvars all
 
 matrix:
   include:
