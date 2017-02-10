@@ -5,7 +5,8 @@ script: make mkvars all
 dist: zesty
 
 before_install:
-  - sudo apt-get -qq update
+  - sudo apt-get -qy update
+  - sudo apt-get -qy dist-upgrade
 
 matrix:
   include:
