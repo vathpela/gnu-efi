@@ -170,8 +170,9 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
 else
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fshort-wchar -fno-strict-aliasing \
-           -fno-merge-all-constants -ffreestanding -fno-stack-protector \
-           -fno-stack-check
+	   -ffreestanding -fno-stack-protector -fno-stack-check \
+           -fno-stack-check \
+           $(if $(findstring gcc,$(CC)),-fno-merge-constants,)
 endif
 
 ARFLAGS += -U
