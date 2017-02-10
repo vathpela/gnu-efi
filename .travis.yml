@@ -1,7 +1,11 @@
+sudo: required
 language: c
 install: true
 script: make mkvars all
 dist: zesty
+
+before_install:
+  - sudo apt-get -qq update
 
 matrix:
   include:
