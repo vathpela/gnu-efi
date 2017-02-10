@@ -1,0 +1,77 @@
+sudo: required
+dist: precise
+language: c
+install: true
+script: make
+
+before_install:
+        - sudo apt-get -qq update
+
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-4.9
+          - binutils-dev
+      env: COMPILER=gcc-4.9
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-5
+          - binutils-dev
+      env: COMPILER=gcc-5
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-6
+          - binutils-dev
+      env: COMPILER=gcc-6
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-7
+          - binutils-dev
+      env: COMPILER=gcc-7
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-precise-3.6
+          packages:
+          - clang-3.6
+          - binutils-dev
+      env: COMPILER=clang-3.6
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-precise-3.7
+          packages:
+          - clang-3.7
+          - binutils-dev
+      env: COMPILER=clang-3.7
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-precise-3.8
+          packages:
+          - clang-3.8
+          - binutils-dev
+      env: COMPILER=clang-3.8
