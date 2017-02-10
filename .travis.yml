@@ -2,11 +2,11 @@ sudo: required
 language: c
 install: true
 script: make mkvars all
-dist: xenial
 
 matrix:
   include:
     - compiler: gcc
+      dist: xenial
       addons:
         apt:
           sources:
@@ -22,6 +22,7 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install gcc-4.9 binutils
     - compiler: gcc
+      dist: xenial
       addons:
         apt:
           sources:
@@ -37,6 +38,7 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install gcc-5 binutils
     - compiler: gcc
+      dist: xenial
       addons:
         apt:
           sources:
@@ -52,6 +54,7 @@ matrix:
         - COMPILER=gcc-6
         - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
+      dist: zesty
       addons:
         apt:
           sources:
@@ -67,11 +70,12 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install gcc-7 binutils
     - compiler: clang
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
+            - llvm-toolchain-trusty-3.6
           packages:
             - clang-3.6
             - binutils
@@ -82,11 +86,12 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install clang-3.6 binutils
     - compiler: clang
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
+            - llvm-toolchain-trusty-3.7
           packages:
             - clang-3.7
             - binutils
@@ -97,11 +102,12 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install clang-3.7 binutils
     - compiler: clang
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
+            - llvm-toolchain-trusty-3.8
           packages:
             - clang-3.8
             - binutils
@@ -112,11 +118,12 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install clang-3.8 binutils
     - compiler: clang
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-trusty-3.9
           packages:
             - clang-3.9
             - binutils
@@ -127,11 +134,12 @@ matrix:
         - sudo apt-get update
         - sudo apt-get install clang-3.9 binutils
     - compiler: clang
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-4.0
+            - llvm-toolchain-trusty-4.0
           packages:
             - clang-4.0
             - binutils
