@@ -13,7 +13,9 @@ matrix:
           packages:
           - gcc-4.9
           - binutils-dev
-      env: CC=gcc-4.9
+      env:
+      - COMPILER=gcc-4.9
+      - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
       addons:
         apt:
@@ -22,7 +24,9 @@ matrix:
           packages:
           - gcc-5
           - binutils-dev
-      env: CC=gcc-5
+      env:
+      - COMPILER=gcc-5
+      - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
       addons:
         apt:
@@ -31,7 +35,9 @@ matrix:
           packages:
           - gcc-6
           - binutils-dev
-      env: CC=gcc-6
+      env:
+      - COMPILER=gcc-6
+      - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
       addons:
         apt:
@@ -40,7 +46,9 @@ matrix:
           packages:
           - gcc-7
           - binutils-dev
-      env: CC=gcc-7
+      env:
+      - COMPILER=gcc-7
+      - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: clang
       addons:
         apt:
@@ -50,7 +58,7 @@ matrix:
           packages:
           - clang-3.6
           - binutils-dev
-      env: CC=clang-3.6
+      env: COMPILER=clang-3.6
     - compiler: clang
       addons:
         apt:
@@ -60,7 +68,7 @@ matrix:
           packages:
           - clang-3.7
           - binutils-dev
-      env: CC=clang-3.7
+      env: COMPILER=clang-3.7
     - compiler: clang
       addons:
         apt:
@@ -70,4 +78,4 @@ matrix:
           packages:
           - clang-3.8
           - binutils-dev
-      env: CC=clang-3.8
+      env: COMPILER=clang-3.8
