@@ -1,11 +1,11 @@
 language: c
 install: true
 script: make mkvars all
+dist: zesty
 
 matrix:
   include:
     - compiler: gcc
-      dist: zesty
       addons:
         apt:
           sources:
@@ -15,7 +15,6 @@ matrix:
           - binutils-dev
       env: CC=gcc-4.9
     - compiler: gcc
-      dist: zesty
       addons:
         apt:
           sources:
@@ -25,7 +24,6 @@ matrix:
           - binutils-dev
       env: CC=gcc-5
     - compiler: gcc
-      dist: zesty
       addons:
         apt:
           sources:
@@ -35,7 +33,6 @@ matrix:
           - binutils-dev
       env: CC=gcc-6
     - compiler: gcc
-      dist: zesty
       addons:
         apt:
           sources:
@@ -45,34 +42,31 @@ matrix:
           - binutils-dev
       env: CC=gcc-7
     - compiler: clang
-      dist: zesty
       addons:
         apt:
           sources:
           - ubuntu-toolchain-r-test
-          - llvm-toolchain-zesty-3.6
+          - llvm-toolchain-precise-3.6
           packages:
           - clang-3.6
           - binutils-dev
       env: CC=clang-3.6
     - compiler: clang
-      dist: zesty
       addons:
         apt:
           sources:
           - ubuntu-toolchain-r-test
-          - llvm-toolchain-zesty-3.7
+          - llvm-toolchain-precise-3.7
           packages:
           - clang-3.7
           - binutils-dev
       env: CC=clang-3.7
     - compiler: clang
-      dist: zesty
       addons:
         apt:
           sources:
           - ubuntu-toolchain-r-test
-          - llvm-toolchain-zesty-3.8
+          - llvm-toolchain-precise-3.8
           packages:
           - clang-3.8
           - binutils-dev
