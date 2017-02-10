@@ -2,11 +2,11 @@ sudo: required
 language: c
 install: true
 script: make mkvars all
-dist: zesty
+dist: xenial
 
 before_install:
-  - sudo apt-get -qy update
-  - sudo apt-get -qy dist-upgrade
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update
 
 matrix:
   include:
@@ -40,6 +40,10 @@ matrix:
           packages:
             - gcc-6
             - binutils
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo apt-get update
+        - sudo apt-get install gcc-6 binutils
       env:
         - COMPILER=gcc-6
         - CROSS_COMPILE=x86_64-linux-gnu-
