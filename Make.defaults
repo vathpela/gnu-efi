@@ -51,8 +51,10 @@ LIBDIR 	     := $(PREFIX)/lib
 INSTALL	     := install
 
 # Compilation tools
-HOSTCC       := $(prefix)gcc
-CC           := $(prefix)$(CROSS_COMPILE)gcc
+COMPILER     ?= gcc
+COMPILER_PREFIX ?= 
+HOSTCC       := $(prefix)$(COMPILER)
+CC           := $(prefix)$(CROSS_COMPILE)$(COMPILER)
 AS           := $(prefix)$(CROSS_COMPILE)as
 LD           := $(prefix)$(CROSS_COMPILE)ld
 AR           := $(prefix)$(CROSS_COMPILE)ar
