@@ -13,7 +13,7 @@ matrix:
           packages:
           - gcc-4.9
           - binutils-dev
-      env: COMPILER=gcc-4.9
+      env: CC=gcc-4.9
     - compiler: gcc
       addons:
         apt:
@@ -22,7 +22,7 @@ matrix:
           packages:
           - gcc-5
           - binutils-dev
-      env: COMPILER=gcc-5
+      env: CC=gcc-5
     - compiler: gcc
       addons:
         apt:
@@ -31,7 +31,7 @@ matrix:
           packages:
           - gcc-6
           - binutils-dev
-      env: COMPILER=gcc-6
+      env: CC=gcc-6
     - compiler: gcc
       addons:
         apt:
@@ -40,7 +40,7 @@ matrix:
           packages:
           - gcc-7
           - binutils-dev
-      env: COMPILER=gcc-7
+      env: CC=gcc-7
     - compiler: clang
       addons:
         apt:
@@ -50,7 +50,7 @@ matrix:
           packages:
           - clang-3.6
           - binutils-dev
-      env: COMPILER=clang-3.6
+      env: CC=clang-3.6
     - compiler: clang
       addons:
         apt:
@@ -60,7 +60,7 @@ matrix:
           packages:
           - clang-3.7
           - binutils-dev
-      env: COMPILER=clang-3.7
+      env: CC=clang-3.7
     - compiler: clang
       addons:
         apt:
@@ -70,4 +70,4 @@ matrix:
           packages:
           - clang-3.8
           - binutils-dev
-      env: COMPILER=clang-3.8
+      env: CC=clang-3.8
