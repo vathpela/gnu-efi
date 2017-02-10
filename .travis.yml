@@ -1,0 +1,151 @@
+sudo: required
+language: c
+install: true
+script: make mkvars all
+
+matrix:
+  include:
+    - compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-4.9
+            - binutils
+      env:
+        - COMPILER=gcc-4.9
+        - CROSS_COMPILE=x86_64-linux-gnu-
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo apt-get update
+        - sudo apt-get install gcc-4.9 binutils
+    - compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-5
+            - binutils
+      env:
+        - COMPILER=gcc-5
+        - CROSS_COMPILE=x86_64-linux-gnu-
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo apt-get update
+        - sudo apt-get install gcc-5 binutils
+    - compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-6
+            - binutils
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo apt-get update
+        - sudo apt-get install gcc-6 binutils
+      env:
+        - COMPILER=gcc-6
+        - CROSS_COMPILE=x86_64-linux-gnu-
+#    - compiler: gcc
+#      dist: zesty
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-7
+#            - binutils
+#      env:
+#        - COMPILER=gcc-7
+#        - CROSS_COMPILE=x86_64-linux-gnu-
+#      before_install:
+#        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+#        - sudo apt-get update
+#        - sudo apt-get install gcc-7 binutils
+    - compiler: clang
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.6
+          packages:
+            - clang-3.6
+            - binutils
+      env: COMPILER=clang-3.6
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo add-apt-repository ppa:jonathonf/llvm -y
+        - sudo apt-get update
+        - sudo apt-get install clang-3.6 binutils
+    - compiler: clang
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.7
+          packages:
+            - clang-3.7
+            - binutils
+      env: COMPILER=clang-3.7
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo add-apt-repository ppa:jonathonf/llvm -y
+        - sudo apt-get update
+        - sudo apt-get install clang-3.7 binutils
+    - compiler: clang
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.8
+          packages:
+            - clang-3.8
+            - binutils
+      env: COMPILER=clang-3.8
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo add-apt-repository ppa:jonathonf/llvm -y
+        - sudo apt-get update
+        - sudo apt-get install clang-3.8 binutils
+    - compiler: clang
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.9
+          packages:
+            - clang-3.9
+            - binutils
+      env: COMPILER=clang-3.9
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo add-apt-repository ppa:jonathonf/llvm -y
+        - sudo apt-get update
+        - sudo apt-get install clang-3.9 binutils
+    - compiler: clang
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - clang-4.0
+            - binutils
+      env: COMPILER=clang-4.0
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo add-apt-repository ppa:jonathonf/llvm -y
+        - sudo apt-get update
+        - sudo apt-get install clang-4.0 binutils
