@@ -86,7 +86,7 @@ DebugHook(void)
 	}
 	x = 1;
 }
-
+#pragma GCC pop_options
 
 EFI_STATUS
 efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
