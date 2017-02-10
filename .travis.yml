@@ -9,73 +9,73 @@ matrix:
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
+            - ubuntu-toolchain-r-test
           packages:
-          - gcc-4.9
-          - binutils-dev
+            - gcc-4.9
+            - binutils
       env:
-      - COMPILER=gcc-4.9
-      - CROSS_COMPILE=x86_64-linux-gnu-
+        - COMPILER=gcc-4.9
+        - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
+            - ubuntu-toolchain-r-test
           packages:
-          - gcc-5
-          - binutils-dev
+            - gcc-5
+            - binutils
       env:
-      - COMPILER=gcc-5
-      - CROSS_COMPILE=x86_64-linux-gnu-
+        - COMPILER=gcc-5
+        - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
+            - ubuntu-toolchain-r-test
           packages:
-          - gcc-6
-          - binutils-dev
+            - gcc-6
+            - binutils
       env:
-      - COMPILER=gcc-6
-      - CROSS_COMPILE=x86_64-linux-gnu-
+        - COMPILER=gcc-6
+        - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: gcc
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
+            - ubuntu-toolchain-r-test
           packages:
-          - gcc-7
-          - binutils-dev
+            - gcc-7
+            - binutils
       env:
-      - COMPILER=gcc-7
-      - CROSS_COMPILE=x86_64-linux-gnu-
+        - COMPILER=gcc-7
+        - CROSS_COMPILE=x86_64-linux-gnu-
     - compiler: clang
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-precise-3.6
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
           packages:
-          - clang-3.6
-          - binutils-dev
+            - clang-3.6
+            - binutils
       env: COMPILER=clang-3.6
     - compiler: clang
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-precise-3.7
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
           packages:
-          - clang-3.7
-          - binutils-dev
+            - clang-3.7
+            - binutils
       env: COMPILER=clang-3.7
     - compiler: clang
       addons:
         apt:
           sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-precise-3.8
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
           packages:
-          - clang-3.8
-          - binutils-dev
+            - clang-3.8
+            - binutils
       env: COMPILER=clang-3.8
