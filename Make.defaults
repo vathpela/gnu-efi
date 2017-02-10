@@ -172,9 +172,9 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
 else
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fshort-wchar -fno-strict-aliasing \
-	   -ffreestanding -fno-stack-protector -fno-stack-check \
+	   -ffreestanding -fno-stack-protector \
            -fno-stack-check \
-           $(if $(findstring gcc,$(CC)),-fno-merge-constants,)
+           $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
 endif
 
 ARFLAGS := rDv
