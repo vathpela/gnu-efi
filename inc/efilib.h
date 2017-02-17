@@ -208,6 +208,13 @@ EFIDebugVariable (
     VOID
     );
 
+VOID
+Exit(
+    IN EFI_STATUS   ExitStatus,
+    IN UINTN        ExitDataSize,
+    IN CHAR16       *ExitData OPTIONAL
+    );
+
 INTN
 GetShellArgcArgv(
     EFI_HANDLE ImageHandle,

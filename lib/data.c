@@ -25,6 +25,11 @@ Revision History
 BOOLEAN  LibInitialized = FALSE;
 
 //
+// ImageHandle - Current ImageHandle, as passed to InitializeLib
+//
+EFI_HANDLE LibImageHandle;
+
+//
 // ST - pointer to the EFI system table
 //
 

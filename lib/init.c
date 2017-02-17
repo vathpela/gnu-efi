@@ -49,6 +49,8 @@ Returns:
     if (!LibInitialized) {
         LibInitialized = TRUE;
         LibFwInstance = FALSE;
+	LibImageHandle = ImageHandle;
+
 
         //
         // Set up global pointer to the system table, boot services table,
