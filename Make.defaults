@@ -87,6 +87,8 @@ OBJDIR       := $(TOPDIR)/$(ARCH)
 # Arch-specific compilation flags
 CPPFLAGS += -DCONFIG_$(ARCH)
 
+CFLAGS += -Wno-error=pragmas
+
 ifeq ($(ARCH),ia64)
   CFLAGS += -mfixed-range=f32-f127
 endif
