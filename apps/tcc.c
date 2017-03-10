@@ -5,11 +5,6 @@
 #include <efi.h>
 #include <efilib.h>
 
-#ifdef __x86_64__
-#include <x86_64/pe.h>
-#include <x86_64/efibind.h>
-#endif
-
 #if 0
 extern void dump_stack(void);
 asm(	".globl	dump_stack\n"
