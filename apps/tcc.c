@@ -324,11 +324,7 @@ efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
 	InitializeLib(image, systab);
 	PoolAllocationType = 2; /* klooj */
 
-#ifndef __x86_64__
-	uefi_call_wrapper(systab->ConOut->OutputString, 2, systab->ConOut,
-		L"This test is only valid on x86_64\n");
-	return EFI_UNSUPPORTED;
-#else
+#ifdef __x86_64__
 	__asm__ volatile("out %0,%1" : : "a" ((uint8_t)0x14), "dN" (0x80));
 #endif
 
