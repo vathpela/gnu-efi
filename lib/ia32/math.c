@@ -140,7 +140,7 @@ DivU64x32 (
 // divide 64bit by 32bit and get a 64bit result
 // N.B. only works for 31bit divisors!!
 {
-#if defined(__GNUC__) && !defined(__MINGW32__)
+#if 0 && defined(__GNUC__) && !defined(__MINGW32__)
     if (Remainder)
         *Remainder = Dividend % Divisor;
     return Dividend / Divisor;
@@ -157,7 +157,7 @@ DivU64x32 (
 
     Rem = 0;
     for (bit=0; bit < 64; bit++) {
-#ifdef __MINGW32__
+#if defined(__GNUC__) || defined(__MINGW32__)
         asm (
             "shll	$1, %0\n\t"
             "rcll	$1, 4%0\n\t"
