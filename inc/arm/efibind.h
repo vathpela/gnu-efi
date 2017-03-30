@@ -162,17 +162,3 @@ typedef uint32_t   UINTN;
 
 #define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
 #define EFI_FUNCTION
-
-static inline UINT64 DivU64x32(UINT64 Dividend, UINTN Divisor, UINTN *Remainder)
-{
-    /*
-     * GCC turns a division into a multiplication and shift with precalculated
-     * constants if the divisor is constant and the dividend fits into a 32 bit
-     * variable. Otherwise, it will turn this into calls into the 32-bit div
-     * library functions.
-     */
-    if (Remainder)
-        *Remainder = Dividend % Divisor;
-    Dividend = Dividend / Divisor;
-    return Dividend;
-}

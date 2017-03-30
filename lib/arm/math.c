@@ -43,7 +43,25 @@ MultU64x32 (
     IN UINT64   Multiplicand,
     IN UINTN    Multiplier
     )
-// Multiple 64bit by 32bit and get a 64bit result
+// Multiply 64bit by 32bit and get a 64bit result
 {
     return Multiplicand * Multiplier;
+}
+
+UINT64
+DivU64x32 (
+    IN UINT64   Dividend,
+    IN UINTN    Divisor,
+    OUT UINTN   *Remainder OPTIONAL
+    )
+{
+    /*
+     * GCC turns a division into a multiplication and shift with precalculated
+     * constants if the divisor is constant and the dividend fits into a 32 bit
+     * variable. Otherwise, it will turn this into calls into the 32-bit div
+     * library functions.
+     */
+    if (Remainder)
+        *Remainder = Dividend % Divisor;
+    return Dividend / Divisor;
 }
