@@ -16,6 +16,9 @@ Revision History
 
 --*/
 
+#ifdef __GNUC__
+#pragma GCC visibility push(hidden)
+#endif
 
 #include "efi.h"
 #include "efilib.h"
