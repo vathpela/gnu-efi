@@ -1131,6 +1131,9 @@ Returns:
             case 'X':
                 Item.Width = Item.Long ? 16 : 8;
                 Item.Pad = '0';
+#if __GNUC__ >= 7
+		__attribute__ ((fallthrough));
+#endif
             case 'x':
                 ValueToHex (
                     Item.Scratch,
