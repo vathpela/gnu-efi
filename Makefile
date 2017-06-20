@@ -34,7 +34,7 @@
 #    SUCH DAMAGE.
 #
 
-VERSION = 3.0.5
+VERSION = 3.0.6
 
 SRCDIR = $(shell pwd)
 
