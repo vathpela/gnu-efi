@@ -120,6 +120,14 @@ ifeq ($(ARCH),x86_64)
   endif
 endif
 
+ifneq (,$(filter $(ARCH),ia32 x86_64))
+  # Disable AVX, if the compiler supports that.
+  CC_CAN_DISABLE_AVX=$(shell $(CC) -Werror -c -o /dev/null -xc -mno-avx - </dev/null >/dev/null 2>&1 && echo 1)
+  ifeq ($(CC_CAN_DISABLE_AVX), 1)
+    CFLAGS += -mno-avx
+  endif
+endif
+
 ifeq ($(ARCH),mips64el)
   CFLAGS += -march=mips64r2
   ARCH3264 = -mabi=64
