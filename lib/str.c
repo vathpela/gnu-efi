@@ -114,12 +114,65 @@ StrCpy (
 }
 
 VOID
+StrnCpy (
+    IN CHAR16   *Dest,
+    IN CONST CHAR16   *Src,
+    IN UINTN     Len
+    )
+// copy strings
+{
+    RtStrnCpy (Dest, Src, Len);
+}
+
+CHAR16 *
+StpCpy (
+    IN CHAR16   *Dest,
+    IN CONST CHAR16   *Src
+    )
+// copy strings
+{
+    return RtStpCpy (Dest, Src);
+}
+
+CHAR16 *
+StpnCpy (
+    IN CHAR16   *Dest,
+    IN CONST CHAR16   *Src,
+    IN UINTN     Len
+    )
+// copy strings
+{
+    return RtStpnCpy (Dest, Src, Len);
+}
+
+VOID
 StrCat (
     IN CHAR16   *Dest,
     IN CONST CHAR16   *Src
     )
 {
     RtStrCat(Dest, Src);
+}
+
+VOID
+StrnCat (
+    IN CHAR16   *Dest,
+    IN CONST CHAR16   *Src,
+    IN UINTN     Len
+    )
+{
+    RtStrnCat(Dest, Src, Len);
+}
+
+
+UINTN
+StrnLen (
+    IN CONST CHAR16   *s1,
+    IN UINTN           Len
+    )
+// string length
+{
+    return RtStrnLen(s1, Len);
 }
 
 UINTN
