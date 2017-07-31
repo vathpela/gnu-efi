@@ -1005,6 +1005,7 @@ Routine Description:
     t       -   EFI time structure
     g       -   Pointer to GUID
     r       -   EFI status code (result code)
+    D       -   pointer to Device Path with normal ending.
 
     N       -   Set output attribute to normal
     H       -   Set output attribute to highlight
@@ -1166,6 +1167,18 @@ Returns:
                     );
                 Item.Item.pw = Item.Scratch;
                 break;
+
+            case 'D':
+            {
+                EFI_DEVICE_PATH *dp = va_arg(ps->args, EFI_DEVICE_PATH *);
+                CHAR16 *dpstr = DevicePathToStr(dp);
+                StrnCpy(Item.Scratch, dpstr, PRINT_ITEM_BUFFER_LEN);
+                Item.Scratch[PRINT_ITEM_BUFFER_LEN-1] = L'\0';
+                FreePool(dpstr);
+
+                Item.Item.pw = Item.Scratch;
+                break;
+            }
 
             case 'f':
                 FloatToString (
