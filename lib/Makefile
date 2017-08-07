@@ -75,7 +75,7 @@ libsubdirs:
 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
 
 libefi.a: $(OBJS)
-	$(AR) rv -U $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 clean:
 	rm -f libefi.a *~ $(OBJS) */*.o
