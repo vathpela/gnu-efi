@@ -4,21 +4,45 @@
 extern EFI_GUID GraphicsOutputProtocol;
 
 static void
-print_modes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
+fill_boxes(UINT32 *PixelBuffer, UINT32 Width, UINT32 Height)
+{
+	UINT32 y, x = 0;
+	/*
+	 * This assums BGRR, but it doesn't really matter; we pick red and
+	 * green so it'll just be blue/green if the pixel format is backwards.
+	 */
+	EFI_GRAPHICS_OUTPUT_BLT_PIXEL Red = {0, 0, 0xff, 0},
+				      Green = {0, 0xff, 0, 0},
+				      *Color;
+
+	for (y = 0; y < Height; y++) {
+		Color = ((y / 32) % 2 == 0) ? &Red : &Green;
+		for (x = 0; x < Width; x++) {
+			if (x % 32 == 0 && x != 0)
+				Color = (Color == &Red) ? &Green : &Red;
+			PixelBuffer[y * Width + x] = *(UINT32 *)Color;
+		}
+	}
+}
+
+static void
+draw_boxes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 {
 	int i, imax;
 	EFI_STATUS rc;
+	EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *info;
+	UINTN NumPixels;
+	UINT32 *PixelBuffer;
+	UINT32 BufferSize;
 
 	if (gop->Mode) {
 		imax = gop->Mode->MaxMode;
-		Print(L"GOP reports MaxMode %d\n", imax);
 	} else {
 		Print(L"gop->Mode is NULL\n");
-		imax = 1;
+		return;
 	}
 
 	for (i = 0; i < imax; i++) {
-		EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *info;
 		UINTN SizeOfInfo;
 		rc = uefi_call_wrapper(gop->QueryMode, 4, gop, i, &SizeOfInfo,
 					&info);
@@ -36,34 +60,33 @@ print_modes(EFI_GRAPHICS_OUTPUT_PROTOCOL *gop)
 			      i, rc, rc);
 			continue;
 		}
-		Print(L"%c%d: %dx%d ",
-		      (gop->Mode &&
-		       CompareMem(info,gop->Mode->Info,sizeof(*info)) == 0
-		       ) ? '*' : ' ',
-		      i, info->HorizontalResolution, info->VerticalResolution);
-		switch(info->PixelFormat) {
-			case PixelRedGreenBlueReserved8BitPerColor:
-				Print(L"RGBR");
-				break;
-			case PixelBlueGreenRedReserved8BitPerColor:
-				Print(L"BGRR");
-				break;
-			case PixelBitMask:
-				Print(L"R:%08x G:%08x B:%08x X:%08x",
-					info->PixelInformation.RedMask,
-					info->PixelInformation.GreenMask,
-					info->PixelInformation.BlueMask,
-					info->PixelInformation.ReservedMask);
-				break;
-			case PixelBltOnly:
-				Print(L"(blt only)");
-				break;
-			default:
-				Print(L"(Invalid pixel format)");
-				break;
+
+		if (CompareMem(info, gop->Mode->Info, sizeof (*info)))
+			continue;
+
+		NumPixels = info->VerticalResolution * info->HorizontalResolution;
+		BufferSize = NumPixels * sizeof(UINT32);
+
+		PixelBuffer = AllocatePool(BufferSize);
+		if (!PixelBuffer) {
+			Print(L"Allocation of 0x%08lx bytes failed.\n",
+			      sizeof(UINT32) * NumPixels);
+			return;
 		}
-		Print(L" pitch %d\n", info->PixelsPerScanLine);
+
+		fill_boxes(PixelBuffer,
+			   info->HorizontalResolution, info->VerticalResolution);
+
+		uefi_call_wrapper(gop->Blt, 10, gop,
+				  (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *)PixelBuffer,
+				  EfiBltBufferToVideo,
+				  0, 0, 0, 0,
+				  info->HorizontalResolution,
+				  info->VerticalResolution,
+				  0);
+		return;
 	}
+	Print(L"Never found the active video mode?\n");
 }
 
 static EFI_STATUS
@@ -101,7 +124,7 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 		return EFI_UNSUPPORTED;
 	}
 
-	print_modes(gop);
+	draw_boxes(gop);
 
 	SetWatchdog(0);
 	return EFI_SUCCESS;
