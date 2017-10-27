@@ -65,7 +65,7 @@ OS           := $(shell uname -s)
 HOSTARCH     := $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed s,i[3456789]86,ia32,)
 ARCH         := $(HOSTARCH)
 
-# Get ARCH from the compiler if cross compiling 
+# Get ARCH from the compiler if cross compiling
 ifneq ($(CROSS_COMPILE),)
   override ARCH := $(shell $(CC) -dumpmachine | cut -f1 -d-| sed s,i[3456789]86,ia32,)
 endif
@@ -152,7 +152,12 @@ ifneq (mingw32,$(findstring mingw32, $(GCCMACHINE)))
   CFLAGS += -fpic
 endif
 
-ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
+IS_FREEBSD = $(findstring FreeBSD, $(OS))
+
+IS_DARWIN = $(findstring Darwin, $(OS))
+
+
+ifneq "$(or $(IS_FREEBSD), $(IS_DARWIN))" ""
 CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fshort-wchar -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
@@ -163,7 +168,10 @@ CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
            -fno-stack-check
 endif
 
+ifeq "$(IS_DARWIN)" ""
 ARFLAGS += -U
+endif
+
 ASFLAGS += $(ARCH3264)
 LDFLAGS	+= -nostdlib --warn-common --no-undefined --fatal-warnings \
 	   --build-id=sha1

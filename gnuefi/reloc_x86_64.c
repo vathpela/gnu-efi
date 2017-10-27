@@ -38,7 +38,11 @@
 #include <efi.h>
 #include <efilib.h>
 
+#ifdef __APPLE__
+#include "./gnuelf.h"
+#else
 #include <elf.h>
+#endif
 
 EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
 		      EFI_HANDLE image EFI_UNUSED,
