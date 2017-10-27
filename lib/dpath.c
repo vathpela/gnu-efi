@@ -47,11 +47,12 @@ DevicePathFromHandle (
 
 EFI_DEVICE_PATH *
 DevicePathInstance (
-    IN OUT EFI_DEVICE_PATH  **DevicePath,
-    OUT UINTN               *Size
+    IN OUT CONST EFI_DEVICE_PATH        **DevicePath,
+    OUT UINTN                           *Size
     )
 {
-    EFI_DEVICE_PATH         *Start, *Next, *DevPath;
+    CONST EFI_DEVICE_PATH   *Start, *Next;
+    CONST EFI_DEVICE_PATH   *DevPath;
     UINTN                   Count;
 
     DevPath = *DevicePath;
@@ -102,18 +103,19 @@ DevicePathInstance (
     //
 
     *Size = ((UINT8 *) DevPath) - ((UINT8 *) Start);
-    return Start;
+    return (EFI_DEVICE_PATH *)Start;
 }
 
 UINTN
 DevicePathInstanceCount (
-    IN EFI_DEVICE_PATH      *DevicePath
+    IN CONST EFI_DEVICE_PATH      *DevicePath
     )
 {
-    UINTN       Count, Size;
+    UINTN                       Count, Size;
+    const EFI_DEVICE_PATH       **DevPath = &DevicePath;
 
     Count = 0;
-    while (DevicePathInstance(&DevicePath, &Size)) {
+    while (DevicePathInstance(DevPath, &Size)) {
         Count += 1;
     }
 
@@ -123,8 +125,8 @@ DevicePathInstanceCount (
 
 EFI_DEVICE_PATH *
 AppendDevicePath (
-    IN EFI_DEVICE_PATH  *Src1,
-    IN EFI_DEVICE_PATH  *Src2
+    IN CONST EFI_DEVICE_PATH  *Src1,
+    IN CONST EFI_DEVICE_PATH  *Src2
     )
 // Src1 may have multiple "instances" and each instance is appended
 // Src2 is appended to each instance is Src1.  (E.g., it's possible
@@ -196,14 +198,14 @@ AppendDevicePath (
 
 EFI_DEVICE_PATH *
 AppendDevicePathNode (
-    IN EFI_DEVICE_PATH  *Src1,
-    IN EFI_DEVICE_PATH  *Src2
+    IN CONST EFI_DEVICE_PATH  *Src1,
+    IN CONST EFI_DEVICE_PATH  *Src2
     )
 // Src1 may have multiple "instances" and each instance is appended
 // Src2 is a signal device path node (without a terminator) that is
 // appended to each instance is Src1.
 {
-    EFI_DEVICE_PATH     *Temp, *Eop;
+    EFI_DEVICE_PATH     *Temp, *Eop, *New;
     UINTN               Length;
 
     //
@@ -224,9 +226,9 @@ AppendDevicePathNode (
     // Append device paths
     //
 
-    Src1 = AppendDevicePath (Src1, Temp);
+    New = AppendDevicePath (Src1, Temp);
     FreePool (Temp);
-    return Src1;
+    return New;
 }
 
 
@@ -285,7 +287,7 @@ FileDevicePath (
 
 UINTN
 DevicePathSize (
-    IN EFI_DEVICE_PATH  *DevPath
+    IN CONST EFI_DEVICE_PATH  *DevPath
     )
 {
     EFI_DEVICE_PATH     *Start;
@@ -294,7 +296,7 @@ DevicePathSize (
     // Search for the end of the device path structure
     //
 
-    Start = DevPath;
+    Start = (EFI_DEVICE_PATH *)DevPath;
     while (!IsDevicePathEnd(DevPath)) {
         DevPath = NextDevicePathNode(DevPath);
     }
@@ -308,7 +310,7 @@ DevicePathSize (
 
 EFI_DEVICE_PATH *
 DuplicateDevicePath (
-    IN EFI_DEVICE_PATH  *DevPath
+    IN CONST EFI_DEVICE_PATH  *DevPath
     )
 {
     EFI_DEVICE_PATH     *NewDevPath;
@@ -396,8 +398,8 @@ UnpackDevicePath (
 
 EFI_DEVICE_PATH*
 AppendDevicePathInstance (
-    IN EFI_DEVICE_PATH  *Src,
-    IN EFI_DEVICE_PATH  *Instance
+    IN CONST EFI_DEVICE_PATH  *Src,
+    IN CONST EFI_DEVICE_PATH  *Instance
     )
 {
     UINT8           *Ptr;
@@ -1210,15 +1212,15 @@ LibMatchDevicePaths (
     IN  EFI_DEVICE_PATH *Single
     )
 {
-    EFI_DEVICE_PATH     *DevicePath, *DevicePathInst;
-    UINTN               Size;
+    CONST EFI_DEVICE_PATH       **DevicePath, *DevicePathInst;
+    UINTN                       Size;
 
     if (!Multi || !Single) {
         return FALSE;
     }
 
-    DevicePath = Multi;
-    while ((DevicePathInst = DevicePathInstance (&DevicePath, &Size))) {
+    DevicePath = (CONST EFI_DEVICE_PATH **)&Multi;
+    while ((DevicePathInst = DevicePathInstance (DevicePath, &Size))) {
         if (CompareMem (Single, DevicePathInst, Size) == 0) {
             return TRUE;
         }
@@ -1228,18 +1230,19 @@ LibMatchDevicePaths (
 
 EFI_DEVICE_PATH *
 LibDuplicateDevicePathInstance (
-    IN EFI_DEVICE_PATH  *DevPath
+    IN EFI_DEVICE_PATH  *DevicePath
     )
 {
-    EFI_DEVICE_PATH     *NewDevPath,*DevicePathInst,*Temp;
-    UINTN               Size = 0;
+    EFI_DEVICE_PATH             *NewDevPath, *DevPathInst, *Temp;
+    CONST EFI_DEVICE_PATH       **DevPath;
+    UINTN                       Size = 0;
 
     //
     // get the size of an instance from the input
     //
 
-    Temp = DevPath;
-    DevicePathInst = DevicePathInstance (&Temp, &Size);
+    DevPath = (CONST EFI_DEVICE_PATH **)&DevicePath;
+    DevPathInst = DevicePathInstance (DevPath, &Size);
 
     //
     // Make a copy and set proper end type
@@ -1250,7 +1253,7 @@ LibDuplicateDevicePathInstance (
     }
 
     if (NewDevPath) {
-        CopyMem (NewDevPath, DevicePathInst, Size);
+        CopyMem (NewDevPath, DevPathInst, Size);
         Temp = NextDevicePathNode(NewDevPath);
         SetDevicePathEndNode(Temp);
     }

@@ -795,31 +795,31 @@ DevicePathFromHandle (
 
 EFI_DEVICE_PATH *
 DevicePathInstance (
-    IN OUT EFI_DEVICE_PATH  **DevicePath,
-    OUT UINTN               *Size
+    IN OUT CONST EFI_DEVICE_PATH        **DevicePath,
+    OUT UINTN                           *Size
     );
 
 UINTN
 DevicePathInstanceCount (
-    IN EFI_DEVICE_PATH      *DevicePath
+    IN CONST EFI_DEVICE_PATH      *DevicePath
     );
 
 EFI_DEVICE_PATH *
 AppendDevicePath (
-    IN EFI_DEVICE_PATH      *Src1,
-    IN EFI_DEVICE_PATH      *Src2
+    IN CONST EFI_DEVICE_PATH      *Src1,
+    IN CONST EFI_DEVICE_PATH      *Src2
     );
 
 EFI_DEVICE_PATH *
 AppendDevicePathNode (
-    IN EFI_DEVICE_PATH      *Src1,
-    IN EFI_DEVICE_PATH      *Src2
+    IN CONST EFI_DEVICE_PATH      *Src1,
+    IN CONST EFI_DEVICE_PATH      *Src2
     );
 
 EFI_DEVICE_PATH*
 AppendDevicePathInstance (
-    IN EFI_DEVICE_PATH  *Src,
-    IN EFI_DEVICE_PATH  *Instance
+    IN CONST EFI_DEVICE_PATH  *Src,
+    IN CONST EFI_DEVICE_PATH  *Instance
     );
 
 EFI_DEVICE_PATH *
@@ -830,12 +830,12 @@ FileDevicePath (
 
 UINTN
 DevicePathSize (
-    IN EFI_DEVICE_PATH      *DevPath
+    IN CONST EFI_DEVICE_PATH      *DevPath
     );
 
 EFI_DEVICE_PATH *
 DuplicateDevicePath (
-    IN EFI_DEVICE_PATH      *DevPath
+    IN CONST EFI_DEVICE_PATH      *DevPath
     );
 
 EFI_DEVICE_PATH *
