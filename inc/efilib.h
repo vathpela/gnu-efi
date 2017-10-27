@@ -971,7 +971,7 @@ LibGetSmbiosString (
 
 EFI_STATUS
 LibGetSmbiosSystemGuidAndSerialNumber (
-    IN  EFI_GUID    *SystemGuid,
+    OUT EFI_GUID    *SystemGuid,
     OUT CHAR8       **SystemSerialNumber
     );
 

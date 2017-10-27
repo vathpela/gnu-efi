@@ -16,19 +16,12 @@ Revision History
 
 #include "lib.h"
 
-/*
- * We convert 32 bit values to pointers. In 64 bit mode the compiler will issue a
- * warning stating that the value is too small for the pointer:
- * "warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]"
- * we can safely ignore them here.
- */
-#ifdef __GNUC__
-#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
-#endif
+#define AS_SMBIOS_HEADER(x)((SMBIOS_HEADER *)(unsigned long long)(x))
+#define AS_POINTER(x) ((VOID *)(unsigned long long)(x))
 
 EFI_STATUS
 LibGetSmbiosSystemGuidAndSerialNumber (
-    IN  EFI_GUID    *SystemGuid,
+    OUT EFI_GUID    *SystemGuid,
     OUT CHAR8       **SystemSerialNumber
     )
 {
@@ -43,8 +36,8 @@ LibGetSmbiosSystemGuidAndSerialNumber (
         return EFI_NOT_FOUND;
     }
 
-    Smbios.Hdr = (SMBIOS_HEADER *)SmbiosTable->TableAddress;
-    SmbiosEnd.Raw = (UINT8 *)(SmbiosTable->TableAddress + SmbiosTable->TableLength);
+    Smbios.Hdr = AS_SMBIOS_HEADER(SmbiosTable->TableAddress);
+    SmbiosEnd.Raw = AS_POINTER(SmbiosTable->TableAddress + SmbiosTable->TableLength);
     for (Index = 0; Index < SmbiosTable->TableLength ; Index++) {
         if (Smbios.Hdr->Type == 1) {
             if (Smbios.Hdr->Length < 0x19) {
