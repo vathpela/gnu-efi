@@ -724,7 +724,7 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_INSTALL_CONFIGURATION_TABLE) (
-    IN EFI_GUID                 *Guid,
+    IN CONST EFI_GUID           * CONST Guid,
     IN VOID                     *Table
     );
 

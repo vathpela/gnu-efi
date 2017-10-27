@@ -507,10 +507,9 @@ BCDtoDecimal(
 
 EFI_STATUS
 LibGetSystemConfigurationTable(
-    IN EFI_GUID *TableGuid,
-    IN OUT VOID **Table
+    IN CONST EFI_GUID   * CONST TableGuid,
+    IN OUT VOID         **Table
     )
-
 {
     UINTN Index;
 

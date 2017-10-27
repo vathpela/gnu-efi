@@ -382,7 +382,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_FILE_GET_INFO) (
     IN struct _EFI_FILE_HANDLE  *File,
-    IN EFI_GUID                 *InformationType,
+    IN CONST EFI_GUID           * CONST InformationType,
     IN OUT UINTN                *BufferSize,
     OUT VOID                    *Buffer
     );
@@ -391,7 +391,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_FILE_SET_INFO) (
     IN struct _EFI_FILE_HANDLE  *File,
-    IN EFI_GUID                 *InformationType,
+    IN CONST EFI_GUID           * CONST InformationType,
     IN UINTN                    BufferSize,
     IN VOID                     *Buffer
     );

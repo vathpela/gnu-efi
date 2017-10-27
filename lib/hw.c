@@ -21,11 +21,11 @@ Revision History
 
 EFI_STATUS
 InitializeGlobalIoDevice (
-        IN  EFI_DEVICE_PATH             *DevicePath,
-        IN  EFI_GUID                    *Protocol,
-        IN  CHAR8                       *ErrorStr EFI_UNUSED,
-        OUT EFI_DEVICE_IO_INTERFACE     **GlobalIoFncs
-        )
+    IN EFI_DEVICE_PATH          *DevicePath,
+    IN CONST EFI_GUID           * CONST Protocol,
+    IN CHAR8                    *ErrorStr EFI_UNUSED,
+    OUT EFI_DEVICE_IO_INTERFACE **GlobalIoFncs
+    )
 /*++
 
 Routine Description:

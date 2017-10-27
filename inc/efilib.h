@@ -935,8 +935,8 @@ BCDtoDecimal(
 
 EFI_STATUS
 LibGetSystemConfigurationTable(
-    IN EFI_GUID *TableGuid,
-    IN OUT VOID **Table
+    IN CONST EFI_GUID   * CONST TableGuid,
+    IN OUT VOID         **Table
     );
 
 BOOLEAN
@@ -979,11 +979,11 @@ LibGetSmbiosSystemGuidAndSerialNumber (
 
 EFI_STATUS
 InitializeGlobalIoDevice (
-        IN  EFI_DEVICE_PATH             *DevicePath,
-        IN  EFI_GUID                    *Protocol,
-        IN  CHAR8                       *ErrorStr,
-        OUT EFI_DEVICE_IO_INTERFACE     **GlobalIoFncs
-        );
+    IN EFI_DEVICE_PATH          *DevicePath,
+    IN CONST EFI_GUID           * CONST Protocol,
+    IN CHAR8                    *ErrorStr,
+    OUT EFI_DEVICE_IO_INTERFACE **GlobalIoFncs
+    );
 
 UINT32
 ReadPort (
