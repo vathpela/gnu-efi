@@ -625,7 +625,7 @@ DumpHex (
     IN UINTN        Indent,
     IN UINTN        Offset,
     IN UINTN        DataSize,
-    IN VOID         *UserData
+    IN CONST VOID   * CONST UserData
     );
 
 BOOLEAN

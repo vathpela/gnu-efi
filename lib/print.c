@@ -1427,10 +1427,11 @@ DumpHex (
     IN UINTN        Indent,
     IN UINTN        Offset,
     IN UINTN        DataSize,
-    IN VOID         *UserData
+    IN CONST VOID   * CONST UserData
     )
 {
-    CHAR8           *Data, Val[50], Str[20], c;
+    CONST CHAR8     *Data;
+    CHAR8           Val[50], Str[20], c;
     UINTN           Size, Index;
 
     UINTN           ScreenCount;
