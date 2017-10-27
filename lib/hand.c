@@ -21,8 +21,8 @@ Revision History
 
 EFI_STATUS
 LibLocateProtocol (
-    IN  EFI_GUID    *ProtocolGuid,
-    OUT VOID        **Interface
+    IN CONST EFI_GUID   * CONST ProtocolGuid,
+    OUT VOID            **Interface
     )
 //
 // Find the first instance of this Protocol in the system and return it's interface
@@ -32,7 +32,6 @@ LibLocateProtocol (
     UINTN           NumberHandles, Index;
     EFI_HANDLE      *Handles;
 
-    
     *Interface = NULL;
     Status = LibLocateHandle (ByProtocol, ProtocolGuid, NULL, &NumberHandles, &Handles);
     if (EFI_ERROR(Status)) {
@@ -56,13 +55,12 @@ LibLocateProtocol (
 
 EFI_STATUS
 LibLocateHandle (
-    IN EFI_LOCATE_SEARCH_TYPE       SearchType,
-    IN EFI_GUID                     *Protocol OPTIONAL,
-    IN VOID                         *SearchKey OPTIONAL,
-    IN OUT UINTN                    *NoHandles,
-    OUT EFI_HANDLE                  **Buffer
+    IN EFI_LOCATE_SEARCH_TYPE   SearchType,
+    IN CONST EFI_GUID           * CONST Protocol OPTIONAL,
+    IN VOID                     *SearchKey OPTIONAL,
+    IN OUT UINTN                *NoHandles,
+    OUT EFI_HANDLE              **Buffer
     )
-
 {
     EFI_STATUS          Status;
     UINTN               BufferSize;

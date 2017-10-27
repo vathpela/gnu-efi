@@ -20,11 +20,11 @@ Revision History
 
 EFI_EVENT
 LibCreateProtocolNotifyEvent (
-    IN EFI_GUID             *ProtocolGuid,
-    IN EFI_TPL              NotifyTpl,
-    IN EFI_EVENT_NOTIFY     NotifyFunction,
-    IN VOID                 *NotifyContext,
-    OUT VOID                *Registration
+    IN CONST EFI_GUID   * CONST ProtocolGuid,
+    IN EFI_TPL          NotifyTpl,
+    IN EFI_EVENT_NOTIFY NotifyFunction,
+    IN VOID             *NotifyContext,
+    OUT VOID            *Registration
     )
 {
     EFI_STATUS              Status;

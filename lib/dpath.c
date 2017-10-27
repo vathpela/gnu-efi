@@ -436,9 +436,9 @@ AppendDevicePathInstance (
 
 EFI_STATUS
 LibDevicePathToInterface (
-    IN EFI_GUID             *Protocol,
-    IN EFI_DEVICE_PATH      *FilePath,
-    OUT VOID                **Interface
+    IN CONST EFI_GUID   * CONST Protocol,
+    IN EFI_DEVICE_PATH  *FilePath,
+    OUT VOID            **Interface
     )
 {
     EFI_STATUS              Status;

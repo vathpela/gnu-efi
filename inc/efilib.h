@@ -686,14 +686,14 @@ LibInsertToTailOfBootOrder (
 
 EFI_STATUS
 LibLocateProtocol (
-    IN  EFI_GUID    *ProtocolGuid,
-    OUT VOID        **Interface
+    IN CONST EFI_GUID   * CONST ProtocolGuid,
+    OUT VOID            **Interface
     );
 
 EFI_STATUS
 LibLocateHandle (
     IN EFI_LOCATE_SEARCH_TYPE   SearchType,
-    IN EFI_GUID                 *Protocol OPTIONAL,
+    IN CONST EFI_GUID           * CONST Protocol OPTIONAL,
     IN VOID                     *SearchKey OPTIONAL,
     IN OUT UINTN                *NoHandles,
     OUT EFI_HANDLE              **Buffer
@@ -728,11 +728,11 @@ LibReinstallProtocolInterfaces (
 
 EFI_EVENT
 LibCreateProtocolNotifyEvent (
-    IN EFI_GUID             *ProtocolGuid,
-    IN EFI_TPL              NotifyTpl,
-    IN EFI_EVENT_NOTIFY     NotifyFunction,
-    IN VOID                 *NotifyContext,
-    OUT VOID                *Registration
+    IN CONST EFI_GUID   * CONST ProtocolGuid,
+    IN EFI_TPL          NotifyTpl,
+    IN EFI_EVENT_NOTIFY NotifyFunction,
+    IN VOID             *NotifyContext,
+    OUT VOID            *Registration
     );
 
 EFI_STATUS
@@ -846,9 +846,9 @@ UnpackDevicePath (
 
 EFI_STATUS
 LibDevicePathToInterface (
-    IN EFI_GUID             *Protocol,
-    IN EFI_DEVICE_PATH      *FilePath,
-    OUT VOID                **Interface
+    IN CONST EFI_GUID   * CONST Protocol,
+    IN EFI_DEVICE_PATH  *FilePath,
+    OUT VOID            **Interface
     );
 
 CHAR16 *

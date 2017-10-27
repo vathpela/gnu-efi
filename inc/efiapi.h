@@ -466,7 +466,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_OPEN_PROTOCOL) (
     IN EFI_HANDLE               Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     OUT VOID                    **Interface OPTIONAL,
     IN EFI_HANDLE               AgentHandle,
     IN EFI_HANDLE               ControllerHandle,
@@ -477,7 +477,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_CLOSE_PROTOCOL) (
     IN EFI_HANDLE               Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN EFI_HANDLE               AgentHandle,
     IN EFI_HANDLE               ControllerHandle
     );
@@ -493,7 +493,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_OPEN_PROTOCOL_INFORMATION) (
     IN EFI_HANDLE               Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     OUT EFI_OPEN_PROTOCOL_INFORMATION_ENTRY **EntryBuffer,
     OUT UINTN                   *EntryCount
     );
@@ -516,7 +516,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_LOCATE_HANDLE_BUFFER) (
     IN EFI_LOCATE_SEARCH_TYPE   SearchType,
-    IN EFI_GUID                 *Protocol OPTIONAL,
+    IN CONST EFI_GUID           * CONST Protocol OPTIONAL,
     IN VOID                     *SearchKey OPTIONAL,
     IN OUT UINTN                *NoHandles,
     OUT EFI_HANDLE              **Buffer
@@ -525,7 +525,7 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_LOCATE_PROTOCOL) (
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN VOID                     *Registration OPTIONAL,
     OUT VOID                    **Interface
     );
@@ -665,7 +665,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_INSTALL_PROTOCOL_INTERFACE) (
     IN OUT EFI_HANDLE           *Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN EFI_INTERFACE_TYPE       InterfaceType,
     IN VOID                     *Interface
     );
@@ -674,7 +674,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_REINSTALL_PROTOCOL_INTERFACE) (
     IN EFI_HANDLE               Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN VOID                     *OldInterface,
     IN VOID                     *NewInterface
     );
@@ -683,7 +683,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_UNINSTALL_PROTOCOL_INTERFACE) (
     IN EFI_HANDLE               Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN VOID                     *Interface
     );
 
@@ -691,14 +691,14 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_HANDLE_PROTOCOL) (
     IN EFI_HANDLE               Handle,
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     OUT VOID                    **Interface
     );
 
 typedef
-EFI_STATUS 
+EFI_STATUS
 (EFIAPI *EFI_REGISTER_PROTOCOL_NOTIFY) (
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN EFI_EVENT                Event,
     OUT VOID                    **Registration
     );
@@ -707,7 +707,7 @@ typedef
 EFI_STATUS
 (EFIAPI *EFI_LOCATE_HANDLE) (
     IN EFI_LOCATE_SEARCH_TYPE   SearchType,
-    IN EFI_GUID                 *Protocol OPTIONAL,
+    IN CONST EFI_GUID           * CONST Protocol OPTIONAL,
     IN VOID                     *SearchKey OPTIONAL,
     IN OUT UINTN                *BufferSize,
     OUT EFI_HANDLE              *Buffer
@@ -716,7 +716,7 @@ EFI_STATUS
 typedef
 EFI_STATUS
 (EFIAPI *EFI_LOCATE_DEVICE_PATH) (
-    IN EFI_GUID                 *Protocol,
+    IN CONST EFI_GUID           * CONST Protocol,
     IN OUT EFI_DEVICE_PATH      **DevicePath,
     OUT EFI_HANDLE              *Device
     );
