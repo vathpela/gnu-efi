@@ -106,8 +106,8 @@ RtCompareMem (
 INTN
 RUNTIMEFUNCTION
 RtCompareGuid (
-    IN EFI_GUID     *Guid1,
-    IN EFI_GUID     *Guid2
+    IN CONST EFI_GUID   * CONST Guid1,
+    IN CONST EFI_GUID   * CONST Guid2
     )
 /*++
 

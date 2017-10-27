@@ -1388,8 +1388,8 @@ FloatToString (
 
 VOID
 TimeToString (
-    OUT CHAR16      *Buffer,
-    IN EFI_TIME     *Time
+    OUT CHAR16          *Buffer,
+    IN CONST EFI_TIME   * CONST Time
     )
 {
     UINTN       Hour, Year;

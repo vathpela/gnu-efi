@@ -451,8 +451,8 @@ ReleaseLock (
 
 INTN
 CompareGuid(
-    IN EFI_GUID     *Guid1,
-    IN EFI_GUID     *Guid2
+    IN CONST EFI_GUID   * CONST Guid1,
+    IN CONST EFI_GUID   * CONST Guid2
     );
 
 VOID *
@@ -604,20 +604,20 @@ FloatToString (
 
 VOID
 TimeToString (
-    OUT CHAR16      *Buffer,
-    IN EFI_TIME     *Time
+    OUT CHAR16          *Buffer,
+    IN CONST EFI_TIME   * CONST Time
     );
 
 VOID
 GuidToString (
-    OUT CHAR16      *Buffer,
-    IN EFI_GUID     *Guid
+    OUT CHAR16          *Buffer,
+    IN CONST EFI_GUID   * CONST Guid
     );
 
 VOID
 StatusToString (
-    OUT CHAR16      *Buffer,
-    EFI_STATUS      Status
+    OUT CHAR16          *Buffer,
+    CONST EFI_STATUS    Status
     );
 
 VOID
@@ -645,38 +645,39 @@ LibMemoryMap (
 
 VOID *
 LibGetVariable (
-    IN CHAR16               *Name,
-    IN EFI_GUID             *VendorGuid
+    IN CONST CHAR16     * CONST Name,
+    IN CONST EFI_GUID   * CONST VendorGuid
     );
 
 VOID *
 LibGetVariableAndSize (
-    IN CHAR16               *Name,
-    IN EFI_GUID             *VendorGuid,
-    OUT UINTN               *VarSize
+    IN CONST CHAR16     * CONST Name,
+    IN CONST EFI_GUID   * CONST VendorGuid,
+    OUT UINTN           *VarSize
     );
 
 EFI_STATUS
 LibDeleteVariable (
-    IN CHAR16   *VarName,
-    IN EFI_GUID *VarGuid
+    IN CONST CHAR16     * CONST VarName,
+    IN CONST EFI_GUID   * CONST VarGuid
     );
 
 EFI_STATUS
 LibSetNVVariable (
-    IN CHAR16   *VarName,
-    IN EFI_GUID *VarGuid,
-    IN UINTN	 DataSize,
-    IN VOID     *Data
+    IN CONST CHAR16     * CONST VarName,
+    IN CONST EFI_GUID   * CONST VarGuid,
+    IN UINTN            DataSize,
+    IN VOID             *Data
     );
 
 EFI_STATUS
 LibSetVariable (
-    IN CHAR16   *VarName,
-    IN EFI_GUID *VarGuid,
-    IN UINTN	 DataSize,
-    IN VOID     *Data
+    IN CONST CHAR16     * CONST VarName,
+    IN CONST EFI_GUID   * CONST VarGuid,
+    IN UINTN            DataSize,
+    IN VOID             *Data
     );
+
 EFI_STATUS
 LibInsertToTailOfBootOrder (
     IN  UINT16  BootOption,

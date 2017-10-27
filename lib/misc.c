@@ -241,9 +241,9 @@ LibMemoryMap (
 
 VOID *
 LibGetVariableAndSize (
-    IN CHAR16               *Name,
-    IN EFI_GUID             *VendorGuid,
-    OUT UINTN               *VarSize
+    IN CONST CHAR16     * CONST Name,
+    IN CONST EFI_GUID   * CONST VendorGuid,
+    OUT UINTN           *VarSize
     )
 {
     EFI_STATUS              Status;
@@ -282,8 +282,8 @@ LibGetVariableAndSize (
     
 VOID *
 LibGetVariable (
-    IN CHAR16               *Name,
-    IN EFI_GUID             *VendorGuid
+    IN CONST CHAR16     * CONST Name,
+    IN CONST EFI_GUID   * CONST VendorGuid
     )
 {
     UINTN   VarSize;
@@ -293,8 +293,8 @@ LibGetVariable (
 
 EFI_STATUS
 LibDeleteVariable (
-    IN CHAR16   *VarName,
-    IN EFI_GUID *VarGuid
+    IN CONST CHAR16     * CONST VarName,
+    IN CONST EFI_GUID   * CONST VarGuid
     )
 {
     VOID        *VarBuf;
@@ -324,10 +324,10 @@ LibDeleteVariable (
 
 EFI_STATUS
 LibSetNVVariable (
-    IN CHAR16   *VarName,
-    IN EFI_GUID *VarGuid,
-    IN UINTN	 DataSize,
-    IN VOID     *Data
+    IN CONST CHAR16     * CONST VarName,
+    IN CONST EFI_GUID   * CONST VarGuid,
+    IN UINTN            DataSize,
+    IN VOID             *Data
     )
 {
     EFI_STATUS  Status;
@@ -345,10 +345,10 @@ LibSetNVVariable (
 
 EFI_STATUS
 LibSetVariable (
-    IN CHAR16   *VarName,
-    IN EFI_GUID *VarGuid,
-    IN UINTN	 DataSize,
-    IN VOID     *Data
+    IN CONST CHAR16     * CONST VarName,
+    IN CONST EFI_GUID   * CONST VarGuid,
+    IN UINTN            DataSize,
+    IN VOID             *Data
     )
 {
     EFI_STATUS  Status;

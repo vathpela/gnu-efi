@@ -116,8 +116,8 @@ InitializeGuid (
 
 INTN
 CompareGuid(
-    IN EFI_GUID     *Guid1,
-    IN EFI_GUID     *Guid2
+    IN CONST EFI_GUID   * CONST Guid1,
+    IN CONST EFI_GUID   * CONST Guid2
     )
 /*++
 
@@ -141,8 +141,8 @@ Returns:
 
 VOID
 GuidToString (
-    OUT CHAR16      *Buffer,
-    IN EFI_GUID     *Guid
+    OUT CHAR16          *Buffer,
+    IN CONST EFI_GUID   * CONST Guid
     )
 {
 
