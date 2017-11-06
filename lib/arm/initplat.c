@@ -25,7 +25,10 @@ InitializeLibPlatform (
 {
 }
 
-#ifdef __GNUC__
+#ifndef __SIZE_TYPE__
+#define __SIZE_TYPE__ UINTN
+#endif
+
 /*
  * Calls to these functions may be emitted implicitly by GCC even when
  * -ffreestanding is in effect.
@@ -51,6 +54,7 @@ void *memcpy(void *dest, const void *src, __SIZE_TYPE__ n)
     return dest;
 }
 
+#ifdef __GNUC__
 void __div0(void)
 {
 	// TODO handle divide by zero fault

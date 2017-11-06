@@ -25,6 +25,10 @@ InitializeLibPlatform (
 {
 }
 
+#ifndef __SIZE_TYPE__
+#define __SIZE_TYPE__ UINTN
+#endif
+
 /*
  * Calls to these functions may be emitted implicitly by GCC even when
  * -ffreestanding is in effect.

@@ -15,7 +15,7 @@
  * either version 2 of the License, or (at your option) any later version.
  */
 
-#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L )
+#if !defined(_MSC_VER) && (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L ))
 
 // ANSI C 1999/2000 stdint.h integer width declarations
 
