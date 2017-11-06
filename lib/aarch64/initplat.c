@@ -24,32 +24,3 @@ InitializeLibPlatform (
     )
 {
 }
-
-#ifndef __SIZE_TYPE__
-#define __SIZE_TYPE__ UINTN
-#endif
-
-/*
- * Calls to these functions may be emitted implicitly by GCC even when
- * -ffreestanding is in effect.
- */
-void *memset(void *s, int c, __SIZE_TYPE__ n)
-{
-    unsigned char *p = s;
-
-    while (n--)
-        *p++ = c;
-
-    return s;
-}
-
-void *memcpy(void *dest, const void *src, __SIZE_TYPE__ n)
-{
-    const unsigned char *q = src;
-    unsigned char *p = dest;
-
-    while (n--)
-        *p++ = *q++;
-
-    return dest;
-}

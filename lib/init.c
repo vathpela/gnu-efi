@@ -49,7 +49,7 @@ Returns:
     if (!LibInitialized) {
         LibInitialized = TRUE;
         LibFwInstance = FALSE;
-	LibImageHandle = ImageHandle;
+        LibImageHandle = ImageHandle;
 
 
         //
@@ -71,17 +71,16 @@ Returns:
 
         if (ImageHandle) {
             Status = uefi_call_wrapper(
-			    BS->HandleProtocol,
-				3,
-                            ImageHandle, 
-                            &LoadedImageProtocol,
-                            (VOID*)&LoadedImage
-                            );
+                BS->HandleProtocol,
+                3,
+                ImageHandle, 
+                &LoadedImageProtocol,
+                (VOID*)&LoadedImage
+            );
 
             if (!EFI_ERROR(Status)) {
                 PoolAllocationType = LoadedImage->ImageDataType;
             }
-            
             EFIDebugVariable ();
         }
 
@@ -181,5 +180,35 @@ EFIDebugVariable (
     Status = uefi_call_wrapper(RT->GetVariable, 5, L"EFIDebug", &EfiGlobalVariable, &Attributes, &DataSize, &NewEFIDebug);
     if (!EFI_ERROR(Status)) {
         EFIDebug = NewEFIDebug;
-    } 
+    }
+}
+
+/*
+ * Calls to memset/memcpy may be emitted implicitly by GCC or MSVC
+ * even when -ffreestanding or /NODEFAULTLIB are in effect.
+ */
+
+#ifndef __SIZE_TYPE__
+#define __SIZE_TYPE__ UINTN
+#endif
+
+void *memset(void *s, int c, __SIZE_TYPE__ n)
+{
+    unsigned char *p = s;
+
+    while (n--)
+        *p++ = c;
+
+    return s;
+}
+
+void *memcpy(void *dest, const void *src, __SIZE_TYPE__ n)
+{
+    const unsigned char *q = src;
+    unsigned char *p = dest;
+
+    while (n--)
+        *p++ = *q++;
+
+    return dest;
 }
