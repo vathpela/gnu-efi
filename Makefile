@@ -36,7 +36,8 @@
 
 VERSION = 3.0.6
 
-SRCDIR = $(shell pwd)
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+SRCDIR = $(dir $(MKFILE_PATH))
 
 VPATH = $(SRCDIR)
 
