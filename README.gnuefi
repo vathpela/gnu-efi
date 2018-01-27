@@ -231,10 +231,16 @@ and page sized.These eight sections are used to group together the much
 greater number of sections that are typically present in ELF object files.
 Specifically:
 
- .hash
+ .hash (and/or .gnu.hash)
 	Collects the ELF .hash info (this section _must_ be the first
 	section in order to build a shared object file; the section is
 	not actually loaded or used at runtime).
+
+	GNU binutils provides a mechanism to generate different hash info
+	via --hash-style=<sysv|gnu|both> option. In this case output
+	shared object will contain .hash section, .gnu.hash section or
+	both. In order to generate correct output linker script preserves
+	both types of hash sections.
 
  .text
 	Collects all sections containing executable code.
