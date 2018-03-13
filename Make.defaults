@@ -62,12 +62,12 @@ OBJCOPY      := $(prefix)$(CROSS_COMPILE)objcopy
 
 # Host/target identification
 OS           := $(shell uname -s)
-HOSTARCH     := $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed s,i[3456789]86,ia32,)
+HOSTARCH     := $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv7.*,arm,' )
 ARCH         := $(HOSTARCH)
 
 # Get ARCH from the compiler if cross compiling 
 ifneq ($(CROSS_COMPILE),)
-  override ARCH := $(shell $(CC) -dumpmachine | cut -f1 -d-| sed s,i[3456789]86,ia32,)
+  override ARCH := $(shell $(CC) -dumpmachine | cut -f1 -d-| sed -e s,i[3456789]86,ia32, -e 's,armv7.*,arm,' )
 endif
 
 # FreeBSD (and possibly others) reports amd64 instead of x86_64
