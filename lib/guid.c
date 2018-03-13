@@ -97,7 +97,7 @@ static struct {
 	{  &SMapId,                                         L"ShellDevPathMap" },
 	{  &SAliasId,                                       L"ShellAlias" },
 
-	{  NULL, NULL }
+	{  NULL, L"" }
 };
 
 //
