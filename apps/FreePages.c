@@ -89,7 +89,7 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 	INTN err = 0;
 
 	INTN PgCnt = -1;
-	UINTN PhysAddr = 0;
+	EFI_PHYSICAL_ADDRESS PhysAddr = 0;
 
 	InitializeLib(image, systab);
 
