@@ -93,7 +93,7 @@ efi_main (EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 	InitializeLib(image_handle, systab);
 	EFI_PCI_IO *pciio = NULL;
 	lpcif_t lpcif;
-	EFI_STATUS rc;
+	EFI_STATUS rc = EFI_SUCCESS;
 	struct {
 		uint16_t vendor;
 		uint16_t device;
