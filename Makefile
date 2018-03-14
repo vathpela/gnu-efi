@@ -34,7 +34,7 @@
 #    SUCH DAMAGE.
 #
 
-VERSION = 3.0.7
+VERSION = 3.0.8
 
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 SRCDIR = $(dir $(MKFILE_PATH))
