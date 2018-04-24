@@ -71,7 +71,7 @@ RtStrnCpy (
 {
     UINTN Size = RtStrnLen(Src, Len);
     if (Size != Len)
-	RtSetMem(Dest + Len, '\0', (Len - Size) * sizeof(CHAR16));
+    RtSetMem(Dest + Len, '\0', (UINT8)((Len - Size) * sizeof(CHAR16)));
     RtCopyMem(Dest, Src, Size * sizeof(CHAR16));
 }
 
@@ -107,7 +107,7 @@ RtStpnCpy (
 {
     UINTN Size = RtStrnLen(Src, Len);
     if (Size != Len)
-	RtSetMem(Dest + Len, '\0', (Len - Size) * sizeof(CHAR16));
+    RtSetMem(Dest + Len, '\0', (UINT8)((Len - Size) * sizeof(CHAR16)));
     RtCopyMem(Dest, Src, Size * sizeof(CHAR16));
     return Dest + Size;
 }
