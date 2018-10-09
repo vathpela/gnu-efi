@@ -71,7 +71,7 @@ RtStrnCpy (
 {
     UINTN Size = RtStrnLen(Src, Len);
     if (Size != Len)
-    RtSetMem(Dest + Len, '\0', (UINT8)((Len - Size) * sizeof(CHAR16)));
+        RtSetMem(Dest + Size, (Len - Size) * sizeof(CHAR16), '\0');
     RtCopyMem(Dest, Src, Size * sizeof(CHAR16));
 }
 
