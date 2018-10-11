@@ -126,7 +126,7 @@ RtStrCat (
 }
 
 #ifndef __GNUC__
-#pragma RUNTIME_CODE(RtStrCat)
+#pragma RUNTIME_CODE(RtStrnCat)
 #endif
 VOID
 RUNTIMEFUNCTION
@@ -136,7 +136,12 @@ RtStrnCat (
     IN UINTN    Len
     )
 {
-    RtStrnCpy(Dest+StrLen(Dest), Src, Len);
+    UINTN DestSize, Size;
+
+    DestSize = StrLen(Dest);
+    Size = RtStrnLen(Src, Len);
+    RtCopyMem(Dest + DestSize, Src, Size * sizeof(CHAR16));
+    Dest[DestSize + Size] = '\0';
 }
 
 #ifndef __GNUC__
