@@ -94,7 +94,7 @@ RtStpCpy (
 }
 
 #ifndef __GNUC__
-#pragma RUNTIME_CODE(RtStrnCpy)
+#pragma RUNTIME_CODE(RtStpnCpy)
 #endif
 CHAR16 *
 RUNTIMEFUNCTION
@@ -107,7 +107,7 @@ RtStpnCpy (
 {
     UINTN Size = RtStrnLen(Src, Len);
     if (Size != Len)
-    RtSetMem(Dest + Len, '\0', (UINT8)((Len - Size) * sizeof(CHAR16)));
+        RtSetMem(Dest + Size, (Len - Size) * sizeof(CHAR16), '\0');
     RtCopyMem(Dest, Src, Size * sizeof(CHAR16));
     return Dest + Size;
 }
