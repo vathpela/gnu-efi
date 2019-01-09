@@ -18,7 +18,7 @@ Revision History
 #include "lib.h"
 
 #ifndef __GNUC__
-#pragma RUNTIME_CODE(RtAcquireLock)
+#pragma RUNTIME_CODE(RtStrCmp)
 #endif
 INTN
 RUNTIMEFUNCTION
@@ -76,7 +76,7 @@ RtStrnCpy (
 }
 
 #ifndef __GNUC__
-#pragma RUNTIME_CODE(RtStrCpy)
+#pragma RUNTIME_CODE(RtStpCpy)
 #endif
 CHAR16 *
 RUNTIMEFUNCTION
@@ -122,7 +122,7 @@ RtStrCat (
     IN CONST CHAR16   *Src
     )
 {
-    RtStrCpy(Dest+StrLen(Dest), Src);
+    RtStrCpy(Dest+RtStrLen(Dest), Src);
 }
 
 #ifndef __GNUC__
@@ -138,7 +138,7 @@ RtStrnCat (
 {
     UINTN DestSize, Size;
 
-    DestSize = StrLen(Dest);
+    DestSize = RtStrLen(Dest);
     Size = RtStrnLen(Src, Len);
     RtCopyMem(Dest + DestSize, Src, Size * sizeof(CHAR16));
     Dest[DestSize + Size] = '\0';
@@ -169,11 +169,11 @@ RtStrnLen (
     IN CONST CHAR16   *s1,
     IN UINTN           Len
     )
-// copy strings
+// string length
 {
     UINTN i;
     for (i = 0; *s1 && i < Len; i++)
-	    s1++;
+        s1++;
     return i;
 }
 

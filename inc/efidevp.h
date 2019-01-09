@@ -325,11 +325,11 @@ typedef struct _VLAN_DEVICE_PATH {
 #define MSG_INFINIBAND_DP               0x09
 typedef struct _INFINIBAND_DEVICE_PATH {
         EFI_DEVICE_PATH_PROTOCOL        Header;
-        UINT32                          ResourceFlags ;
-        UINT64                          PortGid ;
-        UINT64                          ServiceId ;
-        UINT64                          TargetPortId ;
-        UINT64                          DeviceId ;
+        UINT32                          ResourceFlags;
+        UINT8                           PortGid[16];
+        UINT64                          ServiceId;
+        UINT64                          TargetPortId;
+        UINT64                          DeviceId;
 } INFINIBAND_DEVICE_PATH;
 
 #define MSG_UART_DP                     0x0e
