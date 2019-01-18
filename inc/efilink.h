@@ -1,6 +1,10 @@
 #ifndef _EFI_LINK_H
 #define _EFI_LINK_H
 
+#if defined(__GNUC__)
+#include <stdint.h>
+#endif
+
 /*++
 
 Copyright (c) 1998  Intel Corporation
