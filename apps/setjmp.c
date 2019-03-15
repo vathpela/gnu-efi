@@ -12,12 +12,12 @@ efi_main(
 	int rc;
 
 	InitializeLib(image_handle, systab);
-	rc = setjmp(&env);
+	rc = setjmp(env);
 	Print(L"setjmp() = %d\n", rc);
 
 	if (rc == 3) {
 		Print(L"3 worked\n");
-		longjmp(&env, 0);
+		longjmp(env, 0);
 		return 0;
 	}
 
@@ -26,6 +26,6 @@ efi_main(
 		return 0;
 	}
 
-	longjmp(&env, 3);
+	longjmp(env, 3);
 	return 0;
 }
