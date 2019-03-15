@@ -27,6 +27,8 @@ typedef unsigned short      uint16_t;
 typedef short               int16_t;
 typedef unsigned char       uint8_t;
 typedef signed char         int8_t;   // unqualified 'char' is unsigned on ARM
+typedef uint32_t            uintptr_t;
+typedef int32_t             intptr_t;
 
 #else
 #include <stdint.h>

@@ -62,6 +62,8 @@ Revision History
         typedef unsigned char       uint8_t;
         typedef char                int8_t;
     #endif
+    typedef uint64_t            uintptr_t;
+    typedef int64_t             intptr_t;
 #elif defined(__GNUC__)
     #include <stdint.h>
 #endif
