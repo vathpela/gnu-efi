@@ -27,6 +27,20 @@ SECTIONS
    HIDDEN (_gp = ALIGN (16) + 0x7ff0);
    *(.got)
 
+   . = ALIGN(16);
+   _init_array = .;
+   *(SORT_BY_NAME(.init_array))
+   _init_array_end = .;
+   __CTOR_LIST__ = .;
+   *(SORT_BY_NAME(.ctors))
+   __CTOR_END__ = .;
+   __DTOR_LIST__ = .;
+   *(SORT_BY_NAME(.dtors))
+   __DTOR_END__ = .;
+   _fini_array = .;
+   *(SORT_BY_NAME(.fini_array))
+   _fini_array_end = .;
+
    /* the EFI loader doesn't seem to like a .bss section, so we stick
       it all into .data: */
    . = ALIGN(16);
