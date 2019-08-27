@@ -46,7 +46,7 @@ static EFI_GUID SAliasId               = ALIAS_ID;
 
 static struct {
     EFI_GUID        *Guid;
-    WCHAR           *GuidName;
+    CHAR16          *GuidName;
 } KnownGuids[] = {
 	{  &NullGuid,                                       L"G0" },
 	{  &gEfiGlobalVariableGuid,                         L"EfiVar" },
