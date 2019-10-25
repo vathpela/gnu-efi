@@ -66,7 +66,7 @@ OBJS  = $(FILES:%=%.o)
 
 SUBDIRS = $(ARCHES) runtime
 
-LIBDIRINSTALL = $(INSTALLROOT)$(LIBDIR)
+LIBDIRINSTALL = $(INSTALLROOT)$(LIBDIR)/gnuefi/$(ARCH)
 
 all: libsubdirs libefi.a
 
