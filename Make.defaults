@@ -36,6 +36,8 @@
 
 TOPDIR := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
+ARCHES = ia32 x86_64 ia64 aarch64 arm mips64el
+
 #
 # Variables below overridable from command-line:
 #   make VARNAME=value ...
