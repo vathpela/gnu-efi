@@ -34,7 +34,7 @@ Revision History
 // Basic int types of various widths
 //
 
-#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L )
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L ) && !defined(__cplusplus)
 
     // No ANSI C 1999/2000 stdint.h integer width declarations 
 
@@ -86,7 +86,7 @@ Revision History
     #endif
     typedef uint64_t            uintptr_t;
     typedef int64_t             intptr_t;
-#elif defined(__GNUC__)
+#else
     #include <stdint.h>
 #endif
 
