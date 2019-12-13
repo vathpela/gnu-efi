@@ -37,6 +37,8 @@ EFI_BFDARCH ?= $(shell $(EFI_CC) -dumpmachine | cut -f1 -d- | \
 
 include efi/$(EFI_ARCH).mk
 
+empty :=
+space := $(empty) $(empty)
 comma=,
 GNUEFI_LIB_PATHS := $(sort @@LIBEFIDIR@@ @@GNUEFIDIR@@)
 GNUEFI_LDFLAGS := -nostdlib --warn-common --no-undefined --fatal-warnings \
