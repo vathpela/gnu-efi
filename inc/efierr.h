@@ -58,6 +58,7 @@ Revision History
 #define EFI_INVALID_LANGUAGE            EFIERR(32)
 #define EFI_COMPROMISED_DATA            EFIERR(33)
 
+#define EFI_WARN_UNKOWN_GLYPH           EFIWARN(1)
 #define EFI_WARN_UNKNOWN_GLYPH          EFIWARN(1)
 #define EFI_WARN_DELETE_FAILURE         EFIWARN(2)
 #define EFI_WARN_WRITE_FAILURE          EFIWARN(3)
