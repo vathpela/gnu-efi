@@ -36,7 +36,7 @@
 
 TOPDIR ?= $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 
-ARCHES=aa64 arm ia32 ia64 mips64el x64
+ARCHES=aa64 arm ia32 ia64 mips64el riscv64 x64
 
 #
 # Variables below overridable from command-line:
@@ -83,6 +83,7 @@ HOSTARCH     ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed \
 			-e s,aarch64,aa64, \
 			-e 's,armv[[:digit:]].*,arm,' \
 			-e 's,mips64.*,mips64el,g' \
+			-e 's,riscv.*,riscv64,' \
 			)
 ARCH         ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed \
 			-e s,i[3456789]86,ia32, \
@@ -90,6 +91,7 @@ ARCH         ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed \
 			-e s,aarch64,aa64, \
 			-e 's,armv[[:digit:]].*,arm,' \
 			-e 's,mips64.*,mips64el,g' \
+			-e 's,riscv.*,riscv64,' \
 			)
 BFD_ARCH     ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed \
 			-e s,i[3456789]86,ia32, \
@@ -105,6 +107,7 @@ ifneq ($(CROSS_COMPILE),)
 			-e s,aarch64,aa64, \
 			-e 's,armv[[:digit:]].*,arm,' \
 			-e 's,mips64.*,mips64el,g' \
+			-e 's,riscv.*,riscv64,' \
 			)
 endif
 
@@ -176,13 +179,20 @@ endif
 ifneq ($(ARCH),aa64)
 ifneq ($(ARCH),arm)
 ifneq ($(ARCH),mips64el)
+ifneq ($(ARCH),riscv64)
 export HAVE_EFI_OBJCOPY=y
+endif
 endif
 endif
 endif
 
 ifeq ($(ARCH),arm)
 CFLAGS += -marm
+endif
+
+ifeq ($(ARCH),riscv64)
+# I'm not sure why we need EFI_SUBSYSTEM defined here on riscv but not on aa64
+CFLAGS +=-DEFI_SUBSYSTEM=$(EFI_ARCH_SUBSYSTEM) -msmall-data-limit=0 -march=rv64imafdc -fpack-struct=8 -mcmodel=medany -mabi=lp64
 endif
 
 # Generic compilation flags

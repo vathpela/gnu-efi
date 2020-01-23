@@ -1,0 +1,25 @@
+#ifndef GNU_EFI_RISCV64_SETJMP_H
+#define GNU_EFI_RISCV64_SETJMP_H
+
+#define JMPBUF_ALIGN 8
+
+typedef struct {
+	UINT64	ra;
+
+	UINT64	s0;
+	UINT64	s1;
+	UINT64	s2;
+	UINT64	s3;
+	UINT64	s4;
+	UINT64	s5;
+	UINT64	s6;
+	UINT64	s7;
+	UINT64	s8;
+	UINT64	s9;
+	UINT64	s10;
+	UINT64	s11;
+
+	UINT64	sp;
+} ALIGN(JMPBUF_ALIGN) jmp_buf[1];
+
+#endif /* GNU_EFI_RISCV64_SETJMP_H */
