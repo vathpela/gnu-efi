@@ -966,5 +966,9 @@ typedef struct _EFI_SYSTEM_TABLE {
 
 } EFI_SYSTEM_TABLE;
 
+extern EFI_STATUS efi_main(EFI_HANDLE image, EFI_SYSTEM_TABLE *systab);
+extern EFI_STATUS _entry(EFI_HANDLE image, EFI_SYSTEM_TABLE *systab);
+extern EFI_STATUS _start(EFI_HANDLE image, EFI_SYSTEM_TABLE *systab);
+
 #endif
 

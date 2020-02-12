@@ -44,10 +44,18 @@ include $(SRCDIR)/../Make.defaults
 
 FILES	= reloc_$(ARCH)
 
-OBJS	= $(FILES:%=%.o)
+OBJS	= crt0-efi-$(ARCH).o reloc_$(ARCH).o
 
 # on aa64, avoid jump tables before all relocations have been processed
 reloc_aa64.o: CFLAGS += -fno-jump-tables
+
+crt0.debug : crt0.o
+	$(OBJCOPY) \
+		-j .debug_info -j .debug_abbrev -j .debug_aranges \
+		-j .debug_line -j .debug_str -j .debug_ranges \
+		$(FORMAT) $^ $@
+
+crt0-efi-$(ARCH).o : | crt0.debug
 
 TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
 

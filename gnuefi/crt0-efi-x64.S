@@ -34,7 +34,14 @@
     THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
     SUCH DAMAGE.
 */
+#include <dwarf.h>
+
+	.loc_mark_labels 1
+	.file 1 __FILE__
+	.loc 1 __LINE__ 1 view -0
+
 	.text
+.Ltext:
 	.align 4
 
 	.globl _start
@@ -43,7 +50,6 @@ _start:
 	pushq %rcx
 	pushq %rdx
 
-0:
 	lea ImageBase(%rip), %rdi
 	lea _DYNAMIC(%rip), %rsi
 
@@ -59,9 +65,15 @@ _start:
 	call _entry
 	addq $8, %rsp
 
-.exit:	
   	ret
+	.size _start, .-_start
+.Letext:
 
+	/*
+	 * We have to have a some kind of relocations, or else the loader
+	 * doesn't believe this is position independent, and will try to load
+	 * us at e.g.  0x1000, which will fail.
+	 */
 	// hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:
 	.data
 .dummy0:
@@ -74,3 +86,13 @@ _start:
 	.long	10					// Block Size (2*4+2)
 	.word	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
 
+DEBUG_INFO_HEADER(.Ltext, .Letext, _start,
+		  .Ldbg_producer, .Ldbg_dir, .Ldbg_file);
+DEBUG_INFO_FUNCTION(2, 47, _start, .Letext, .Ldbg_start);
+DEBUG_INFO_FOOTER();
+DEBUG_ABBREV_HEADER();
+DEBUG_ABBREV_FUNCTION(2);
+DEBUG_INFO_STR(.Ldbg_producer, "gnu-efi");
+DEBUG_INFO_STR(.Ldbg_dir, "./x64/gnuefi");
+DEBUG_INFO_STR(.Ldbg_file, __FILE__);
+DEBUG_INFO_STR(.Ldbg_start, "_start");

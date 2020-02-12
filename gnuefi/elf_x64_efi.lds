@@ -9,22 +9,27 @@ SECTIONS
   /* .hash and/or .gnu.hash MUST come first! */
   .hash : { *(.hash) }
   .gnu.hash : { *(.gnu.hash) }
+  .eh_frame : { *(.eh_frame) }
+
   . = ALIGN(4096);
-  .eh_frame : 
-  { 
-    *(.eh_frame)
-  }
-  . = ALIGN(4096);
-  .text :
+  .text : ALIGN(4096)
   {
-   _text = .;
-   *(.text)
-   *(.text.*)
-   *(.gnu.linkonce.t.*)
-   . = ALIGN(16);
+    _text = .;
+    *(.text)
+    *(.text.*)
+    *(.gnu.linkonce.t.*)
+    *(.srodata*)
+    *(.rodata*)
+    . = ALIGN(4096);
   }
   _etext = .;
   _text_size = . - _text;
+
+  /*
+   * We have to have a some kind of relocations, or else the loader doesn't
+   * believe this is position independent, and will try to load us at e.g.
+   * 0x1000, which will fail.
+   */
   . = ALIGN(4096);
   .reloc :
   {
@@ -32,14 +37,13 @@ SECTIONS
   }
 
   . = ALIGN(4096);
-  .data :
+  .data : ALIGN(4096)
   {
    _data = .;
-   *(.rodata*)
-   *(.got.plt)
-   *(.got)
    *(.data*)
    *(.sdata)
+   *(.got.plt)
+   *(.got)
 
    /*
     * Note that these aren't the using the GNU "CONSTRUCTOR" output section
@@ -63,35 +67,39 @@ SECTIONS
 
    /* the EFI loader doesn't seem to like a .bss section, so we stick
       it all into .data: */
+   . = ALIGN(4096);
+   _bss = .;
    *(.sbss)
    *(.scommon)
    *(.dynbss)
    *(.bss)
    *(COMMON)
    *(.rel.local)
+   . = ALIGN(4096);
+   _bss_end = .;
   }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
 
   _edata = .;
-  _data_size = . - _etext;
+  _data_size = . - _data;
   . = ALIGN(4096);
-  .dynamic  : { *(.dynamic) }
+  .dynamic : ALIGN(4096) { *(.dynamic) }
   . = ALIGN(4096);
-  .rela :
+  .rela : ALIGN(4096)
   {
     *(.rela.data*)
+    *(.rela.dyn)
     *(.rela.got)
     *(.rela.stab)
+    *(.rela.reloc)
   }
   . = ALIGN(4096);
-  .dynsym   : { *(.dynsym) }
+  .dynsym : ALIGN(4096) { *(.dynsym) }
   . = ALIGN(4096);
-  .dynstr   : { *(.dynstr) }
+  .dynstr : ALIGN(4096) { *(.dynstr) }
   . = ALIGN(4096);
   .ignored.reloc :
   {
-    *(.rela.reloc)
-    *(.eh_frame)
     *(.note.GNU-stack)
   }
   .comment 0 : { *(.comment) }

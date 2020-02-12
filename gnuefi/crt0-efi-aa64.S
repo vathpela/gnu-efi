@@ -16,104 +16,40 @@
  * either version 2 of the License, or (at your option) any later version.
  */
 
-	.section	.text.head
+#include <dwarf.h>
 
-	/*
-	 * Magic "MZ" signature for PE/COFF
-	 */
-	.globl	ImageBase
-ImageBase:
-	.ascii	"MZ"
-	.skip	58				// 'MZ' + pad + offset == 64
-	.long	pe_header - ImageBase		// Offset to the PE header.
-pe_header:
-	.ascii	"PE"
-	.short 	0
-coff_header:
-	.short	0xaa64				// AArch64
-	.short	2				// nr_sections
-	.long	0 				// TimeDateStamp
-	.long	0				// PointerToSymbolTable
-	.long	1				// NumberOfSymbols
-	.short	section_table - optional_header	// SizeOfOptionalHeader
-	.short	0x206				// Characteristics.
-						// IMAGE_FILE_DEBUG_STRIPPED |
-						// IMAGE_FILE_EXECUTABLE_IMAGE |
-						// IMAGE_FILE_LINE_NUMS_STRIPPED
-optional_header:
-	.short	0x20b				// PE32+ format
-	.byte	0x02				// MajorLinkerVersion
-	.byte	0x14				// MinorLinkerVersion
-	.long	_data - _start			// SizeOfCode
-	.long	_data_size			// SizeOfInitializedData
-	.long	0				// SizeOfUninitializedData
-	.long	_start - ImageBase		// AddressOfEntryPoint
-	.long	_start - ImageBase		// BaseOfCode
+	.arch armv8-a
+	.loc_mark_labels 1
+	.file 1 __FILE__
+	.loc 1 __LINE__ 1 view -0
 
-extra_header_fields:
-	.quad	0				// ImageBase
-	.long	0x1000				// SectionAlignment
-	.long	0x200				// FileAlignment
-	.short	0				// MajorOperatingSystemVersion
-	.short	0				// MinorOperatingSystemVersion
-	.short	0				// MajorImageVersion
-	.short	0				// MinorImageVersion
-	.short	0				// MajorSubsystemVersion
-	.short	0				// MinorSubsystemVersion
-	.long	0				// Win32VersionValue
+	.text
+.Ltext:
+	.align		4
 
-	.long	_edata - ImageBase		// SizeOfImage
-
-	// Everything before the kernel image is considered part of the header
-	.long	_start - ImageBase		// SizeOfHeaders
-	.long	0				// CheckSum
-	.short	EFI_SUBSYSTEM			// Subsystem
-	.short	0				// DllCharacteristics
-	.quad	0				// SizeOfStackReserve
-	.quad	0				// SizeOfStackCommit
-	.quad	0				// SizeOfHeapReserve
-	.quad	0				// SizeOfHeapCommit
-	.long	0				// LoaderFlags
-	.long	0x6				// NumberOfRvaAndSizes
-
-	.quad	0				// ExportTable
-	.quad	0				// ImportTable
-	.quad	0				// ResourceTable
-	.quad	0				// ExceptionTable
-	.quad	0				// CertificationTable
-	.quad	0				// BaseRelocationTable
-
-	// Section table
-section_table:
-	.ascii	".text\0\0\0"
-	.long	_data - _start		// VirtualSize
-	.long	_start - ImageBase	// VirtualAddress
-	.long	_data - _start		// SizeOfRawData
-	.long	_start - ImageBase	// PointerToRawData
-
-	.long	0		// PointerToRelocations (0 for executables)
-	.long	0		// PointerToLineNumbers (0 for executables)
-	.short	0		// NumberOfRelocations  (0 for executables)
-	.short	0		// NumberOfLineNumbers  (0 for executables)
-	.long	0x60000020	// Characteristics (section flags)
-
-	.ascii	".data\0\0\0"
-	.long	_data_size		// VirtualSize
-	.long	_data - ImageBase	// VirtualAddress
-	.long	_data_size		// SizeOfRawData
-	.long	_data - ImageBase	// PointerToRawData
-
-	.long	0		// PointerToRelocations (0 for executables)
-	.long	0		// PointerToLineNumbers (0 for executables)
-	.short	0		// NumberOfRelocations  (0 for executables)
-	.short	0		// NumberOfLineNumbers  (0 for executables)
-	.long	0xc0000040	// Characteristics (section flags)
-
-	.align		12
+	.globl _start
 _start:
+#if 0
 	stp		x29, x30, [sp, #-32]!
 	mov		x29, sp
 
+	str		x0, [sp, #24]
+	str		x1, [sp, #16]
+	.loc 1 __LINE__ 1 prologue_end
+
+	adrp		x0, ImageBase
+	add		x0, x0, #:lo12:ImageBase
+	ldr		x4, [x0]
+	adrp		x0, _DYNAMIC
+	add		x0, x0, #:lo12:_DYNAMIC
+	ldr		x0, [x0]
+	ldr		x3, [sp, #16]
+	ldr		x2, [sp, #24]
+	mov		x1, x0
+	mov		x0, x4
+#else
+	stp		x29, x30, [sp, #-32]!
+	mov		x29, sp
 	stp		x0, x1, [sp, #16]
 	mov		x2, x0
 	mov		x3, x1
@@ -126,5 +62,38 @@ _start:
 	ldp		x0, x1, [sp, #16]
 	bl		_entry
 
+	.loc 1 __LINE__ 1 epilogue_begin
 0:	ldp		x29, x30, [sp], #32
 	ret
+#endif
+	.size _start, .-_start
+.Letext:
+
+	/*
+	 * We have to have a some kind of relocations, or else the loader
+	 * doesn't believe this is position independent, and will try to load
+	 * us at e.g.  0x1000, which will fail.
+	 */
+	// hand-craft a dummy .reloc section so EFI knows it's a relocatable executable:
+	.data
+.dummy0:
+.dummy1:
+	.long	0
+
+#define IMAGE_REL_ABSOLUTE	0
+	.section .reloc, "aM", @note, 10
+	.long	.dummy1-.dummy0				// Page RVA
+	.long	10					// Block Size (2*4+2)
+	.short	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
+
+DEBUG_INFO_HEADER(.Ltext, .Letext, _start,
+		  .Ldbg_producer, .Ldbg_dir, .Ldbg_file);
+DEBUG_INFO_FUNCTION(2, 30, _start, .Letext, .Ldbg_start);
+DEBUG_INFO_FOOTER();
+DEBUG_ABBREV_HEADER();
+DEBUG_ABBREV_FUNCTION(2);
+DEBUG_ABBREV_END();
+DEBUG_INFO_STR(.Ldbg_producer, "gnu-efi");
+DEBUG_INFO_STR(.Ldbg_dir, "./aa64/gnuefi");
+DEBUG_INFO_STR(.Ldbg_file, __FILE__);
+DEBUG_INFO_STR(.Ldbg_start, "_start");

@@ -37,9 +37,65 @@
 #include <efi.h>
 #include <efilib.h>
 
+#include <stddef.h>
+
 #include <elf.h>
 
-EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
+static const wchar_t hex[] = L"0123456789abcdef";
+
+static void
+printval_(EFI_SYSTEM_TABLE *systab, int size, uint64_t value)
+{
+	wchar_t buf[21] = L"0x0000000000000000\r\n";
+	int shift;
+	uint64_t mask;
+	int i;
+
+	switch(size) {
+	case 1:
+		shift = 4;
+		break;
+	case 2:
+		shift = 12;
+		break;
+	case 4:
+		shift = 28;
+		break;
+	case 8:
+	default:
+		shift = 60;
+		break;
+	}
+	mask = 0xfull << shift;
+
+	for (i = 2; mask != 0; i += 2) {
+		buf[i] = hex[(value & mask) >> shift];
+		mask >>= 4;
+		shift -= 4;
+		buf[i+1] = hex[(value & mask) >> shift];
+		mask >>= 4;
+		shift -= 4;
+	}
+	buf[i+0] = L'\r';
+	buf[i+1] = L'\n';
+	buf[i+2] = L'\0';
+
+	systab->ConOut->OutputString(systab->ConOut, buf);
+}
+
+#define printval(a) printval_(systab, sizeof(a), (uint64_t)(a))
+
+static void
+print_(EFI_SYSTEM_TABLE *systab, wchar_t *str)
+{
+	systab->ConOut->OutputString(systab->ConOut, str);
+}
+
+extern void *_DYNAMIC;
+extern void *ImageBase;
+#define print(x) print_(systab, (x))
+
+EFI_STATUS _relocate (
 		      EFI_HANDLE image EFI_UNUSED,
 		      EFI_SYSTEM_TABLE *systab EFI_UNUSED)
 {
@@ -47,6 +103,15 @@ EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
 	Elf64_Rela *rel = 0;
 	unsigned long *addr;
 	int i;
+	uint64_t ldbase = (uint64_t)ImageBase;
+	Elf64_Dyn *dyn = _DYNAMIC;
+
+	print(L"in _relocate()\r\n");
+	print(L"ldbase: "); printval(ldbase);
+	print(L"dyn: "); printval(dyn);
+	print(L"image: "); printval(image);
+	print(L"systab: "); printval(systab);
+	print(L"_DYNAMIC: "); printval(&_DYNAMIC);
 
 	for (i = 0; dyn[i].d_tag != DT_NULL; ++i) {
 		switch (dyn[i].d_tag) {
@@ -69,11 +134,15 @@ EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
 		}
 	}
 
-	if (!rel && relent == 0)
+	if (!rel && relent == 0) {
+		systab->ConOut->OutputString(systab->ConOut, L"!rel && relent == 0\r\n");
 		return EFI_SUCCESS;
+	}
 
-	if (!rel || relent == 0)
+	if (!rel || relent == 0) {
+		systab->ConOut->OutputString(systab->ConOut, L"!rel || relent == 0\r\n");
 		return EFI_LOAD_ERROR;
+	}
 
 	while (relsz > 0) {
 		/* apply the relocs */
@@ -93,5 +162,6 @@ EFI_STATUS _relocate (long ldbase, Elf64_Dyn *dyn,
 		rel = (Elf64_Rela*) ((char *) rel + relent);
 		relsz -= relent;
 	}
+	systab->ConOut->OutputString(systab->ConOut, L"returning success\r\n");
 	return EFI_SUCCESS;
 }
