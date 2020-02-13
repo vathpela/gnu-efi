@@ -163,10 +163,13 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 		Print(L"Inavlid NumPages\n");
 		err++;
 	}
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtype-limits"
 	if ( Addr > MAX_ADDR ) {
 		Print(L"Inavlid Address\n");
 		err++;
 	}
+#pragma GCC diagnostic pop
 	if ( err ) {
 		return EFI_INVALID_PARAMETER;
 	}

@@ -124,10 +124,13 @@ efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 		Print(L"Inavlid PgCnt\n");
 		err++;
 	}
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtype-limits"
 	if ( PhysAddr > MAX_ADDR ) {
 		Print(L"Inavlid Address\n");
 		err++;
 	}
+#pragma GCC diagnostic pop
 	if ( err ) {
 		return EFI_SUCCESS;
 	}
