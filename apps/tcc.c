@@ -317,7 +317,7 @@ EFI_STATUS test_call10(void)
 }
 
 EFI_STATUS
-efi_main (EFI_HANDLE *image, EFI_SYSTEM_TABLE *systab)
+efi_main (EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
 {
 	EFI_STATUS rc = EFI_SUCCESS;
 
