@@ -9,16 +9,18 @@
 
 #ifdef __ASSEMBLER__
 
+#define ___CONCAT(x,y) x ## y
+#define __CONCAT(x,y) ___CONCAT(x,y)
 #ifdef __ARMEL__
-#define DEBUG_INFO_SECTION(name, ...) \
-	.section name
+#define DEBUG_INFO_STM %
 #else
-#define DEBUG_INFO_SECTION(name, args...) \
-	.section name, ## args
+#define DEBUG_INFO_STM @
 #endif
+#define DEBUG_INFO_SECTION(name, flags, type, args...) \
+	.section name, flags, __CONCAT(DEBUG_INFO_STM,type), ## args
 
 #define DEBUG_INFO_HEADER(text, etext, entry, producer, dir, file)	\
-	DEBUG_INFO_SECTION(".debug_info","",@progbits)			;\
+	DEBUG_INFO_SECTION(".debug_info","",progbits)			;\
 		.4byte	.Ldebug_info_end-.Ldebug_info_start		;\
 	.Ldebug_info_start:						;\
 		.2byte	0x3						;\
@@ -61,7 +63,7 @@
 	.Ldebug_info_end:
 
 #define DEBUG_ABBREV_HEADER()					\
-	DEBUG_INFO_SECTION(.debug_abbrev,"",@progbits)		;\
+	DEBUG_INFO_SECTION(.debug_abbrev,"",progbits)		;\
 	.Ldebug_abbrev0:					;\
 		.uleb128 1					;\
 		.uleb128	DW_TAG_compile_unit		;\
@@ -139,10 +141,12 @@
 	.byte		DW_FORM_end		;\
 	.byte 0
 
-#define DEBUG_INFO_STR(label, value)				\
-	DEBUG_INFO_SECTION(.debug_str,"MS",@progbits,1)		;\
-	label:							;\
+#define DEBUG_INFO_STR(label, value)					\
+	DEBUG_INFO_SECTION(.debug_str,"SMG",progbits,1,.debug_str)	;\
+	label:								;\
 		.string value
+
+#define DEBUG_INFO_STR_END()
 
 #else /* !__ASSEMBLER__ */
 #define DEBUG_INFO_HEADER(...)
@@ -152,6 +156,7 @@
 #define DEBUG_ABBREV_FUNCTION(...)
 #define DEBUG_ABBREV_END()
 #define DEBUG_INFO_STR(...)
+#define DEBUG_INFO_STR_END()
 #endif
 
 #endif /* !DWARF_ASM_H_ */

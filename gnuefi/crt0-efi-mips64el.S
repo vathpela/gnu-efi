@@ -19,8 +19,6 @@
 #include <dwarf.h>
 
 	.loc_mark_labels 1
-	.file 1 __FILE__
-	.loc 1 __LINE__ 1 view -0
 
 	.section	.text.head
 
@@ -135,8 +133,6 @@ section_table:
 	.ent	_start
 	.type	_start, @function
 _start:
-	.file 1 __FILE__
-	.loc 1 __LINE__ 1 view -0
 	daddiu		$sp, -32
 	sd		$ra, ($sp)
 

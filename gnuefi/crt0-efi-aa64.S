@@ -20,8 +20,6 @@
 
 	.arch armv8-a
 	.loc_mark_labels 1
-	.file 1 __FILE__
-	.loc 1 __LINE__ 1 view -0
 
 	.text
 .Ltext:
@@ -94,6 +92,8 @@ DEBUG_ABBREV_HEADER();
 DEBUG_ABBREV_FUNCTION(2);
 DEBUG_ABBREV_END();
 DEBUG_INFO_STR(.Ldbg_producer, "gnu-efi");
+
 DEBUG_INFO_STR(.Ldbg_dir, "./aa64/gnuefi");
 DEBUG_INFO_STR(.Ldbg_file, __FILE__);
 DEBUG_INFO_STR(.Ldbg_start, "_start");
+DEBUG_INFO_STR_END();

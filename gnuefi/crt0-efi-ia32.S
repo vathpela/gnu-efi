@@ -36,8 +36,6 @@
 
 	.arch i686
 	.loc_mark_labels 1
-	.file 1 __FILE__
-	.loc 1 __LINE__ 1 view -0
 
 	.text
 .Ltext:
