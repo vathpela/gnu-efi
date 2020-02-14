@@ -9,9 +9,9 @@ SECTIONS
   .gnu.hash : { *(.gnu.hash) }
   .eh_frame : { *(.eh_frame) }
 
-  . = ALIGN(4096);
   .text : ALIGN(4096)
   {
+    _start = .;
     _text = .;
     *(.text)
     *(.text.*)
@@ -28,13 +28,15 @@ SECTIONS
    * believe this is position independent, and will try to load us at e.g.
    * 0x1000, which will fail.
    */
+  /*
   . = ALIGN(4096);
   .reloc :
   {
    *(.reloc)
   }
+  */
 
-  . = ALIGN(4096);
+  .dynamic : { *(.dynamic) }
   .data : ALIGN(4096)
   {
    _data = .;
@@ -78,23 +80,12 @@ SECTIONS
   }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
 
+  .rela.dyn : { *(.rela.dyn) }
+  .rela.got : { *(.rela.got) }
+  .rela.data : { *(.rela.data) *(.rela.data*) }
   _edata = .;
   _data_size = . - _data;
-  . = ALIGN(4096);
-  .dynamic : ALIGN(4096)
-  {
-    _DYNAMIC = .;
-    *(.dynamic)
-  }
-  . = ALIGN(4096);
-  .rela : ALIGN(4096)
-  {
-    *(.rela.data*)
-    *(.rela.dyn)
-    *(.rela.got)
-    *(.rela.stab)
-    *(.rela.reloc)
-  }
+
   . = ALIGN(4096);
   .dynsym : ALIGN(4096) { *(.dynsym) }
   . = ALIGN(4096);

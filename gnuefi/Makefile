@@ -42,17 +42,17 @@ TOPDIR = $(SRCDIR)/..
 include $(SRCDIR)/../Make.version
 include $(SRCDIR)/../Make.defaults
 
-TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
+TARGETS	= libgnuefi.a crt0-efi-$(ARCH).o
 
 all:	$(TARGETS)
 
 FILES	= reloc_$(ARCH)
-OBJS	= reloc_$(ARCH).o
+OBJS	= $(FILES:%=%.o)
 
 # on aa64, avoid jump tables before all relocations have been processed
 reloc_aa64.o: CFLAGS += -fno-jump-tables
 
-crt0.debug : crt0.o
+crt0.debug : crt0-efi-$(ARCH).o
 	$(OBJCOPY) \
 		--only-keep-debug \
 		$(FORMAT) $^ $@
@@ -61,8 +61,6 @@ crt0.debug : crt0.o
 #		-j .debug_info -j .debug_abbrev -j .debug_aranges \
 #		-j .debug_line -j .debug_str -j .debug_ranges \
 #
-
-crt0-efi-$(ARCH).o : | crt0.debug
 
 libgnuefi.a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
