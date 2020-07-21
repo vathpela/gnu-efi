@@ -146,6 +146,8 @@ extern EFI_GUID AbsolutePointerProtocol;
 extern EFI_GUID gEfiDebugImageInfoTableGuid;
 extern EFI_GUID gEfiDebugSupportProtocolGuid;
 
+extern EFI_GUID SimpleTextInputExProtocol;
+
 //
 // EFI Variable strings
 //
