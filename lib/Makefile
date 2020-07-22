@@ -45,7 +45,7 @@ TOPDIR = $(SRCDIR)/..
 CDIR = $(TOPDIR)/..
 FILES = boxdraw smbios console crc data debug dpath  \
         error event exit guid hand hw init lock   \
-        misc print sread str cmdline \
+        misc pause print sread str cmdline\
 	runtime/rtlock runtime/efirtlib runtime/rtstr runtime/vm runtime/rtdata  \
 	$(ARCH)/initplat $(ARCH)/math $(ARCH)/setjmp
 

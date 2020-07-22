@@ -1017,6 +1017,11 @@ WritePciConfig (
         IN  UINTN                       Data
         );
 
+VOID
+Pause (
+    VOID
+);
+
 extern EFI_DEVICE_IO_INTERFACE  *GlobalIoFncs;
 
 #define outp(_Port, _DataByte)  (UINT8)WritePort(GlobalIoFncs,  IO_UINT8,  (UINTN)_Port, (UINTN)_DataByte)
@@ -1033,7 +1038,6 @@ extern EFI_DEVICE_IO_INTERFACE  *GlobalIoFncs;
 #define writepci32(_Addr, _DataByte) (UINT32)WritePciConfig(GlobalIoFncs, IO_UINT32, (UINTN)_Addr, (UINTN)_DataByte)
 #define readpci32(_Addr)             (UINT32)ReadPciConfig(GlobalIoFncs,  IO_UINT32, (UINTN)_Addr)
 
-#define Pause()             WaitForSingleEvent (ST->ConIn->WaitForKey, 0)
 #define Port80(_PostCode)   GlobalIoFncs->Io.Write (GlobalIoFncs, IO_UINT16, (UINT64)0x80, 1, &(_PostCode))
 
 #endif
