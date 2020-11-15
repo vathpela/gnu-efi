@@ -150,6 +150,7 @@ extern EFI_GUID SimpleTextInputExProtocol;
 
 extern EFI_GUID ShellProtocolGuid;
 extern EFI_GUID ShellParametersProtocolGuid;
+extern EFI_GUID ShellDynamicCommandProtocolGuid;
 
 //
 // EFI Variable strings
