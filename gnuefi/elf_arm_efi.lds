@@ -40,6 +40,16 @@ SECTIONS
    _bss_end = .;
   }
 
+  . = ALIGN(4096);
+  .sbat :
+  {
+    _sbat = .;
+    *(.sbat)
+    *(.sbat.*)
+    _esbat = .;
+  }
+
+  . = ALIGN(4096);
   .rel.dyn : { *(.rel.dyn) }
   .rel.plt : { *(.rel.plt) }
   .rel.got : { *(.rel.got) }
