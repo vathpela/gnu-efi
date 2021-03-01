@@ -129,7 +129,7 @@ EFI_GUID gEfiEbcProtocolGuid                        = EFI_EBC_PROTOCOL_GUID;
 
 EFI_GUID gEfiFileInfoGuid                           = EFI_FILE_INFO_ID;
 EFI_GUID gEfiFileSystemInfoGuid                     = EFI_FILE_SYSTEM_INFO_ID;
-EFI_GUID gEfiFileSystemVolumeLabelInfoIdGuid        = EFI_FILE_SYSTEM_VOLUME_LABEL_INFO_ID;
+EFI_GUID gEfiFileSystemVolumeLabelInfoIdGuid        = EFI_FILE_SYSTEM_VOLUME_LABEL_ID;
 
 //
 // Reference implementation public protocol IDs
