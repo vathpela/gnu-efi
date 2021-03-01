@@ -527,7 +527,7 @@ VPrint (
     );
 
 UINTN
-SPrint (
+UnicodeSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
     IN CONST CHAR16   *fmt,
@@ -535,7 +535,7 @@ SPrint (
     );
 
 UINTN
-VSPrint (
+UnicodeVSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
     IN CONST CHAR16   *fmt,
@@ -597,9 +597,6 @@ AsciiPrint (
     ...
     );
 
-/* For compatibility with previous versions */
-#define APrint AsciiPrint
-
 UINTN
 AsciiVSPrint(
     OUT CHAR8         *Str,
@@ -607,6 +604,13 @@ AsciiVSPrint(
     IN  CONST CHAR8   *fmt,
     va_list           args
 );
+
+//
+// For compatibility with previous gnu-efi versions
+//
+#define SPrint      UnicodeSPrint
+#define VSPrint     UnicodeVSPrint
+#define APrint      AsciiPrint
 
 VOID
 ValueToHex (

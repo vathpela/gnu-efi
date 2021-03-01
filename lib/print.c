@@ -315,7 +315,7 @@ _SPrint (
     IN VOID     *Context,
     IN CHAR16   *Buffer
     )
-// Append string worker for SPrint, PoolPrint and CatPrint
+// Append string worker for UnicodeSPrint, PoolPrint and CatPrint
 {
     UINTN           len;
     POOL_PRINT      *spc;
@@ -405,7 +405,7 @@ _PoolCatPrint (
     IN OUT POOL_PRINT   *spc,
     IN INTN             (EFIAPI *Output)(VOID *context, CHAR16 *str)
     )
-// Dispatch function for SPrint, PoolPrint, and CatPrint
+// Dispatch function for UnicodeSPrint, PoolPrint, and CatPrint
 {
     PRINT_STATE         ps;
 
@@ -421,7 +421,7 @@ _PoolCatPrint (
 
 
 UINTN
-VSPrint (
+UnicodeVSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
     IN CONST CHAR16   *fmt,
@@ -463,7 +463,7 @@ Returns:
 }
 
 UINTN
-SPrint (
+UnicodeSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
     IN CONST CHAR16   *fmt,
@@ -494,7 +494,7 @@ Returns:
     UINTN            len;
 
     va_start (args, fmt);
-    len = VSPrint(Str, StrSize, fmt, args);
+    len = UnicodeVSPrint(Str, StrSize, fmt, args);
     va_end (args);
 
     return len;
@@ -872,7 +872,7 @@ Returns:
     String length returned in buffer
 
 --*/
-// Use Unicode VSPrint() and convert back to ASCII
+// Use UnicodeVSPrint() and convert back to ASCII
 {
     CHAR16 *UnicodeStr, *UnicodeFmt;
     UINTN i, Len;
@@ -887,7 +887,7 @@ Returns:
         return 0;
     }
 
-    Len = VSPrint(UnicodeStr, StrSize, UnicodeFmt, args);
+    Len = UnicodeVSPrint(UnicodeStr, StrSize, UnicodeFmt, args);
     FreePool(UnicodeFmt);
 
     // The strings are ASCII so just do a plain Unicode conversion
@@ -1467,7 +1467,7 @@ TimeToString (
     Year = Time->Year % 100;
 
     // bugbug: for now just print it any old way
-    SPrint (Buffer, 0, L"%02d/%02d/%02d  %02d:%02d%c",
+    UnicodeSPrint (Buffer, 0, L"%02d/%02d/%02d  %02d:%02d%c",
         Time->Month,
         Time->Day,
         Year,
