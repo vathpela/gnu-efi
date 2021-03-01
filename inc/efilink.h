@@ -152,6 +152,11 @@ typedef struct _LIST_ENTRY {
 #define _CR(Record, TYPE, Field)  \
     ((TYPE *) ( (CHAR8 *)(Record) - (CHAR8 *) &(((TYPE *) 0)->Field)))
 
+//
+// EDK2 uses BASE_CR for the above
+//
+#define BASE_CR _CR
+
 #if EFI_DEBUG
     #define CR(Record, TYPE, Field, Sig)     \
         _CR(Record, TYPE, Field)->Signature != Sig ?        \
