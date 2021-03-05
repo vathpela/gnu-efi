@@ -73,6 +73,9 @@ AR           := $(prefix)$(CROSS_COMPILE)ar
 RANLIB       := $(prefix)$(CROSS_COMPILE)ranlib
 OBJCOPY      := $(prefix)$(CROSS_COMPILE)objcopy
 
+ifneq ($(CCACHE_DISABLE),)
+export CCACHE_DISABLE
+endif
 
 # Host/target identification
 OS           := $(shell uname -s)
