@@ -181,12 +181,18 @@ endif
 IS_FREEBSD = $(findstring FreeBSD, $(OS))
 IS_DARWIN = $(findstring Darwin, $(OS))
 
+WARNFLAGS ?= -Wall -Wextra
+WERRFLAGS ?= -Werror
+OPTIMIZATIONS ?= -O2 -g
+
 ifneq "$(or $(IS_FREEBSD), $(IS_DARWIN))" ""
-CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
+CFLAGS  += $(ARCH3264) $(OPTIMIZATIONS) \
+	   $(WARNFLAGS) $(WERRFLAGS) \
            -fshort-wchar -fno-strict-aliasing \
            -ffreestanding -fno-stack-protector
 else
-CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
+CFLAGS  += $(ARCH3264) $(OPTIMIZATIONS) \
+	   $(WARNFLAGS) $(WERRFLAGS) \
            -fshort-wchar -fno-strict-aliasing \
 	   -ffreestanding -fno-stack-protector \
            -fno-stack-check \
