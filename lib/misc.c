@@ -523,6 +523,7 @@ LibGetSystemConfigurationTable(
     return EFI_NOT_FOUND;
 }
 
+#define strcmp(s1, s2) __builtin_strcmp(s1, s2)
 
 CHAR16 *
 LibGetUiString (
@@ -555,7 +556,7 @@ LibGetUiString (
     // Search for the match
     //
     while (Array->LangCode) {
-        if (strcmpa (Array->LangCode, LangCode) == 0) {
+        if (strcmp(Array->LangCode, LangCode) == 0) {
             return Array->UiString; 
         }
     }

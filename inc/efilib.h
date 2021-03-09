@@ -382,10 +382,6 @@ StrDuplicate (
     IN CONST CHAR16   *Src
     );
 
-#define strlen(s) __builtin_strlen(s)
-#define strcmp(s1, s2) __builtin_strcmp(s1, s2)
-#define strncmp(s1, s2, n) __builtin_strncmp(s1, s2, n)
-
 UINTN
 xtoi (
     CONST CHAR16      *str

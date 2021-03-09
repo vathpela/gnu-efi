@@ -216,64 +216,6 @@ StrDuplicate (
     return Dest;
 }
 
-size_t
-strlena (
-    IN const char *s1
-    )
-// string length
-{
-    size_t len;
-
-    for (len=0; *s1; s1+=1, len+=1) ;
-    return len;
-}
-
-int
-strcmp (
-    IN const char *s1p,
-    IN const char *s2p
-    )
-// compare strings
-{
-    const uint8_t *s1 = (const uint8_t *)s1p;
-    const uint8_t *s2 = (const uint8_t *)s2p;
-
-    while (*s1) {
-        if (*s1 != *s2) {
-            break;
-        }
-
-        s1 += 1;
-        s2 += 1;
-    }
-
-    return *s1 - *s2;
-}
-
-int
-strncmp (
-    IN const char    *s1p,
-    IN const char    *s2p,
-    IN size_t    len
-    )
-// compare strings
-{
-    const uint8_t *s1 = (const uint8_t *)s1p;
-    const uint8_t *s2 = (const uint8_t *)s2p;
-
-    while (*s1  &&  len) {
-        if (*s1 != *s2) {
-            break;
-        }
-
-        s1  += 1;
-        s2  += 1;
-        len -= 1;
-    }
-
-    return len ? *s1 - *s2 : 0;
-}
-
 UINTN
 xtoi (
     CONST CHAR16  *str

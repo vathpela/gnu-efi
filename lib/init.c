@@ -106,6 +106,8 @@ Returns:
     }
 }
 
+#define strlen(s1) __builtin_strlen(s1)
+
 VOID
 InitializeUnicodeSupport (
     CHAR8 *LangCode
