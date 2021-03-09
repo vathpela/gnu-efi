@@ -216,27 +216,27 @@ StrDuplicate (
     return Dest;
 }
 
-UINTN
+size_t
 strlena (
-    IN CONST CHAR8    *s1
+    IN const char *s1
     )
 // string length
 {
-    UINTN        len;
+    size_t len;
 
     for (len=0; *s1; s1+=1, len+=1) ;
     return len;
 }
 
-INTN
-strcmpa (
-    IN CONST CHAR8    *s1p,
-    IN CONST CHAR8    *s2p
+int
+strcmp (
+    IN const char *s1p,
+    IN const char *s2p
     )
 // compare strings
 {
-    CONST UINT8 *s1 = (CONST UINT8 *)s1p;
-    CONST UINT8 *s2 = (CONST UINT8 *)s2p;
+    const uint8_t *s1 = (const uint8_t *)s1p;
+    const uint8_t *s2 = (const uint8_t *)s2p;
 
     while (*s1) {
         if (*s1 != *s2) {
@@ -250,16 +250,16 @@ strcmpa (
     return *s1 - *s2;
 }
 
-INTN
-strncmpa (
-    IN CONST CHAR8    *s1p,
-    IN CONST CHAR8    *s2p,
-    IN UINTN    len
+int
+strncmp (
+    IN const char    *s1p,
+    IN const char    *s2p,
+    IN size_t    len
     )
 // compare strings
 {
-    CONST UINT8 *s1 = (CONST UINT8 *)s1p;
-    CONST UINT8 *s2 = (CONST UINT8 *)s2p;
+    const uint8_t *s1 = (const uint8_t *)s1p;
+    const uint8_t *s2 = (const uint8_t *)s2p;
 
     while (*s1  &&  len) {
         if (*s1 != *s2) {
@@ -273,8 +273,6 @@ strncmpa (
 
     return len ? *s1 - *s2 : 0;
 }
-
-
 
 UINTN
 xtoi (

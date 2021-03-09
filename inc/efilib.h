@@ -382,23 +382,9 @@ StrDuplicate (
     IN CONST CHAR16   *Src
     );
 
-UINTN
-strlena (
-    IN CONST CHAR8    *s1
-    );
-
-INTN
-strcmpa (
-    IN CONST CHAR8    *s1,
-    IN CONST CHAR8    *s2
-    );
-
-INTN
-strncmpa (
-    IN CONST CHAR8    *s1,
-    IN CONST CHAR8    *s2,
-    IN UINTN    len
-    );
+#define strlen(s) __builtin_strlen(s)
+#define strcmp(s1, s2) __builtin_strcmp(s1, s2)
+#define strncmp(s1, s2, n) __builtin_strncmp(s1, s2, n)
 
 UINTN
 xtoi (

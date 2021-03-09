@@ -142,7 +142,7 @@ InitializeUnicodeSupport (
         //
 
         Languages = Ui->SupportedLanguages;
-        Length = strlena(Languages);
+        Length = strlen(Languages);
         for (Position=0; Position < Length; Position += ISO_639_2_ENTRY_SIZE) {
 
             //
