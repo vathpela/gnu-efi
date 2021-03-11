@@ -31,7 +31,7 @@ pe_header:
 	.short 	0
 coff_header:
 	.short	0xaa64				// AArch64
-	.short	2				// nr_sections
+	.short	3				// nr_sections
 	.long	0 				// TimeDateStamp
 	.long	0				// PointerToSymbolTable
 	.long	1				// NumberOfSymbols
@@ -108,6 +108,18 @@ section_table:
 	.short	0		// NumberOfRelocations  (0 for executables)
 	.short	0		// NumberOfLineNumbers  (0 for executables)
 	.long	0xc0000040	// Characteristics (section flags)
+
+	.ascii  ".sbat\0\0\0"
+	.long	_sbat_size		// VirtualSize
+	.long	_sbat - ImageBase	// VirtualAddress
+	.long	_sbat_size		// SizeOfRawData
+	.long	_sbat - ImageBase	// PointerToRawData
+
+	.long	0		// PointerToRelocations (0 for executables)
+	.long	0		// PointerToLineNumbers (0 for executables)
+	.short	0		// NumberOfRelocations  (0 for executables)
+	.short	0		// NumberOfLineNumbers  (0 for executables)
+	.long	0x40400040	// Characteristics (section flags)
 
 	.align		12
 _start:
