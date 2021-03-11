@@ -434,13 +434,13 @@ LibFileSystemVolumeLabelInfo (
 
     
 
-EFI_STATUS
+EFI_STATUS EFIAPI
 LibInstallProtocolInterfaces (
     IN OUT EFI_HANDLE           *Handle,
     ...
     )
 {
-    va_list         args;
+    ms_va_list      args;
     EFI_STATUS      Status;
     EFI_GUID        *Protocol;
     VOID            *Interface;
@@ -461,7 +461,7 @@ LibInstallProtocolInterfaces (
 
     Index = 0;
     Status = EFI_SUCCESS;
-    va_start (args, Handle);
+    ms_va_start (args, Handle);
 
     while (!EFI_ERROR(Status)) {
 
@@ -469,12 +469,12 @@ LibInstallProtocolInterfaces (
         // If protocol is NULL, then it's the end of the list
         //
 
-        Protocol = va_arg(args, EFI_GUID *);
+        Protocol = ms_va_arg(args, EFI_GUID *);
         if (!Protocol) {
             break;
         }
 
-        Interface = va_arg(args, VOID *);
+        Interface = ms_va_arg(args, VOID *);
 
         //
         // Install it
@@ -495,11 +495,11 @@ LibInstallProtocolInterfaces (
     //
 
     if (EFI_ERROR(Status)) {
-        va_start (args, Handle);
+        ms_va_start (args, Handle);
         while (Index) {
 
-            Protocol = va_arg(args, EFI_GUID *);
-            Interface = va_arg(args, VOID *);
+            Protocol = ms_va_arg(args, EFI_GUID *);
+            Interface = ms_va_arg(args, VOID *);
             uefi_call_wrapper(BS->UninstallProtocolInterface, 3, *Handle, Protocol, Interface);
 
             Index -= 1;
@@ -517,31 +517,31 @@ LibInstallProtocolInterfaces (
 }
 
 
-VOID
+VOID EFIAPI
 LibUninstallProtocolInterfaces (
     IN EFI_HANDLE           Handle,
     ...
     )
 {
-    va_list         args;
+    ms_va_list      args;
     EFI_STATUS      Status;
     EFI_GUID        *Protocol;
     VOID            *Interface;
 
     
-    va_start (args, Handle);
+    ms_va_start (args, Handle);
     for (; ;) {
 
         //
         // If protocol is NULL, then it's the end of the list
         //
 
-        Protocol = va_arg(args, EFI_GUID *);
+        Protocol = ms_va_arg(args, EFI_GUID *);
         if (!Protocol) {
             break;
         }
 
-        Interface = va_arg(args, VOID *);
+        Interface = ms_va_arg(args, VOID *);
 
         //
         // Uninstall it
@@ -555,13 +555,13 @@ LibUninstallProtocolInterfaces (
 }    
 
 
-EFI_STATUS
+EFI_STATUS EFIAPI
 LibReinstallProtocolInterfaces (
     IN OUT EFI_HANDLE           *Handle,
     ...
     )
 {
-    va_list         args;
+    ms_va_list      args;
     EFI_STATUS      Status;
     EFI_GUID        *Protocol;
     VOID            *OldInterface, *NewInterface;
@@ -580,7 +580,7 @@ LibReinstallProtocolInterfaces (
 
     Index = 0;
     Status = EFI_SUCCESS;
-    va_start (args, Handle);
+    ms_va_start (args, Handle);
 
     while (!EFI_ERROR(Status)) {
 
@@ -588,13 +588,13 @@ LibReinstallProtocolInterfaces (
         // If protocol is NULL, then it's the end of the list
         //
 
-        Protocol = va_arg(args, EFI_GUID *);
+        Protocol = ms_va_arg(args, EFI_GUID *);
         if (!Protocol) {
             break;
         }
 
-        OldInterface = va_arg(args, VOID *);
-        NewInterface = va_arg(args, VOID *);
+        OldInterface = ms_va_arg(args, VOID *);
+        NewInterface = ms_va_arg(args, VOID *);
 
         //
         // Reinstall it
@@ -614,12 +614,12 @@ LibReinstallProtocolInterfaces (
     //
 
     if (EFI_ERROR(Status)) {
-        va_start (args, Handle);
+        ms_va_start (args, Handle);
         while (Index) {
 
-            Protocol = va_arg(args, EFI_GUID *);
-            OldInterface = va_arg(args, VOID *);
-            NewInterface = va_arg(args, VOID *);
+            Protocol = ms_va_arg(args, EFI_GUID *);
+            OldInterface = ms_va_arg(args, VOID *);
+            NewInterface = ms_va_arg(args, VOID *);
 
             uefi_call_wrapper(BS->ReinstallProtocolInterface, 4, Handle, Protocol, NewInterface, OldInterface);
 

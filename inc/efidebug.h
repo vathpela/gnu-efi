@@ -99,7 +99,7 @@ DbgAssert (
     CONST CHAR8   *string
     );
 
-INTN
+INTN EFIAPI
 DbgPrint (
     INTN          mask,
     CONST CHAR8   *format,

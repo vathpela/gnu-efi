@@ -80,7 +80,7 @@ typedef struct _pitem {
 typedef struct _pstate {
     // Input
     POINTER     fmt;
-    va_list     args;
+    ms_va_list     args;
 
     // Output
     CHAR16      *Buffer;
@@ -114,14 +114,14 @@ _Print (
     );
 
 STATIC
-UINTN
+UINTN EFIAPI
 _IPrint (
     IN UINTN                            Column,
     IN UINTN                            Row,
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
     IN CONST CHAR16                     *fmt,
     IN CONST CHAR8                      *fmta,
-    IN va_list                          args
+    IN ms_va_list                       args
     );
 
 STATIC
@@ -179,7 +179,7 @@ _PoolPrint (
     IN CHAR16   *Buffer
     );
 
-INTN
+INTN EFIAPI
 DbgPrint (
     IN INTN         mask,
     IN CONST CHAR8  *fmt,
@@ -207,7 +207,7 @@ Returns:
 {
     SIMPLE_TEXT_OUTPUT_INTERFACE    *DbgOut;
     PRINT_STATE     ps;
-    va_list         args;
+    ms_va_list      args;
     UINTN           back;
     UINTN           attr;
     UINTN           SavedAttribute;
@@ -217,13 +217,13 @@ Returns:
         return 0;
     }
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     ZeroMem (&ps, sizeof(ps));
 
     ps.Output = _DbgOut;
     ps.fmt.Ascii = TRUE;
     ps.fmt.pc = fmt;
-    va_copy(ps.args, args);
+    ms_va_copy(ps.args, args);
     ps.Attr = EFI_TEXT_ATTR(EFI_LIGHTGRAY, EFI_RED);
 
     DbgOut = LibRuntimeDebugOut;
@@ -262,8 +262,8 @@ Returns:
 
     _Print (&ps);
 
-    va_end (ps.args);
-    va_end (args);
+    ms_va_end (ps.args);
+    ms_va_end (args);
 
     //
     // Restore original attributes
@@ -398,10 +398,10 @@ _PoolPrint (
 
 
 
-VOID
+VOID EFIAPI
 _PoolCatPrint (
     IN CONST CHAR16     *fmt,
-    IN va_list          args,
+    IN ms_va_list	args,
     IN OUT POOL_PRINT   *spc,
     IN INTN             (EFIAPI *Output)(VOID *context, CHAR16 *str)
     )
@@ -413,25 +413,25 @@ _PoolCatPrint (
     ps.Output  = Output;
     ps.Context = spc;
     ps.fmt.pw = fmt;
-    va_copy(ps.args, args);
+    ms_va_copy(ps.args, args);
     _Print (&ps);
-    va_end(ps.args);
+    ms_va_end(ps.args);
 }
 
 
 
-UINTN
+UINTN EFIAPI
 VSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
     IN CONST CHAR16   *fmt,
-    va_list           args
+    ms_va_list           args
     )
 /*++
 
 Routine Description:
 
-    Prints a formatted unicode string to a buffer using a va_list
+    Prints a formatted unicode string to a buffer using a ms_va_list
 
 Arguments:
 
@@ -442,7 +442,7 @@ Arguments:
 
     fmt         - The format string
 
-    args        - va_list
+    args        - ms_va_list
 
 
 Returns:
@@ -462,7 +462,7 @@ Returns:
     return spc.len;
 }
 
-UINTN
+UINTN EFIAPI
 SPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
@@ -490,32 +490,32 @@ Returns:
 
 --*/
 {
-    va_list          args;
+    ms_va_list       args;
     UINTN            len;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     len = VSPrint(Str, StrSize, fmt, args);
-    va_end (args);
+    ms_va_end (args);
 
     return len;
 }
 
-CHAR16 *
+CHAR16 * EFIAPI
 VPoolPrint (
     IN CONST CHAR16     *fmt,
-    va_list             args
+    ms_va_list          args
     )
 /*++
 
 Routine Description:
 
-    Prints a formatted unicode string to allocated pool using va_list argument.
+    Prints a formatted unicode string to allocated pool using ms_va_list argument.
     The caller must free the resulting buffer.
 
 Arguments:
 
     fmt         - The format string
-    args        - The arguments in va_list form
+    args        - The arguments in ms_va_list form
 
 Returns:
 
@@ -531,7 +531,7 @@ Returns:
     return spc.str;
 }
 
-CHAR16 *
+CHAR16 * EFIAPI
 PoolPrint (
     IN CONST CHAR16     *fmt,
     ...
@@ -555,15 +555,15 @@ Returns:
 
 --*/
 {
-    va_list args;
+    ms_va_list args;
     CHAR16 *pool;
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     pool = VPoolPrint(fmt, args);
-    va_end (args);
+    ms_va_end (args);
     return pool;
 }
 
-CHAR16 *
+CHAR16 * EFIAPI
 CatPrint (
     IN OUT POOL_PRINT   *Str,
     IN CONST CHAR16     *fmt,
@@ -591,17 +591,17 @@ Returns:
 
 --*/
 {
-    va_list             args;
+    ms_va_list             args;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     _PoolCatPrint (fmt, args, Str, _PoolPrint);
-    va_end (args);
+    ms_va_end (args);
     return Str->str;
 }
 
 
 
-UINTN
+UINTN EFIAPI
 Print (
     IN CONST CHAR16   *fmt,
     ...
@@ -622,30 +622,30 @@ Returns:
 
 --*/
 {
-    va_list     args;
+    ms_va_list  args;
     UINTN       back;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     back = _IPrint ((UINTN) -1, (UINTN) -1, ST->ConOut, fmt, NULL, args);
-    va_end (args);
+    ms_va_end (args);
     return back;
 }
 
-UINTN
+UINTN EFIAPI
 VPrint (
     IN CONST CHAR16   *fmt,
-    va_list           args
+    ms_va_list	      args
     )
 /*++
 
 Routine Description:
 
-    Prints a formatted unicode string to the default console using a va_list
+    Prints a formatted unicode string to the default console using a ms_va_list
 
 Arguments:
 
     fmt         - Format string
-    args        - va_list
+    args        - ms_va_list
 Returns:
 
     Length of string printed to the console
@@ -656,7 +656,7 @@ Returns:
 }
 
 
-UINTN
+UINTN EFIAPI
 PrintAt (
     IN UINTN          Column,
     IN UINTN          Row,
@@ -682,17 +682,17 @@ Returns:
 
 --*/
 {
-    va_list     args;
+    ms_va_list  args;
     UINTN       back;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     back = _IPrint (Column, Row, ST->ConOut, fmt, NULL, args);
-    va_end (args);
+    ms_va_end (args);
     return back;
 }
 
 
-UINTN
+UINTN EFIAPI
 IPrint (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE    *Out,
     IN CONST CHAR16                    *fmt,
@@ -716,17 +716,17 @@ Returns:
 
 --*/
 {
-    va_list     args;
+    ms_va_list     args;
     UINTN       back;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     back = _IPrint ((UINTN) -1, (UINTN) -1, Out, fmt, NULL, args);
-    va_end (args);
+    ms_va_end (args);
     return back;
 }
 
 
-UINTN
+UINTN EFIAPI
 IPrintAt (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
     IN UINTN                            Column,
@@ -755,24 +755,24 @@ Returns:
 
 --*/
 {
-    va_list     args;
+    ms_va_list     args;
     UINTN       back;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     back = _IPrint (Column, Row, Out, fmt, NULL, args);
-    va_end (args);
+    ms_va_end (args);
     return back;
 }
 
 
-UINTN
+UINTN EFIAPI
 _IPrint (
     IN UINTN                            Column,
     IN UINTN                            Row,
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
     IN CONST CHAR16                     *fmt,
     IN CONST CHAR8                      *fmta,
-    IN va_list                          args
+    IN ms_va_list                          args
     )
 // Display string worker for: Print, PrintAt, IPrint, IPrintAt
 {
@@ -797,19 +797,19 @@ _IPrint (
         ps.fmt.pc = fmta;
     }
 
-    va_copy(ps.args, args);
+    ms_va_copy(ps.args, args);
 
     if (Column != (UINTN) -1) {
         uefi_call_wrapper(Out->SetCursorPosition, 3, Out, Column, Row);
     }
 
     back = _Print (&ps);
-    va_end(ps.args);
+    ms_va_end(ps.args);
     return back;
 }
 
 
-UINTN
+UINTN EFIAPI
 AsciiPrint (
     IN CONST CHAR8    *fmt,
     ...
@@ -832,28 +832,28 @@ Returns:
 --*/
 
 {
-    va_list     args;
+    ms_va_list     args;
     UINTN       back;
 
-    va_start (args, fmt);
+    ms_va_start (args, fmt);
     back = _IPrint ((UINTN) -1, (UINTN) -1, ST->ConOut, NULL, fmt, args);
-    va_end (args);
+    ms_va_end (args);
     return back;
 }
 
 
-UINTN
+UINTN EFIAPI
 AsciiVSPrint (
     OUT CHAR8         *Str,
     IN UINTN          StrSize,
     IN CONST CHAR8    *fmt,
-    va_list           args
+    ms_va_list           args
 )
 /*++
 
 Routine Description:
 
-    Prints a formatted ascii string to a buffer using a va_list
+    Prints a formatted ascii string to a buffer using a ms_va_list
 
 Arguments:
 
@@ -864,7 +864,7 @@ Arguments:
 
     fmt         - The format string
 
-    args        - va_list
+    args        - ms_va_list
 
 
 Returns:
@@ -1142,7 +1142,7 @@ Returns:
                 break;
 
             case '*':
-                *Item.WidthParse = va_arg(ps->args, UINTN);
+                *Item.WidthParse = ms_va_arg(ps->args, UINTN);
                 break;
 
             case '1':
@@ -1163,7 +1163,7 @@ Returns:
                 break;
 
             case 'a':
-                Item.Item.pc = va_arg(ps->args, CHAR8 *);
+                Item.Item.pc = ms_va_arg(ps->args, CHAR8 *);
                 Item.Item.Ascii = TRUE;
                 if (!Item.Item.pc) {
                     Item.Item.pc = (CHAR8 *)"(null)";
@@ -1171,14 +1171,14 @@ Returns:
                 break;
 
             case 's':
-                Item.Item.pw = va_arg(ps->args, CHAR16 *);
+                Item.Item.pw = ms_va_arg(ps->args, CHAR16 *);
                 if (!Item.Item.pw) {
                     Item.Item.pw = L"(null)";
                 }
                 break;
 
             case 'c':
-                Item.Scratch[0] = (CHAR16) va_arg(ps->args, UINTN);
+                Item.Scratch[0] = (CHAR16) ms_va_arg(ps->args, UINTN);
                 Item.Scratch[1] = 0;
                 Item.Item.pw = Item.Scratch;
                 break;
@@ -1196,7 +1196,7 @@ Returns:
             case 'x':
                 ValueToHex (
                     Item.Scratch,
-                    Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
+                    Item.Long ? ms_va_arg(ps->args, UINT64) : ms_va_arg(ps->args, UINT32)
                     );
                 Item.Item.pw = Item.Scratch;
 
@@ -1204,7 +1204,7 @@ Returns:
 
 
             case 'g':
-                GuidToString (Item.Scratch, va_arg(ps->args, EFI_GUID *));
+                GuidToString (Item.Scratch, ms_va_arg(ps->args, EFI_GUID *));
                 Item.Item.pw = Item.Scratch;
                 break;
 
@@ -1212,7 +1212,7 @@ Returns:
                 ValueToString (
                     Item.Scratch,
                     Item.Comma,
-                    Item.Long ? va_arg(ps->args, UINT64) : va_arg(ps->args, UINT32)
+                    Item.Long ? ms_va_arg(ps->args, UINT64) : ms_va_arg(ps->args, UINT32)
                     );
                 Item.Item.pw = Item.Scratch;
                 break;
@@ -1221,14 +1221,14 @@ Returns:
                 ValueToString (
                     Item.Scratch,
                     Item.Comma,
-                    Item.Long ? va_arg(ps->args, INT64) : va_arg(ps->args, INT32)
+                    Item.Long ? ms_va_arg(ps->args, INT64) : ms_va_arg(ps->args, INT32)
                     );
                 Item.Item.pw = Item.Scratch;
                 break;
 
             case 'D':
             {
-                EFI_DEVICE_PATH *dp = va_arg(ps->args, EFI_DEVICE_PATH *);
+                EFI_DEVICE_PATH *dp = ms_va_arg(ps->args, EFI_DEVICE_PATH *);
                 CHAR16 *dpstr = DevicePathToStr(dp);
                 StrnCpy(Item.Scratch, dpstr, PRINT_ITEM_BUFFER_LEN);
                 Item.Scratch[PRINT_ITEM_BUFFER_LEN-1] = L'\0';
@@ -1242,18 +1242,18 @@ Returns:
                 FloatToString (
                     Item.Scratch,
                     Item.Comma,
-                    va_arg(ps->args, double)
+                    ms_va_arg(ps->args, double)
                     );
                 Item.Item.pw = Item.Scratch;
                 break;
 
             case 't':
-                TimeToString (Item.Scratch, va_arg(ps->args, EFI_TIME *));
+                TimeToString (Item.Scratch, ms_va_arg(ps->args, EFI_TIME *));
                 Item.Item.pw = Item.Scratch;
                 break;
 
             case 'r':
-                StatusToString (Item.Scratch, va_arg(ps->args, EFI_STATUS));
+                StatusToString (Item.Scratch, ms_va_arg(ps->args, EFI_STATUS));
                 Item.Item.pw = Item.Scratch;
                 break;
 

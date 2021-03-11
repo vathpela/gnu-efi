@@ -496,19 +496,19 @@ IInput (
     IN UINTN                            StrLen
     );
 
-UINTN
+UINTN EFIAPI
 Print (
     IN CONST CHAR16   *fmt,
     ...
     );
 
-UINTN
+UINTN EFIAPI
 VPrint (
     IN CONST CHAR16   *fmt,
-    va_list           args
+    __builtin_ms_va_list           args
     );
 
-UINTN
+UINTN EFIAPI
 SPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
@@ -516,21 +516,21 @@ SPrint (
     ...
     );
 
-UINTN
+UINTN EFIAPI
 VSPrint (
     OUT CHAR16        *Str,
     IN UINTN          StrSize,
     IN CONST CHAR16   *fmt,
-    va_list           args
+    __builtin_ms_va_list           args
     );
 
-CHAR16 *
+CHAR16 * EFIAPI
 VPoolPrint (
     IN CONST CHAR16     *fmt,
-    va_list             args
+    __builtin_ms_va_list             args
     );
 
-CHAR16 *
+CHAR16 * EFIAPI
 PoolPrint (
     IN CONST CHAR16     *fmt,
     ...
@@ -542,14 +542,14 @@ typedef struct {
     UINTN       maxlen;
 } POOL_PRINT;
 
-CHAR16 *
+CHAR16 * EFIAPI
 CatPrint (
     IN OUT POOL_PRINT   *Str,
     IN CONST CHAR16     *fmt,
     ...
     );
 
-UINTN
+UINTN EFIAPI
 PrintAt (
     IN UINTN         Column,
     IN UINTN         Row,
@@ -557,14 +557,14 @@ PrintAt (
     ...
     );
 
-UINTN
+UINTN EFIAPI
 IPrint (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE    *Out,
     IN CONST CHAR16                    *fmt,
     ...
     );
 
-UINTN
+UINTN EFIAPI
 IPrintAt (
     IN SIMPLE_TEXT_OUTPUT_INTERFACE     *Out,
     IN UINTN                            Column,
@@ -573,7 +573,7 @@ IPrintAt (
     ...
     );
 
-UINTN
+UINTN EFIAPI
 AsciiPrint (
     IN CONST CHAR8    *fmt,
     ...
@@ -582,12 +582,12 @@ AsciiPrint (
 /* For compatibility with previous versions */
 #define APrint AsciiPrint
 
-UINTN
+UINTN EFIAPI
 AsciiVSPrint(
     OUT CHAR8         *Str,
     IN  UINTN         StrSize,
     IN  CONST CHAR8   *fmt,
-    va_list           args
+    __builtin_ms_va_list args
 );
 
 VOID
@@ -715,19 +715,19 @@ LibLocateHandleByDiskSignature (
     OUT EFI_HANDLE                  **Buffer
     );
 
-EFI_STATUS
+EFI_STATUS EFIAPI
 LibInstallProtocolInterfaces (
     IN OUT EFI_HANDLE       *Handle,
     ...
     );
 
-VOID
+VOID EFIAPI
 LibUninstallProtocolInterfaces (
     IN EFI_HANDLE           Handle,
     ...
     );
 
-EFI_STATUS
+EFI_STATUS EFIAPI
 LibReinstallProtocolInterfaces (
     IN OUT EFI_HANDLE           *Handle,
     ...
