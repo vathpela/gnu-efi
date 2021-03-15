@@ -45,8 +45,8 @@ optional_header:
 	.short	0x10b				// PE32+ format
 	.byte	0x02				// MajorLinkerVersion
 	.byte	0x14				// MinorLinkerVersion
-	.long	_edata - _start			// SizeOfCode
-	.long	0				// SizeOfInitializedData
+	.long	_data - _start			// SizeOfCode
+	.long	_alldata_size			// SizeOfInitializedData
 	.long	0				// SizeOfUninitializedData
 	.long	_start - ImageBase		// AddressOfEntryPoint
 	.long	_start - ImageBase		// BaseOfCode
@@ -64,7 +64,7 @@ extra_header_fields:
 	.short	0				// MinorSubsystemVersion
 	.long	0				// Win32VersionValue
 
-	.long	_edata - ImageBase		// SizeOfImage
+	.long	_esbat - ImageBase		// SizeOfImage
 
 	// Everything before the kernel image is considered part of the header
 	.long	_start - ImageBase		// SizeOfHeaders
