@@ -69,7 +69,6 @@ mkvars:
 	@echo LIBDIR=$(LIBDIR)
 	@echo OBJCOPY=$(OBJCOPY)
 	@echo OS=$(OS)
-	@echo prefix=$(prefix)
 	@echo PREFIX=$(PREFIX)
 	@echo RANLIB=$(RANLIB)
 	@echo SRCDIR=$(SRCDIR)

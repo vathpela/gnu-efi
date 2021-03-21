@@ -65,13 +65,15 @@ LIBDIR 	     := $(PREFIX)/lib
 INSTALL	     := install
 
 # Compilation tools
-HOSTCC       := $(prefix)gcc
-CC           := $(prefix)$(CROSS_COMPILE)gcc
-AS           := $(prefix)$(CROSS_COMPILE)as
-LD           := $(prefix)$(CROSS_COMPILE)ld
-AR           := $(prefix)$(CROSS_COMPILE)ar
-RANLIB       := $(prefix)$(CROSS_COMPILE)ranlib
-OBJCOPY      := $(prefix)$(CROSS_COMPILE)objcopy
+COMPILER     ?= gcc
+ARCHIVER     ?= gcc-ar
+HOSTCC       := $(COMPILER)
+CC           := $(CROSS_COMPILE)$(COMPILER)
+AS           := $(CROSS_COMPILE)as
+LD           := $(CROSS_COMPILE)ld
+AR           := $(CROSS_COMPILE)$(ARCHIVER)
+RANLIB       := $(CROSS_COMPILE)ranlib
+OBJCOPY      := $(CROSS_COMPILE)objcopy
 
 ifneq ($(CCACHE_DISABLE),)
 export CCACHE_DISABLE
@@ -80,12 +82,7 @@ endif
 # Host/target identification
 OS           := $(shell uname -s)
 HOSTARCH     ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
-ARCH         ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
-
-# Get ARCH from the compiler if cross compiling
-ifneq ($(CROSS_COMPILE),)
-  override ARCH := $(shell $(CC) -dumpmachine | cut -f1 -d-| sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
-endif
+ARCH         ?= $(shell $(CC) $(ARCH3264) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
 
 # FreeBSD (and possibly others) reports amd64 instead of x86_64
 ifeq ($(ARCH),amd64)
