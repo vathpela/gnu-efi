@@ -92,7 +92,7 @@ endif
 #
 # Where to build the package
 #
-OBJDIR       := $(TOPDIR)/$(ARCH)
+OBJDIR       := $(abspath .)/$(ARCH)
 
 #
 # Variables below derived from variables above
