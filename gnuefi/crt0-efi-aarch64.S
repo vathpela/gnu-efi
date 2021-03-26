@@ -31,7 +31,7 @@ pe_header:
 	.short 	0
 coff_header:
 	.short	0xaa64				// AArch64
-	.short	3				// nr_sections
+	.short	4				// nr_sections
 	.long	0 				// TimeDateStamp
 	.long	0				// PointerToSymbolTable
 	.long	1				// NumberOfSymbols
@@ -44,7 +44,7 @@ optional_header:
 	.short	0x20b				// PE32+ format
 	.byte	0x02				// MajorLinkerVersion
 	.byte	0x14				// MinorLinkerVersion
-	.long	_data - _start			// SizeOfCode
+	.long	_text_size			// SizeOfCode
 	.long	_alldata_size			// SizeOfInitializedData
 	.long	0				// SizeOfUninitializedData
 	.long	_start - ImageBase		// AddressOfEntryPoint
@@ -62,7 +62,7 @@ extra_header_fields:
 	.short	0				// MinorSubsystemVersion
 	.long	0				// Win32VersionValue
 
-	.long	_esbat - ImageBase		// SizeOfImage
+	.long	_erodata - ImageBase		// SizeOfImage
 
 	// Everything before the kernel image is considered part of the header
 	.long	_start - ImageBase		// SizeOfHeaders
@@ -86,19 +86,22 @@ extra_header_fields:
 	// Section table
 section_table:
 	.ascii	".text\0\0\0"
-	.long	_data - _start		// VirtualSize
+	.long	_evtext - _start	// VirtualSize
 	.long	_start - ImageBase	// VirtualAddress
-	.long	_data - _start		// SizeOfRawData
+	.long	_etext - _start		// SizeOfRawData
 	.long	_start - ImageBase	// PointerToRawData
 
 	.long	0		// PointerToRelocations (0 for executables)
 	.long	0		// PointerToLineNumbers (0 for executables)
 	.short	0		// NumberOfRelocations  (0 for executables)
 	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_MEM_EXECUTE | EFI_IMAGE_SCN_CNT_CODE
+	 */
 	.long	0x60000020	// Characteristics (section flags)
 
 	.ascii	".data\0\0\0"
-	.long	_data_size		// VirtualSize
+	.long	_data_vsize		// VirtualSize
 	.long	_data - ImageBase	// VirtualAddress
 	.long	_data_size		// SizeOfRawData
 	.long	_data - ImageBase	// PointerToRawData
@@ -107,9 +110,12 @@ section_table:
 	.long	0		// PointerToLineNumbers (0 for executables)
 	.short	0		// NumberOfRelocations  (0 for executables)
 	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_WRITE | EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_CNT_INITIALIZED_DATA
+	 */
 	.long	0xc0000040	// Characteristics (section flags)
 
-	.ascii  ".sbat\0\0\0"
+	.ascii	".sbat\0\0\0"
 	.long	_sbat_vsize		// VirtualSize
 	.long	_sbat - ImageBase	// VirtualAddress
 	.long	_sbat_size		// SizeOfRawData
@@ -119,6 +125,24 @@ section_table:
 	.long	0		// PointerToLineNumbers (0 for executables)
 	.short	0		// NumberOfRelocations  (0 for executables)
 	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_ALIGN_8BYTES | EFI_IMAGE_SCN_CNT_INITIALIZED_DATA
+	 */
+	.long	0x40400040	// Characteristics (section flags)
+
+	.ascii  ".rodata\0"
+	.long	_rodata_vsize		// VirtualSize
+	.long	_rodata - ImageBase	// VirtualAddress
+	.long	_rodata_size		// SizeOfRawData
+	.long	_rodata - ImageBase	// PointerToRawData
+
+	.long	0		// PointerToRelocations (0 for executables)
+	.long	0		// PointerToLineNumbers (0 for executables)
+	.short	0		// NumberOfRelocations  (0 for executables)
+	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_ALIGN_8BYTES | EFI_IMAGE_SCN_CNT_INITIALIZED_DATA
+	 */
 	.long	0x40400040	// Characteristics (section flags)
 
 	.align		12

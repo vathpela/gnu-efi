@@ -31,7 +31,7 @@ pe_header:
 	.short 	0
 coff_header:
 	.short	0x1c2				// Mixed ARM/Thumb
-	.short	3				// nr_sections
+	.short	4				// nr_sections
 	.long	0 				// TimeDateStamp
 	.long	0				// PointerToSymbolTable
 	.long	1				// NumberOfSymbols
@@ -45,17 +45,17 @@ optional_header:
 	.short	0x10b				// PE32+ format
 	.byte	0x02				// MajorLinkerVersion
 	.byte	0x14				// MinorLinkerVersion
-	.long	_data - _start			// SizeOfCode
+	.long	_text_size			// SizeOfCode
 	.long	_alldata_size			// SizeOfInitializedData
 	.long	0				// SizeOfUninitializedData
 	.long	_start - ImageBase		// AddressOfEntryPoint
 	.long	_start - ImageBase		// BaseOfCode
-	.long	0				// BaseOfData
+	.long	_data - ImageBase		// BaseOfData
 
 extra_header_fields:
 	.long	0				// ImageBase
-	.long	0x20				// SectionAlignment
-	.long	0x8				// FileAlignment
+	.long	0x800				// SectionAlignment
+	.long	0x200				// FileAlignment
 	.short	0				// MajorOperatingSystemVersion
 	.short	0				// MinorOperatingSystemVersion
 	.short	0				// MajorImageVersion
@@ -64,7 +64,7 @@ extra_header_fields:
 	.short	0				// MinorSubsystemVersion
 	.long	0				// Win32VersionValue
 
-	.long	_esbat - ImageBase		// SizeOfImage
+	.long	_erodata - ImageBase		// SizeOfImage
 
 	// Everything before the kernel image is considered part of the header
 	.long	_start - ImageBase		// SizeOfHeaders
@@ -88,6 +88,7 @@ extra_header_fields:
 	// Section table
 section_table:
 
+#if 0
 	/*
 	 * The EFI application loader requires a relocation section
 	 * because EFI applications must be relocatable.  This is a
@@ -105,23 +106,37 @@ section_table:
 	.short	0			// NumberOfRelocations
 	.short	0			// NumberOfLineNumbers
 	.long	0x42100040		// Characteristics (section flags)
+#endif
 
-
-	.ascii	".text"
-	.byte	0
-	.byte	0
-	.byte	0        		// end of 0 padding of section name
-	.long	_edata - _start		// VirtualSize
+	.ascii	".text\0\0\0"
+	.long	_evtext - _start	// VirtualSize
 	.long	_start - ImageBase	// VirtualAddress
-	.long	_edata - _start		// SizeOfRawData
+	.long	_etext - _start		// SizeOfRawData
 	.long	_start - ImageBase	// PointerToRawData
 
 	.long	0		// PointerToRelocations (0 for executables)
 	.long	0		// PointerToLineNumbers (0 for executables)
 	.short	0		// NumberOfRelocations  (0 for executables)
 	.short	0		// NumberOfLineNumbers  (0 for executables)
-	.long	0xe0500020	// Characteristics (section flags)
+	/*
+	 * EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_MEM_EXECUTE | EFI_IMAGE_SCN_CNT_CODE
+	 */
+	.long	0x60000020	// Characteristics (section flags)
 
+	.ascii	".data\0\0\0"
+	.long	_data_vsize		// VirtualSize
+	.long	_data - ImageBase	// VirtualAddress
+	.long	_data_size		// SizeOfRawData
+	.long	_data - ImageBase	// PointerToRawData
+
+	.long	0		// PointerToRelocations (0 for executables)
+	.long	0		// PointerToLineNumbers (0 for executables)
+	.short	0		// NumberOfRelocations  (0 for executables)
+	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_WRITE | EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_CNT_INITIALIZED_DATA
+	 */
+	.long	0xc0000040	// Characteristics (section flags)
 
 	.ascii	".sbat\0\0\0"
 	.long	_sbat_vsize		// VirtualSize
@@ -133,9 +148,28 @@ section_table:
 	.long	0		// PointerToLineNumbers (0 for executables)
 	.short	0		// NumberOfRelocations  (0 for executables)
 	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_ALIGN_8BYTES | EFI_IMAGE_SCN_CNT_INITIALIZED_DATA
+	 */
+	.long	0x40400040	// Characteristics (section flags)
+
+	.ascii  ".rodata\0"
+	.long	_rodata_vsize		// VirtualSize
+	.long	_rodata - ImageBase	// VirtualAddress
+	.long	_rodata_size		// SizeOfRawData
+	.long	_rodata - ImageBase	// PointerToRawData
+
+	.long	0		// PointerToRelocations (0 for executables)
+	.long	0		// PointerToLineNumbers (0 for executables)
+	.short	0		// NumberOfRelocations  (0 for executables)
+	.short	0		// NumberOfLineNumbers  (0 for executables)
+	/*
+	 * EFI_IMAGE_SCN_MEM_READ | EFI_IMAGE_SCN_ALIGN_8BYTES | EFI_IMAGE_SCN_CNT_INITIALIZED_DATA
+	 */
 	.long	0x40400040	// Characteristics (section flags)
 
 
+	.align 11
 _start:
 	stmfd		sp!, {r0-r2, lr}
 
