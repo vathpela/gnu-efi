@@ -195,16 +195,23 @@ EFI_GUID Tcp4Protocol = EFI_TCP4_PROTOCOL;
 //
 // Pointer protocol GUIDs
 //
-EFI_GUID SimplePointerProtocol    = EFI_SIMPLE_POINTER_PROTOCOL_GUID;
-EFI_GUID AbsolutePointerProtocol  = EFI_ABSOLUTE_POINTER_PROTOCOL_GUID;
+EFI_GUID SimplePointerProtocol   = EFI_SIMPLE_POINTER_PROTOCOL_GUID;
+EFI_GUID AbsolutePointerProtocol = EFI_ABSOLUTE_POINTER_PROTOCOL_GUID;
 
 //
 // Debugger protocol GUIDs
 //
-EFI_GUID gEfiDebugImageInfoTableGuid           = EFI_DEBUG_IMAGE_INFO_TABLE_GUID;
-EFI_GUID gEfiDebugSupportProtocolGuid          = EFI_DEBUG_SUPPORT_PROTOCOL_GUID;
+EFI_GUID gEfiDebugImageInfoTableGuid  = EFI_DEBUG_IMAGE_INFO_TABLE_GUID;
+EFI_GUID gEfiDebugSupportProtocolGuid = EFI_DEBUG_SUPPORT_PROTOCOL_GUID;
 
 //
 // Console extension protocol GUIDs
 //
 EFI_GUID SimpleTextInputExProtocol = EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL_GUID;
+
+//
+// Shell protocol GUIDs
+//
+EFI_GUID ShellProtocolGuid               = EFI_SHELL_PROTOCOL_GUID;
+EFI_GUID ShellParametersProtocolGuid     = EFI_SHELL_PARAMETERS_PROTOCOL_GUID;
+EFI_GUID ShellDynamicCommandProtocolGuid = EFI_SHELL_DYNAMIC_COMMAND_PROTOCOL_GUID;
