@@ -155,6 +155,7 @@ extern EFI_GUID AcpiTableGuid;
 extern EFI_GUID SMBIOSTableGuid;
 extern EFI_GUID SMBIOS3TableGuid;
 extern EFI_GUID SalSystemTableGuid;
+extern EFI_GUID EfiDtbTableGuid;
 
 extern EFI_GUID SimplePointerProtocol;
 extern EFI_GUID AbsolutePointerProtocol;
