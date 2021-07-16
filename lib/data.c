@@ -181,6 +181,7 @@ EFI_GUID AcpiTableGuid            = ACPI_TABLE_GUID;
 EFI_GUID SMBIOSTableGuid          = SMBIOS_TABLE_GUID;
 EFI_GUID SMBIOS3TableGuid         = SMBIOS3_TABLE_GUID;
 EFI_GUID SalSystemTableGuid       = SAL_SYSTEM_TABLE_GUID;
+EFI_GUID EfiDtbTableGuid          = EFI_DTB_TABLE_GUID;
 
 //
 // Network protocol GUIDs
