@@ -68,10 +68,10 @@ _start:
 	.data
 .dummy0:
 .dummy1:
-	.long	0
+	.4byte	0
 
 #define IMAGE_REL_ABSOLUTE	0
 	.section .reloc, "a"
-	.long	.dummy1-.dummy0				// Page RVA
-	.long	10					// Block Size (2*4+2)
-	.word	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
+	.4byte	.dummy1-.dummy0				// Page RVA
+	.4byte	10					// Block Size (2*4+2)
+	.2byte	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
