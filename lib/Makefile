@@ -74,6 +74,8 @@ all: libsubdirs libefi.a
 libsubdirs:
 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
 
+$(OBJS): libsubdirs
+
 libefi.a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
@@ -89,5 +91,3 @@ $(LIBDIRINSTALL)/libefi.a: libefi.a | $(LIBDIRINSTALL)
 install: $(LIBDIRINSTALL)/libefi.a
 
 include $(SRCDIR)/../Make.rules
-
-.PHONY: libsubdirs
