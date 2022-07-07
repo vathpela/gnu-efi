@@ -1,5 +1,5 @@
 /*
- * crt0-efi-loongarch64.S - PE/COFF header for LOONGARCH64 EFI applications
+ * crt0-efi-loongarch64.S - PE/COFF header for LoongArch64 EFI applications
  *
  * Copyright (C) 2021 Loongson Technology Corporation Limited. <zhoumingtao@loongson.cn>
  * Copyright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
@@ -17,6 +17,9 @@
  * either version 2 of the License, or (at your option) any later version.
  */
 
+#ifndef EFI_SUBSYSTEM
+#define EFI_SUBSYSTEM 0xa
+#endif
 	.section	.text.head
 
 	/*
@@ -140,9 +143,9 @@ _start:
 
 	ld.d	  $a0, $sp, 8
 	ld.d	  $a1, $sp, 16
-	bl 	  efi_main
+	bl        efi_main
 
 0:	ld.d	  $ra, $sp, 0
 	addi.d	  $sp, $sp, 24
-	jirl	  $ra, $ra, 0
+	jr	      $ra
 	.end	  _start
