@@ -75,3 +75,6 @@ label1:
 	.word	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
 	.word	(IMAGE_REL_ABSOLUTE<<12) +  0		// reloc for dummy
 
+#if defined(__ELF__) && defined(__linux__)
+	.section .note.GNU-stack,"",%progbits
+#endif

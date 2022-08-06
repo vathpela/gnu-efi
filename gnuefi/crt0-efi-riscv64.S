@@ -134,3 +134,7 @@ _start:
 	ld		ra, 16(sp)
 0:	addi		sp, sp, 24
 	ret
+
+#if defined(__ELF__) && defined(__linux__)
+	.section .note.GNU-stack,"",%progbits
+#endif
