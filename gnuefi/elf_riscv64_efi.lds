@@ -17,6 +17,7 @@ SECTIONS {
 	}
 	_etext = .;
 	_text_size = . - _text;
+. = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
 .dynamic  :
 	{ *(.dynamic) }
 .data :
