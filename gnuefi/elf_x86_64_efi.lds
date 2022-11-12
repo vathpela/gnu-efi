@@ -50,6 +50,15 @@ SECTIONS
   }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
 
+  . = ALIGN(4096);
+  .sbat :
+  {
+    _sbat = .;
+    *(.sbat)
+    *(.sbat.*)
+    _esbat = .;
+  }
+
   _edata = .;
   _data_size = . - _etext;
   . = ALIGN(4096);
