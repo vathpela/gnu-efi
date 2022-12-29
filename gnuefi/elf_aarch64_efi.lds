@@ -15,8 +15,9 @@ SECTIONS
   }
   _etext = .;
   _text_size = . - _text;
+  . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
   .dynamic  : { *(.dynamic) }
-  .data : ALIGN(4096)
+  .data :
   {
    _data = .;
    *(.sdata)
@@ -53,6 +54,7 @@ SECTIONS
   .dynstr   : { *(.dynstr) }
   . = ALIGN(4096);
   .note.gnu.build-id : { *(.note.gnu.build-id) }
+  . = DATA_SEGMENT_END (.);
   /DISCARD/ :
   {
     *(.rel.reloc)

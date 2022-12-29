@@ -67,6 +67,7 @@ SECTIONS {
 	. = ALIGN(4096);
 .note.gnu.build-id :
 	{ *(.note.gnu.build-id) }
+. = DATA_SEGMENT_END (.);
 /DISCARD/ :
 	{
 		*(.rel.reloc)

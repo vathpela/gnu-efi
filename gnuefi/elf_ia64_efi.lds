@@ -19,7 +19,7 @@ SECTIONS
   }
   _etext = .;
   _text_size = . - _text;
-  . = ALIGN(4096);
+  . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
   __gp = ALIGN (8) + 0x200000;
   .sdata :
   {
@@ -71,6 +71,7 @@ SECTIONS
   .dynsym   : { *(.dynsym) }
   . = ALIGN(4096);
   .dynstr   : { *(.dynstr) }
+  . = DATA_SEGMENT_END (.);
   /DISCARD/ :
   {
     *(.rela.plabel)
