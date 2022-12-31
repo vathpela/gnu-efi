@@ -3,9 +3,18 @@ OUTPUT_ARCH(aarch64)
 ENTRY(_start)
 SECTIONS
 {
-  .text 0x0 : {
+  . = 0;
+  ImageBase = .;
+  /* .hash and/or .gnu.hash MUST come first! */
+  .hash : { *(.hash) }
+  .gnu.hash : { *(.gnu.hash) }
+  . = ALIGN(4096);
+  .eh_frame : 
+  { 
+    *(.eh_frame)
+  }
+  .text : {
     _text = .;
-    *(.text.head)
     *(.text)
     *(.text.*)
     *(.gnu.linkonce.t.*)
@@ -15,6 +24,11 @@ SECTIONS
   }
   _etext = .;
   _text_size = . - _text;
+  . = ALIGN(4096);
+  .reloc :
+  {
+   *(.reloc)
+  }
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
   .dynamic  : { *(.dynamic) }
   .data :
@@ -36,6 +50,7 @@ SECTIONS
    *(.dynbss)
    *(.bss)
    *(COMMON)
+   *(.rel.local)
    . = ALIGN(16);
    _bss_end = .;
   }
@@ -55,9 +70,9 @@ SECTIONS
   . = ALIGN(4096);
   .note.gnu.build-id : { *(.note.gnu.build-id) }
   . = DATA_SEGMENT_END (.);
-  /DISCARD/ :
+  .ignored.reloc :
   {
-    *(.rel.reloc)
+    *(.rela.reloc)
     *(.eh_frame)
     *(.note.GNU-stack)
   }
