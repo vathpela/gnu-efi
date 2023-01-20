@@ -19,7 +19,7 @@ SECTIONS
   }
   _etext = .;
   _text_size = . - _text;
-  . = ALIGN(4096);
+  . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
   .sdata :
   {
    _data = .;
@@ -76,6 +76,7 @@ SECTIONS
   . = ALIGN(4096);
   .dynstr   : { *(.dynstr) }
   . = ALIGN(4096);
+  . = DATA_SEGMENT_END (.);
   /DISCARD/ :
   {
     *(.rel.reloc)
