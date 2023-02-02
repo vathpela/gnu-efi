@@ -29,7 +29,7 @@ SECTIONS
   {
    *(.reloc)
   }
-  . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
+  . = ALIGN(65536);
   .dynamic  : { *(.dynamic) }
   .data :
   {
@@ -69,7 +69,6 @@ SECTIONS
   .dynstr   : { *(.dynstr) }
   . = ALIGN(4096);
   .note.gnu.build-id : { *(.note.gnu.build-id) }
-  . = DATA_SEGMENT_END (.);
   .ignored.reloc :
   {
     *(.rela.reloc)
