@@ -155,6 +155,11 @@ ifeq ($(ARCH),arm)
 CFLAGS += -marm
 endif
 
+ifeq ($(ARCH),aarch64)
+LDFLAGS += -z common-page-size=4096
+LDFLAGS += -z max-page-size=4096
+endif
+
 # Generic compilation flags
 INCDIR  += -I$(SRCDIR) -I$(TOPDIR)/inc -I$(TOPDIR)/inc/$(ARCH) \
            -I$(TOPDIR)/inc/protocol
