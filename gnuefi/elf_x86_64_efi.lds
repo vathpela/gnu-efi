@@ -30,7 +30,7 @@ SECTIONS
   {
    *(.reloc)
   }
-  . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
+  . = ALIGN(4096);
   .data :
   {
    _data = .;
@@ -66,7 +66,6 @@ SECTIONS
   . = ALIGN(4096);
   .dynstr   : { *(.dynstr) }
   . = ALIGN(4096);
-  . = DATA_SEGMENT_END (.);
   .ignored.reloc :
   {
     *(.rela.reloc)
