@@ -52,10 +52,11 @@ SECTIONS
   . = ALIGN(4096);
   .rela :
   {
-    *(.rela.text)
+    *(.rela.text*)
+    *(.rela.sdata*)
     *(.rela.data*)
-    *(.rela.sdata)
     *(.rela.got)
+    *(.rela.plt)
     *(.rela.gnu.linkonce.d*)
     *(.rela.stab)
     *(.rela.ctors)

@@ -41,10 +41,14 @@ SECTIONS
    _bss_end = .;
   }
 
-  .rel.dyn : { *(.rel.dyn) }
-  .rel.plt : { *(.rel.plt) }
-  .rel.got : { *(.rel.got) }
-  .rel.data : { *(.rel.data) *(.rel.data*) }
+  .rel :
+  {
+    *(.rel.text*)
+    *(.rel.data*)
+    *(.rel.got)
+    *(.rel.plt)
+    *(.rel.stab)
+  }
   _edata = .;
   _data_size = . - _etext;
 

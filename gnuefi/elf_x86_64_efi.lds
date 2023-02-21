@@ -57,8 +57,10 @@ SECTIONS
   . = ALIGN(4096);
   .rela :
   {
+    *(.rela.text*)
     *(.rela.data*)
     *(.rela.got)
+    *(.rela.plt)
     *(.rela.stab)
   }
   . = ALIGN(4096);
