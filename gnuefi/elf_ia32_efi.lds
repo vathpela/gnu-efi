@@ -55,9 +55,11 @@ SECTIONS
   . = ALIGN(4096);
   .rel :
   {
-    *(.rel.data)
-    *(.rel.data.*)
+    *(.rel.text*)
+    *(.rel.sdata*)
+    *(.rel.data*)
     *(.rel.got)
+    *(.rel.plt)
     *(.rel.stab)
     *(.data.rel.ro.local)
     *(.data.rel.local)

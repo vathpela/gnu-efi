@@ -55,10 +55,14 @@ SECTIONS
    _bss_end = .;
   }
 
-  .rela.dyn : { *(.rela.dyn) }
-  .rela.plt : { *(.rela.plt) }
-  .rela.got : { *(.rela.got) }
-  .rela.data : { *(.rela.data) *(.rela.data*) }
+  .rela :
+  {
+    *(.rela.text*)
+    *(.rela.data*)
+    *(.rela.got)
+    *(.rela.plt)
+    *(.rela.stab)
+  }
   . = ALIGN(512);
   _edata = .;
   _data_size = . - _data;
