@@ -10,10 +10,8 @@ SECTIONS
   .hash : { *(.hash) }
   .gnu.hash : { *(.gnu.hash) }
   . = ALIGN(4096);
-  .eh_frame : 
-  { 
-    *(.eh_frame)
-  }
+  .eh_frame : { *(.eh_frame) }
+  .gcc_except_table : { *(.gcc_except_table*) }
   . = ALIGN(4096);
   .text :
   {
@@ -44,7 +42,7 @@ SECTIONS
    *(.sbss)
    *(.scommon)
    *(.dynbss)
-   *(.bss)
+   *(.bss*)
    *(COMMON)
    *(.rel.local)
   }
@@ -72,7 +70,6 @@ SECTIONS
   .ignored.reloc :
   {
     *(.rela.reloc)
-    *(.eh_frame)
     *(.note.GNU-stack)
   }
   .comment 0 : { *(.comment) }

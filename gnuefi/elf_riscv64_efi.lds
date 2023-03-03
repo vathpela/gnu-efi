@@ -38,7 +38,7 @@ SECTIONS {
 		*(.sbss)
 		*(.scommon)
 		*(.dynbss)
-		*(.bss)
+		*(.bss*)
 		*(COMMON)
 		. = ALIGN(16);
 		_bss_end = .;

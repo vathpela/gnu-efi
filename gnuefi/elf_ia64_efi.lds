@@ -8,6 +8,8 @@ SECTIONS
   /* .hash and/or .gnu.hash MUST come first! */
   .hash : { *(.hash) }
   .gnu.hash : { *(.gnu.hash) }
+  .eh_frame : { *(.eh_frame) }
+  .gcc_except_table : { *(.gcc_except_table*) }
   . = ALIGN(4096);
   .text :
   {
@@ -42,7 +44,7 @@ SECTIONS
    /* the EFI loader doesn't seem to like a .bss section, so we stick
       it all into .data: */
    *(.dynbss)
-   *(.bss)
+   *(.bss*)
    *(COMMON)
   }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
