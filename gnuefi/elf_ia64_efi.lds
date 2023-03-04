@@ -59,6 +59,7 @@ SECTIONS
     *(.rela.data*)
     *(.rela.got)
     *(.rela.plt)
+    *(.rela.dyn)
     *(.rela.gnu.linkonce.d*)
     *(.rela.stab)
     *(.rela.ctors)

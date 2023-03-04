@@ -47,6 +47,7 @@ SECTIONS
     *(.rel.data*)
     *(.rel.got)
     *(.rel.plt)
+    *(.rel.dyn)
     *(.rel.stab)
   }
   _edata = .;

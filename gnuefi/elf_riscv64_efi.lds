@@ -50,6 +50,7 @@ SECTIONS {
     *(.rela.data*)
     *(.rela.got)
     *(.rela.plt)
+    *(.rela.dyn)
     *(.rela.stab)
   }
 	. = ALIGN(512);

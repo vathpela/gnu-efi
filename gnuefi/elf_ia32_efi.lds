@@ -62,6 +62,7 @@ SECTIONS
     *(.rel.data*)
     *(.rel.got)
     *(.rel.plt)
+    *(.rel.dyn)
     *(.rel.stab)
     *(.data.rel.ro.local)
     *(.data.rel.local)
