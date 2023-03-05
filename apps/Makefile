@@ -44,6 +44,7 @@ TOPDIR = $(SRCDIR)/..
 
 CDIR=$(TOPDIR)/..
 LINUX_HEADERS	= /usr/src/sys/build
+APPSDIR		= $(LIBDIR)/gnuefi/apps
 CPPFLAGS	+= -D__KERNEL__ -I$(LINUX_HEADERS)/include
 CRTOBJS		= ../gnuefi/crt0-efi-$(ARCH).o
 
@@ -89,6 +90,10 @@ all:	$(TARGETS)
 
 clean:
 	rm -f $(TARGETS) *~ *.o *.so
+
+install:
+	mkdir -p $(INSTALLROOT)$(APPSDIR)
+	$(INSTALL) -m 644 $(TARGETS) $(INSTALLROOT)$(APPSDIR)
 
 .PHONY: install
 
