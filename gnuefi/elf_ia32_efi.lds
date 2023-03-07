@@ -8,6 +8,8 @@ SECTIONS
   /* .hash and/or .gnu.hash MUST come first! */
   .hash : { *(.hash) }
   .gnu.hash : { *(.gnu.hash) }
+  .eh_frame : { *(.eh_frame) }
+  .gcc_except_table : { *(.gcc_except_table*) }
   . = ALIGN(4096);
   .text :
   {
@@ -45,7 +47,7 @@ SECTIONS
    *(.sbss)
    *(.scommon)
    *(.dynbss)
-   *(.bss)
+   *(.bss*)
    *(COMMON)
   }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
@@ -60,6 +62,7 @@ SECTIONS
     *(.rel.data*)
     *(.rel.got)
     *(.rel.plt)
+    *(.rel.dyn)
     *(.rel.stab)
     *(.data.rel.ro.local)
     *(.data.rel.local)
@@ -82,7 +85,6 @@ SECTIONS
   /DISCARD/ :
   {
     *(.rel.reloc)
-    *(.eh_frame)
     *(.note.GNU-stack)
   }
   .comment 0 : { *(.comment) }

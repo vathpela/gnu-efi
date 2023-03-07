@@ -38,7 +38,7 @@ SECTIONS {
 		*(.sbss)
 		*(.scommon)
 		*(.dynbss)
-		*(.bss)
+		*(.bss*)
 		*(COMMON)
 		. = ALIGN(16);
 		_bss_end = .;
@@ -50,6 +50,7 @@ SECTIONS {
     *(.rela.data*)
     *(.rela.got)
     *(.rela.plt)
+    *(.rela.dyn)
     *(.rela.stab)
   }
 	. = ALIGN(512);

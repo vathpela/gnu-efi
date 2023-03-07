@@ -35,7 +35,7 @@ SECTIONS
    *(.sbss)
    *(.scommon)
    *(.dynbss)
-   *(.bss)
+   *(.bss*)
    *(COMMON)
    . = ALIGN(16);
    _bss_end = .;
@@ -47,6 +47,7 @@ SECTIONS
     *(.rel.data*)
     *(.rel.got)
     *(.rel.plt)
+    *(.rel.dyn)
     *(.rel.stab)
   }
   _edata = .;
