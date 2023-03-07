@@ -48,6 +48,7 @@ SUBDIRS = lib gnuefi inc apps
 all:	check_gcc $(SUBDIRS)
 
 gnuefi: lib
+apps:	gnuefi
 
 mkvars:
 	@echo AR=$(AR)
