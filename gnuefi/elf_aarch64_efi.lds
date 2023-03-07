@@ -59,10 +59,11 @@ SECTIONS
     *(.rela.text*)
     *(.rela.data*)
     *(.rela.got)
-    *(.rela.plt)
     *(.rela.dyn)
     *(.rela.stab)
   }
+  . = ALIGN(4096);
+  .rela.plt : { *(.rela.plt) }
   . = ALIGN(512);
   _edata = .;
   _data_size = . - _data;

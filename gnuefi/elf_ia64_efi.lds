@@ -58,12 +58,13 @@ SECTIONS
     *(.rela.sdata*)
     *(.rela.data*)
     *(.rela.got)
-    *(.rela.plt)
     *(.rela.dyn)
     *(.rela.gnu.linkonce.d*)
     *(.rela.stab)
     *(.rela.ctors)
   }
+  . = ALIGN(4096);
+  .rela.plt : { *(.rela.plt) }
   _edata = .;
   _data_size = . - _etext;
   . = ALIGN(4096);

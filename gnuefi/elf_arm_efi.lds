@@ -46,10 +46,11 @@ SECTIONS
     *(.rel.text*)
     *(.rel.data*)
     *(.rel.got)
-    *(.rel.plt)
     *(.rel.dyn)
     *(.rel.stab)
   }
+  . = ALIGN(4096);
+  .rel.plt : { *(.rel.plt) }
   _edata = .;
   _data_size = . - _etext;
 
