@@ -17,6 +17,7 @@ SECTIONS
   _text_size = . - _text;
   . = ALIGN(4096);
   .dynamic  : { *(.dynamic) }
+  . = ALIGN(4096);
   .data :
   {
    _data = .;
@@ -41,6 +42,7 @@ SECTIONS
    _bss_end = .;
   }
 
+  . = ALIGN(4096);
   .rel :
   {
     *(.rel.text*)

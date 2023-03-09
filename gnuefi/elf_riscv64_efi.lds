@@ -44,6 +44,7 @@ SECTIONS {
 		_bss_end = .;
 	}
 
+. = ALIGN(4096);
 .rela :
   {
     *(.rela.text*)

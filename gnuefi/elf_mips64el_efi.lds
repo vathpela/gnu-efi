@@ -17,6 +17,7 @@ SECTIONS
   _text_size = . - _text;
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
   .dynamic  : { *(.dynamic) }
+  . = ALIGN(4096);
   .data :
   {
    _data = .;
@@ -41,6 +42,7 @@ SECTIONS
    _bss_end = .;
   }
 
+  . = ALIGN(4096);
   .rel :
   {
     *(.rel.text*)

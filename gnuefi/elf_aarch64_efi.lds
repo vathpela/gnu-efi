@@ -30,6 +30,7 @@ SECTIONS
   }
   . = ALIGN(65536);
   .dynamic  : { *(.dynamic) }
+  . = ALIGN(4096);
   .data :
   {
    _data = .;
@@ -54,6 +55,7 @@ SECTIONS
    _bss_end = .;
   }
 
+  . = ALIGN(4096);
   .rela :
   {
     *(.rela.text*)
