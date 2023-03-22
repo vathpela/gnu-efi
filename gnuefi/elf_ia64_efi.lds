@@ -70,7 +70,7 @@ SECTIONS
   . = ALIGN(4096);
   .reloc :		/* This is the PECOFF .reloc section! */
   {
-    *(.reloc)
+    KEEP (*(.reloc))
   }
   . = ALIGN(4096);
   .dynsym   : { *(.dynsym) }

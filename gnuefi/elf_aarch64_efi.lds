@@ -26,7 +26,7 @@ SECTIONS
   . = ALIGN(4096);
   .reloc :
   {
-   *(.reloc)
+    KEEP (*(.reloc))
   }
   . = ALIGN(65536);
   .dynamic  : { *(.dynamic) }
