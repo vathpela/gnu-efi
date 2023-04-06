@@ -47,8 +47,10 @@ TOPDIR := $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 #
 INSTALLROOT  := /
 PREFIX       := /usr/local
-LIBDIR 	     := $(PREFIX)/lib
-INSTALL	     := install
+EXEC_PREFIX  := $(PREFIX)
+LIBDIR 	 := $(EXEC_PREFIX)/lib
+INCLUDEDIR   := $(PREFIX)/include
+INSTALL	 := install
 
 # Compilation tools
 HOSTCC       := $(prefix)gcc
