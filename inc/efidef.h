@@ -31,7 +31,15 @@ typedef unsigned char BOOLEAN;
 #endif
 
 #ifndef NULL
+#if (defined(__cplusplus) && __cplusplus >= 201103L) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
+    #define NULL    nullptr
+#else
+#if !defined(__cplusplus)
     #define NULL    ((VOID *) 0)
+#else
+    #define NULL    0
+#endif
+#endif
 #endif
 
 typedef UINTN           EFI_STATUS;
