@@ -34,8 +34,13 @@ typedef bool BOOLEAN;
    #define CONST const
 #endif
 #ifndef TRUE
+#if defined(__cplusplus) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
+    #define TRUE    true
+    #define FALSE   false
+#else
     #define TRUE    ((BOOLEAN) 1)
     #define FALSE   ((BOOLEAN) 0)
+#endif
 #endif
 
 #ifndef NULL
