@@ -59,8 +59,10 @@ is_absolute = $(subst $(call stripped,$(1)),$(empty),$(call unstripped,$(1)))
 override INSTALLROOT:=$(if $(call is_absolute,$(INSTALLROOT)),,$(TOPDIR)/)$(INSTALLROOT)
 
 PREFIX       := /usr/local
-LIBDIR 	     := $(PREFIX)/lib
-INSTALL	     := install
+EXEC_PREFIX  := $(PREFIX)
+LIBDIR 	 := $(EXEC_PREFIX)/lib
+INCLUDEDIR   := $(PREFIX)/include
+INSTALL	 := install
 
 # Compilation tools
 HOSTCC       := $(prefix)gcc
