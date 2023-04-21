@@ -22,26 +22,15 @@ SECTIONS
   _etext = .;
   _text_size = . - _text;
   . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE));
-  .sdata :
+  .data :
   {
    _data = .;
    *(.got.plt)
    *(.got)
-   *(.srodata)
-   *(.sdata)
-   *(.sbss)
-   *(.scommon)
-  }
-  . = ALIGN(4096);
-  .data :
-  {
    *(.rodata*)
    *(.data)
    *(.data1)
    *(.data.*)
-   *(.sdata)
-   *(.got.plt)
-   *(.got)
 
    /*
     * Note that these aren't the using the GNU "CONSTRUCTOR" output section
@@ -65,8 +54,6 @@ SECTIONS
 
    /* the EFI loader doesn't seem to like a .bss section, so we stick
       it all into .data: */
-   *(.sbss)
-   *(.scommon)
    *(.dynbss)
    *(.bss*)
    *(COMMON)
@@ -79,7 +66,6 @@ SECTIONS
   .rel :
   {
     *(.rel.text*)
-    *(.rel.sdata*)
     *(.rel.data*)
     *(.rel.got)
     *(.rel.dyn)
