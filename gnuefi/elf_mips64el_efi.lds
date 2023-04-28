@@ -70,6 +70,10 @@ SECTIONS
     *(.rel.got)
     *(.rel.dyn)
     *(.rel.stab)
+    *(.rel.init_array)
+    *(.rel.fini_array)
+    *(.rel.ctors)
+    *(.rel.dtors)
   }
   . = ALIGN(4096);
   .rel.plt : { *(.rel.plt) }

@@ -76,6 +76,10 @@ SECTIONS
     *(.rela.data*)
     *(.rela.got)
     *(.rela.stab)
+    *(.rela.init_array)
+    *(.rela.fini_array)
+    *(.rela.ctors)
+    *(.rela.dtors)
   }
   _edata = .;
   _data_size = . - _etext;
