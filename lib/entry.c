@@ -28,7 +28,7 @@ static void ctors(void)
 			func();
 	}
 
-	for (funcp *location = (void *)&__CTOR_LIST__; location < (funcp *)&__CTOR_END__; location++) {
+	for (funcp *location = (void *)&__CTOR_END__; location > (funcp *)&__CTOR_LIST__; location--) {
 		funcp func = *location;
 		if (location != NULL)
 			func();
