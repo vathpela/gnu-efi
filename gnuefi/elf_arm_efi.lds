@@ -35,10 +35,10 @@ SECTIONS
     * have NULLs which aren't guaranteed to be at the end.
     */
    . = ALIGN(16);
-   _init_array = .;
+   __init_array_start = .;
    *(SORT(.init_array.*))
    *(.init_array)
-   _init_array_end = .;
+   __init_array_end = .;
    __CTOR_LIST__ = .;
    *(SORT(.ctors.*))
    *(.ctors)
@@ -47,10 +47,10 @@ SECTIONS
    *(SORT(.dtors.*))
    *(.dtors)
    __DTOR_END__ = .;
-   _fini_array = .;
+   __fini_array_start = .;
    *(SORT(.fini_array.*))
    *(.fini_array)
-   _fini_array_end = .;
+   __fini_array_end = .;
 
    /* the EFI loader doesn't seem to like a .bss section, so we stick
       it all into .data: */

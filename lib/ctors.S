@@ -10,11 +10,11 @@
  */
 	.section .init_array, "aw", @init_array
 	.p2align 3, 0
-	.globl _init_array
-_init_array:
+	.globl __init_array_start
+__init_array_start:
 	.p2align 3, 0
-	.globl _init_array_end
-_init_array_end:
+	.globl __init_array_end
+__init_array_end:
 	.long 0
 	.section .ctors, "aw", @progbits
 	.p2align 3, 0
@@ -34,11 +34,11 @@ __DTOR_END__:
 	.long 0
 	.section .fini_array, "aw", @fini_array
 	.p2align 3, 0
-	.globl _fini_array
-_fini_array:
+	.globl __fini_array_start
+__fini_array_start:
 	.p2align 3, 0
-	.globl _fini_array_end
-_fini_array_end:
+	.globl __fini_array_end
+__fini_array_end:
 	.long 0
 
 #if defined(__ELF__) && defined(__linux__)

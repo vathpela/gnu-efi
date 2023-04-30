@@ -13,16 +13,16 @@
  * end/END definitions, and the fact that they're mergeable, they can also
  * have NULLs which aren't guaranteed to be at the end.
  */
-extern UINTN _init_array, _init_array_end;
+extern UINTN __init_array_start, __init_array_end;
 extern UINTN __CTOR_LIST__, __CTOR_END__;
-extern UINTN _fini_array, _fini_array_end;
+extern UINTN __fini_array_start, __fini_array_end;
 extern UINTN __DTOR_LIST__, __DTOR_END__;
 
 typedef void (*funcp)(void);
 
 static void ctors(void)
 {
-	for (funcp *location = (void *)&_init_array; location < (funcp *)&_init_array_end; location++) {
+	for (funcp *location = (void *)&__init_array_start; location < (funcp *)&__init_array_end; location++) {
 		funcp func = *location;
 		if (location != NULL)
 			func();
@@ -43,7 +43,7 @@ static void dtors(void)
 			func();
 	}
 
-	for (funcp *location = (void *)&_fini_array; location < (funcp *)&_fini_array_end; location++) {
+	for (funcp *location = (void *)&__fini_array_start; location < (funcp *)&__fini_array_end; location++) {
 		funcp func = *location;
 		if (location != NULL)
 			func();
