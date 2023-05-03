@@ -40,14 +40,17 @@ SECTIONS
    *(SORT(.init_array.*))
    *(.init_array)
    __init_array_end = .;
+  . = ALIGN(16);
    __CTOR_LIST__ = .;
    *(SORT(.ctors.*))
    *(.ctors)
    __CTOR_END__ = .;
+  . = ALIGN(16);
    __DTOR_LIST__ = .;
    *(SORT(.dtors.*))
    *(.dtors)
    __DTOR_END__ = .;
+   . = ALIGN(16);
    __fini_array_start = .;
    *(SORT(.fini_array.*))
    *(.fini_array)
