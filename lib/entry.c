@@ -43,7 +43,7 @@ static void dtors(void)
 			func();
 	}
 
-	for (funcp *location = (void *)&__fini_array_start; location < (funcp *)&__fini_array_end; location++) {
+	for (funcp *location = (void *)&__fini_array_end; location > (funcp *)&__fini_array_start; location--) {
 		funcp func = *location;
 		if (*location != NULL)
 			func();
