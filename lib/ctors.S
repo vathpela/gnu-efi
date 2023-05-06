@@ -15,7 +15,6 @@ __init_array_start:
 	.p2align 3, 0
 	.globl __init_array_end
 __init_array_end:
-	.long 0
 	.section .ctors, "aw", @progbits
 	.p2align 3, 0
 	.globl __CTOR_LIST__
@@ -23,7 +22,6 @@ __CTOR_LIST__:
 	.p2align 3, 0
 	.globl __CTOR_END__
 __CTOR_END__:
-	.long 0
 	.section .dtors, "aw", @progbits
 	.p2align 3, 0
 	.globl __DTOR_LIST__
@@ -31,7 +29,6 @@ __DTOR_LIST__:
 	.p2align 3, 0
 	.globl __DTOR_END__
 __DTOR_END__:
-	.long 0
 	.section .fini_array, "aw", @fini_array
 	.p2align 3, 0
 	.globl __fini_array_start
@@ -39,7 +36,7 @@ __fini_array_start:
 	.p2align 3, 0
 	.globl __fini_array_end
 __fini_array_end:
-	.long 0
+	.p2align 3, 0
 
 #if defined(__ELF__) && defined(__linux__)
 	.section .note.GNU-stack,"",%progbits
