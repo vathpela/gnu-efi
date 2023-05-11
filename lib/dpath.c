@@ -1083,11 +1083,12 @@ _DevPathNodeUnknown (
  * Entries hold "Type" and "SubType" for know values.
  * Special "SubType" 0 is used as default for known type with unknown subtype.
  */
-struct {
+typedef struct {
     UINT8   Type;
     UINT8   SubType;
     VOID    (*Function)(POOL_PRINT *, VOID *);
-} DevPathTable[] = {
+} DevPathTable_Type;
+DevPathTable_Type DevPathTable[] = {
 	{ HARDWARE_DEVICE_PATH,   HW_PCI_DP,                        _DevPathPci},
 	{ HARDWARE_DEVICE_PATH,   HW_PCCARD_DP,                     _DevPathPccard},
 	{ HARDWARE_DEVICE_PATH,   HW_MEMMAP_DP,                     _DevPathMemMap},
