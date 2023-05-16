@@ -18,10 +18,11 @@ Revision History
 #include "lib.h"
 
 
-struct {
-    EFI_STATUS      Code;
-    WCHAR	    *Desc;
-} ErrorCodeTable[] = {
+typedef struct {
+    EFI_STATUS	Code;
+    WCHAR		*Desc;
+} ErrorCodeTable_Type;
+ErrorCodeTable_Type ErrorCodeTable[] = {
 	{  EFI_SUCCESS,                L"Success"},
 	{  EFI_LOAD_ERROR,             L"Load Error"},
 	{  EFI_INVALID_PARAMETER,      L"Invalid Parameter"},

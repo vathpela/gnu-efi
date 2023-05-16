@@ -34,6 +34,8 @@
 #    SUCH DAMAGE.
 #
 
+.SECONDARY:
+
 %.efi: %.so
 	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .dynsym -j .rel \
 		    -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \

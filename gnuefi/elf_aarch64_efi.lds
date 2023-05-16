@@ -48,18 +48,25 @@ SECTIONS
     * have NULLs which aren't guaranteed to be at the end.
     */
    . = ALIGN(16);
-   _init_array = .;
-   *(SORT_BY_NAME(.init_array))
-   _init_array_end = .;
+   __init_array_start = .;
+   *(SORT(.init_array.*))
+   *(.init_array)
+   __init_array_end = .;
+  . = ALIGN(16);
    __CTOR_LIST__ = .;
-   *(SORT_BY_NAME(.ctors))
+   *(SORT(.ctors.*))
+   *(.ctors)
    __CTOR_END__ = .;
+  . = ALIGN(16);
    __DTOR_LIST__ = .;
-   *(SORT_BY_NAME(.dtors))
+   *(SORT(.dtors.*))
+   *(.dtors)
    __DTOR_END__ = .;
-   _fini_array = .;
-   *(SORT_BY_NAME(.fini_array))
-   _fini_array_end = .;
+   . = ALIGN(16);
+   __fini_array_start = .;
+   *(SORT(.fini_array.*))
+   *(.fini_array)
+   __fini_array_end = .;
 
    /* the EFI loader doesn't seem to like a .bss section, so we stick
       it all into .data: */
@@ -84,6 +91,11 @@ SECTIONS
     *(.rela.got)
     *(.rela.dyn)
     *(.rela.stab)
+    *(.rela.init_array*)
+    *(.rela.fini_array*)
+    *(.rela.ctors*)
+    *(.rela.dtors*)
+
   }
   . = ALIGN(4096);
   .rela.plt : { *(.rela.plt) }

@@ -52,6 +52,10 @@ SECTIONS {
     *(.rela.got)
     *(.rela.dyn)
     *(.rela.stab)
+    *(.rela.init_array)
+    *(.rela.fini_array)
+    *(.rela.ctors)
+    *(.rela.dtors)
   }
 . = ALIGN(4096);
 .rela.plt : { *(.rela.plt) }
