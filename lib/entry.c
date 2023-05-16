@@ -24,13 +24,13 @@ static void ctors(void)
 {
 	for (funcp *location = (void *)&_init_array; location < (funcp *)&_init_array_end; location++) {
 		funcp func = *location;
-		if (func != NULL)
+		if (location != NULL)
 			func();
 	}
 
 	for (funcp *location = (void *)&__CTOR_LIST__; location < (funcp *)&__CTOR_END__; location++) {
 		funcp func = *location;
-		if (func != NULL)
+		if (location != NULL)
 			func();
 	}
 }
@@ -39,13 +39,13 @@ static void dtors(void)
 {
 	for (funcp *location = (void *)&__DTOR_LIST__; location < (funcp *)&__DTOR_END__; location++) {
 		funcp func = *location;
-		if (func != NULL)
+		if (location != NULL)
 			func();
 	}
 
 	for (funcp *location = (void *)&_fini_array; location < (funcp *)&_fini_array_end; location++) {
 		funcp func = *location;
-		if (func != NULL)
+		if (location != NULL)
 			func();
 	}
 }
